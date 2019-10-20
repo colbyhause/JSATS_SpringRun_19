@@ -1,0 +1,16 @@
+Location Name,Rcv SN,Deploy Date,Pulled Date,N,E,GPS shot qual (1-3),Comments
+AM1,18-6002,2/23/2019,5/13/2019,4185765.422,647339.043,3,"Rcv Buried 1/2 way on pull out, note there was no clock shot in the download file."
+AM2,18-6006,2/24/2019,5/13/2019,4185751.679,647394.617,3,
+AM3,18-6003,2/20/2019,5/13/2019,4185816.55,647324.258,3,
+AM4,18-6008,2/20/2019,5/13/2019,4185875.12,647283.097,3,
+AM5*,18-6001,2/23/2019,,4185824.903,647279.494,3,"Not Recovered, multiple dives ????"
+AM6,18-6005,2/24/2019,5/14/2019,4185827.84,647215.733,3,
+AM7,18-6007,2/20/2019,5/16/2019,4185912.235,647266.6125,3,"X,Y shot at time of removal due to depth/flows"
+AM8,18-6009,2/24/2019,5/16/2019,4185840.783,647187.6317,2,"Very fast current, XY are average of 3 shots w/ some movement, rcv was layed over upon retrieval, check Tilt"
+AM9,18-6004,3/11/2019,5/15/2019,4185920.188,647224.5363,1,Delayed deployment. All shot in very deep hole at end of study. Rcv on weight clump and short tether ~ 15cm
+SM1,18-7023,2/24/2019,5/15/2019,4185705.34,647351.3323,3,"Had to redeploy hydrophone on 3/12/2019 check for detections prior to this date, new transducer 18-29 replaced 18-23, moored on stand. GPS shots performed on retrieval. Files need to be checked for clock drift ?, and shore station went down on 3/25/2019 due to deep cycle battery not charging, replaced and restarted. "
+SM2,18-7013,2/24/2019,5/14/2019,4185759.509,647295.546,3,"Redeploy new hydrophone on 3/11/2019, new hydrophone ID 18-27, replaced 18-18, GPS shots performed at end of study, moored on stand. "
+SM3,18-7026,2/24/2019,5/14/2019,4185797.284,647230.7913,3,"Could not get GPS shot on deployment day, no signal??? We shot the deployed location on retrieval."
+SM4,18-7020,2/24/2019,5/13/2019,4185813.084,647200.0473,3,
+SM7,18-7017,2/23/2019,5/14/2019,4185952.965,647251.818,2,"RT connection went down, checked station on 3/12/2019, charging station not on. Files appeared complete."
+SM8,18-7028,2/23/2019,5/13/2019,4185858.939,647223.669,3,"Rcv buried upon retrieval, top 1' w/hydrophone above ground. Files appear ok"

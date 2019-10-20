@@ -1,0 +1,15 @@
+Delta Release Old River Route To Ocean via OR,Delta Release Old River Route To Ocean via Pumps,Delta Release Mainstem Route To Ocean 
+Durham Rel,Durham Rel,Durham Rel
+DF,DF Rel Rec,DF Rel Rec
+BCA,DF,DF
+Moss,BCA,BCA
+HOR Junc,Moss,Moss
+OR HOR,HOR Junc,HOR Junc
+Pumps,OR HOR,SJ HOR
+OR Hwy,Pumps,Howard
+Chipps,Chipps,SJG
+Anitoch,Benicia,MAC
+Benicia,GG,JP
+GG,,Chipps
+,,Benicia
+,,GG
