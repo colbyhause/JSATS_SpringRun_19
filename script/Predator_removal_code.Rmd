@@ -1,0 +1,77 @@
+---
+title: "Predator Filter Code"
+author: "Colby Hause"
+date: "June 26, 2018"
+output: html_document
+---
+
+Use this code to specify the amount of upstream movement considered as "predation" and then filter out those detections. min_distance_rkm is the distance you set for the removal of detections: any fish that has moved that value or more upstream will be removed from data set
+
+(This is the exact same Rmd located in the 2017 analysis folder on the share drive)
+
+```{r}
+upriver_movement_jsats <- function(all_detections, df_taglist, min_distance_km, low_rkm = 0, high_rkm = 550) {
+  #edit_detections <- subset(all_detections, rkm > low_rkm & rkm < high_rkm)   #use this line if using rkm
+  edit_detections <- subset(all_detections, Genrkm > low_rkm & Genrkm < high_rkm)  #use this line if using Genrkm
+  all_tags <- unique(df_taglist$Hex)
+  df_removed_detections <- NULL
+  count <- 1
+  num_tags <- length(unique(df_taglist$Hex))
+  for (tag in all_tags) {
+    print(paste(count, "/", num_tags))
+    ind_tag <- subset(edit_detections, edit_detections$Hex == tag)
+    ind_tag <- ind_tag[order(ind_tag$dtf), ]
+    all_rows <- c(1:nrow(ind_tag))
+    sliding_low <- high_rkm
+    if (nrow(ind_tag) > 0 ) {  
+      for (row in all_rows) {
+        #first_rkm <- ind_tag$rkm[row] use this if using regular rkm
+        first_rkm <- ind_tag$Genrkm[row]
+        #second_rkm <- ind_tag$rkm[row + 1] use this if using regular rkm
+        second_rkm <- ind_tag$Genrkm[row + 1]
+        first_date <- ind_tag$dtf[row]
+        second_date <- ind_tag$dtf[row + 1]
+        if (row == nrow(ind_tag)) { #Ends the loop once it gets to the end of the data.frame without throwing an error.
+          break
+        }
+        if (second_rkm < first_rkm & second_rkm < sliding_low) { #Reassign the points that are your limit
+          sliding_low <- second_rkm
+        }
+        if (second_rkm == sliding_low) {
+          low_date <- second_date
+        }
+        if (second_rkm - sliding_low > min_distance_km) {
+          final_date <- low_date
+          removed_detections <- ind_tag[(ind_tag$dtf > low_date), ] #This needs to be added to new data.frame for ALL tags.
+          df_removed_detections = rbind(df_removed_detections, removed_detections)
+          all_detections <- all_detections[!(all_detections$Hex == tag & all_detections$dtf > final_date), ] #Keeps last detection before moving upstream
+          sliding_low <- high_rkm
+          break
+        }
+      }
+    }
+    count <- count + 1
+  }
+  write.csv(df_removed_detections, "Removed Detections from Upstream Movement.csv")
+  return(all_detections)
+}
+
+```
+
+Code to run through: use your original group dataframes 
+```{r}
+# first get your split up groups from waterfall plot code:
+#allgroups <- read.csv( "file path of where your [year]AllFishGroups is")
+
+#group1 <- allgroups %>% 
+  #filter(Rel_group == "2017_SJ_SCARF1" | Rel_group == "2017_SJ_SIRF1" )
+
+#group2 <- allgroups %>% 
+  #filter(Rel_group == "2017_SJ_SCARF2" | Rel_group == "2017_SJ_SIRF2" )
+
+#example:
+#new_group1 <- upriver_movement_jsats(group1, group1, 12)
+#new_group2 <- upriver_movement_jsats(group2, group2, 12)
+
+```
+
