@@ -1,0 +1,817 @@
+parameters
+sA1, sA2, sA3, sA4, sA5, sA6, sA7, sA8, sA10, sA12, sA13, sA14, sA15, sA16, sA17, sB1, psiA1, pA2, pA3, pA4, pA6, pA7, pA8, pA9, pA10, pA12, pA16, pA17b, pB1a, pB1b, pA15, sA7_d, sA8_d, sA9_d, sA10_d, sA11_d, sA12_d, sA13_d, sA14_d, sA15_d, sA16_d, sA17_d, sB1_d, psiA1_d, pA7_d, pA8_d, pA10_d, pA11_d, pA17a_d;
+
+variables
+psiB = 1-psiA1,
+qA1 = 1-pA1,
+qA2 = 1-pA2,
+qA3 = 1-pA3,
+qA4 = 1-pA4,
+qA5 = 1-pA5,
+qA6 = 1-pA6,
+qA7 = 1-pA7,
+qA8 = 1-pA8,
+qA9 = 1-pA9,
+qA10 = 1-pA10,
+qA11 = 1-pA11,
+qA12 = 1-pA12,
+qA13 = 1-pA13,
+qA14 = 1-pA14,
+qA15 = 1-pA15,
+qA16 = 1-pA16,
+qA17a = 1-pA17a,
+qA17b = 1-pA17b,
+qA17 = qA17a*qA17b,
+pA17 = 1-qA17,
+qB1a = 1- pB1a,
+qB1b = 1-pB1b,
+qB1 = qB1a*qB1b,
+pB1 = 1-qB1,
+xA17 = 1,
+xA16 = 1- sA17 + sA17*qA17*xA17,
+xA15 = 1- sA16 + sA16*qA16*xA16,
+xA14 = 1 - sA15 + sA15*qA15*xA15,
+xA13 = 1-sA14 + sA14*qA14*xA14,
+xA12 = 1-sA13 + sA13*qA13*xA13,
+xB1 = 1- sB1 + sB1*qA17*xA17,
+xA11 = 1-sA12 + sA12*(psiA1*qA12*xA12 + psiB*qB1*xB1),
+xA10 = 1-sA11 +sA11*qA11*xA11,
+xA9 = 1-sA10 +sA10*qA10*xA10,
+xA8 = 1-sA9 +sA9*qA9*xA9,
+xA7 = 1-sA8 +sA8*qA8*xA8,
+xA6 = 1-sA7 +sA7*qA7*xA7,
+xA5 = 1-sA6 +sA6*qA6*xA6,
+xA4 = 1-sA5 +sA5*qA5*xA5,
+xA3 = 1-sA4 + sA4*qA4*xA4,
+xA2 = 1-sA3 + sA3*qA3*xA3,
+xA1 = 1-sA2 + sA2*qA2*xA2,
+x0 = 1-sA1 + sA1*qA1*xA1,
+gamma_A11A17 = sA12*(psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*qA16*sA17 + psiB*qB1*sB1),
+pA11 = 1,
+pA1 = 1,
+pA5 = 1,
+pA13 = 1,
+sA11 = 1,
+sA9 = 1,
+pA14 = 1,
+pA17a = 1,
+psiB_d = 1-psiA1_d,
+qA7_d = 1-pA7_d,
+qA8_d = 1-pA8_d,
+qA9_d = 1-pA9_d,
+qA10_d = 1-pA10_d,
+qA11_d = 1-pA11_d,
+qA12_d = 1-pA12_d,
+qA13_d = 1-pA13_d,
+qA14_d = 1-pA14_d,
+qA15_d = 1-pA15_d,
+qA16_d = 1-pA16_d,
+qA17a_d = 1-pA17a_d,
+qA17b_d = 1-pA17b_d,
+qA17_d = qA17a_d*qA17b_d,
+pA17_d = 1-qA17_d,
+qB1a_d = 1- pB1a_d,
+qB1b_d = 1-pB1b_d,
+qB1_d = qB1a_d*qB1b_d,
+pB1_d = 1-qB1_d,
+xA17_d = 1,
+xA16_d = 1- sA17_d + sA17_d*qA17_d*xA17_d,
+xA15_d = 1- sA16_d + sA16_d*qA16_d*xA16_d,
+xA14_d = 1 - sA15_d + sA15_d*qA15_d*xA15_d,
+xA13_d = 1-sA14_d + sA14_d*qA14_d*xA14_d,
+xA12_d = 1-sA13_d + sA13_d*qA13_d*xA13_d,
+xB1_d = 1- sB1_d + sB1_d*qA17_d*xA17_d,
+xA11_d = 1-sA12_d + sA12_d*(psiA1_d*qA12_d*xA12_d + psiB_d*qB1_d*xB1_d),
+xA10_d = 1-sA11_d +sA11_d*qA11_d*xA11_d,
+xA9_d = 1-sA10_d +sA10_d*qA10_d*xA10_d,
+xA8_d = 1-sA9_d +sA9_d*qA9_d*xA9_d,
+xA7_d = 1-sA8_d +sA8_d*qA8_d*xA8_d,
+x0_d = 1-sA7_d +sA7_d*qA7_d*xA7_d,
+gamma_A11A17_d = sA12_d*(psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*qA16_d*sA17_d + psiB_d*qB1_d*sB1_d),
+pA17b_d = 1,
+pA15_d = 1,
+pA13_d = pA13,
+pA14_d = pA14,
+pA16_d = pA16,
+pA12_d = pA12,
+pB1b_d = pB1b,
+pB1a_d = pB1a,
+pA9_d = pA9,
+
+S_FFReltoChipps = sA1*sA2*sA3*sA4*sA5*sA6*sA7*sA8*sA9*sA10*sA11*sA12*(psiA1*sA13*sA14*sA15*sA16*sA17 + psiB*sB1),
+
+S_DeltaReltoChipps = sA7*sA8*sA9*sA10*sA11*sA12*(psiA1*sA13*sA14*sA15*sA16*sA17 + psiB*sB1),
+S_DeltaReltoChipps_d = sA7_d*sA8_d*sA9_d*sA10_d*sA11_d*sA12_d*(psiA1_d*sA13_d*sA14_d*sA15_d*sA16_d*sA17_d + psiB_d*sB1_d),
+
+S_DeltaReltoChipps_OR = sA7*sA8*sA9*sA10*sA11*sA12*psiB*sB1,
+S_DeltaReltoChipps_SJ = sA7*sA8*sA9*sA10*sA11*sA12*psiA1*sA13*sA14*sA15*sA16*sA17, 
+S_DeltaReltoChipps_OR_d = sA7_d*sA8_d*sA9_d*sA10_d*sA11_d*sA12_d*psiB_d*sB1_d,
+S_DeltaReltoChipps_SJ_d = sA7_d*sA8_d*sA9_d*sA10_d*sA11_d*sA12_d*psiA1_d*sA13_d*sA14_d*sA15_d*sA16_d*sA17_d, 
+
+S_HORJuncToChipps_OR_wtd = sA12*psiB*sB1,
+S_HORJuncToChipps_SJ_wtd = sA12*psiA1*(((sA13*78)+(sA13_d*117))/ (117+78))*sA14*(((sA15*43)+(sA15_d*53))/(43+53))*sA16*(((sA17*22)+(sA17_d*23))/(22+23)), 
+
+S_HORJuncToChipps_OR = sA12*psiB*sB1,
+S_HORJuncToChipps_OR_d = sA12_d*psiB_d*sB1_d,
+
+S_HORJuncToChipps_SJ = sA12*psiA1*sA13*sA14*sA15*sA16*sA17,
+S_HORJuncToChipps_SJ_d = sA12_d*psiA1_d*sA13_d*sA14_d*sA15_d*sA16_d*sA17_d;
+
+likelihood "Release"
+R A1, sA1*pA1,
+R A2, sA1*qA1*sA2*pA2,
+R A3, sA1*qA1*sA2*qA2*sA3*pA3,
+R A4, sA1*qA1*sA2*qA2*sA3*qA3*sA4*pA4,
+R A5, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*pA5,
+R A6, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*pA6,
+R A7, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*pA7,
+R A8, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*pA8,
+R A9, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*pA9,
+R A10, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+R A11, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+R A12, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+R A13, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+R A14, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+R A15, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+R A16, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+R A17, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+R B1, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+R x, x0;
+
+likelihood "A1"
+A1 A2, sA2*pA2,
+A1 A3, sA2*qA2*sA3*pA3,
+A1 A4, sA2*qA2*sA3*qA3*sA4*pA4,
+A1 A5, sA2*qA2*sA3*qA3*sA4*qA4*sA5*pA5,
+A1 A6, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*pA6,
+A1 A7, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*pA7,
+A1 A8, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*pA8,
+A1 A9, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*pA9,
+A1 A10, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+A1 A11, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A1 A12, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A1 A13, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A1 A14, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A1 A15, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A1 A16, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A1 A17, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A1 B1, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A1 x, xA1;
+
+likelihood "A2"
+A2 A3, sA3*pA3,
+A2 A4, sA3*qA3*sA4*pA4,
+A2 A5, sA3*qA3*sA4*qA4*sA5*pA5,
+A2 A6, sA3*qA3*sA4*qA4*sA5*qA5*sA6*pA6,
+A2 A7, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*pA7,
+A2 A8, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*pA8,
+A2 A9, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*pA9,
+A2 A10, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+A2 A11, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A2 A12, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A2 A13, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A2 A14, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A2 A15, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A2 A16, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A2 A17, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A2 B1, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A2 x, xA2;
+
+likelihood "A3"
+A3 A4, sA4*pA4,
+A3 A5, sA4*qA4*sA5*pA5,
+A3 A6, sA4*qA4*sA5*qA5*sA6*pA6,
+A3 A7, sA4*qA4*sA5*qA5*sA6*qA6*sA7*pA7,
+A3 A8, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*pA8,
+A3 A9, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*pA9,
+A3 A10, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+A3 A11, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A3 A12, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A3 A13, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A3 A14, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A3 A15, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A3 A16, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A3 A17, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A3 B1, sA4*qA4*sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A3 x, xA3;
+
+likelihood "A4"
+A4 A5, sA5*pA5,
+A4 A6, sA5*qA5*sA6*pA6,
+A4 A7, sA5*qA5*sA6*qA6*sA7*pA7,
+A4 A8, sA5*qA5*sA6*qA6*sA7*qA7*sA8*pA8,
+A4 A9, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*pA9,
+A4 A10, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+A4 A11, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A4 A12, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A4 A13, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A4 A14, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A4 A15, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A4 A16, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A4 A17, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A4 B1, sA5*qA5*sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A4 x, xA4;
+
+likelihood "A5"
+A5 A6, sA6*pA6,
+A5 A7, sA6*qA6*sA7*pA7,
+A5 A8, sA6*qA6*sA7*qA7*sA8*pA8,
+A5 A9, sA6*qA6*sA7*qA7*sA8*qA8*sA9*pA9,
+A5 A10, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+A5 A11, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A5 A12, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A5 A13, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A5 A14, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A5 A15, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A5 A16, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A5 A17, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A5 B1, sA6*qA6*sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A5 x, xA5;
+
+likelihood "A6"
+A6 A7, sA7*pA7,
+A6 A8, sA7*qA7*sA8*pA8,
+A6 A9, sA7*qA7*sA8*qA8*sA9*pA9,
+A6 A10, sA7*qA7*sA8*qA8*sA9*qA9*sA10*pA10,
+A6 A11, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A6 A12, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A6 A13, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A6 A14, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A6 A15, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A6 A16, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A6 A17, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A6 B1, sA7*qA7*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A6 x, xA6;
+
+likelihood "A7"
+A7 A8, sA8*pA8,
+A7 A9, sA8*qA8*sA9*pA9,
+A7 A10, sA8*qA8*sA9*qA9*sA10*pA10,
+A7 A11, sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A7 A12, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A7 A13, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A7 A14, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A7 A15, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A7 A16, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A7 A17, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A7 B1, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A7 x, xA7;
+
+likelihood "A8"
+A8 A9, sA9*pA9,
+A8 A10, sA9*qA9*sA10*pA10,
+A8 A11, sA9*qA9*sA10*qA10*sA11*pA11,
+A8 A12, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A8 A13, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A8 A14, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A8 A15, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A8 A16, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A8 A17, sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A8 B1, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A8 x, xA8;
+
+likelihood "A9"
+A9 A10, sA10*pA10,
+A9 A11, sA10*qA10*sA11*pA11,
+A9 A12, sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A9 A13, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A9 A14, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A9 A15, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A9 A16, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A9 A17, sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A9 B1, sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A9 x, xA9;
+
+likelihood "A10"
+A10 A11, sA11*pA11,
+A10 A12, sA11*qA11*sA12*psiA1*pA12,
+A10 A13, sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A10 A14, sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A10 A15, sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A10 A16, sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A10 A17, sA11*qA11*gamma_A11A17*pA17,
+A10 B1, sA11*qA11*sA12*psiB*pB1,
+A10 x, xA10;
+
+likelihood "A11"
+A11 A12, sA12*psiA1*pA12,
+A11 A13, sA12*psiA1*qA12*sA13*pA13,
+A11 A14, sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A11 A15, sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*pA15,
+A11 A16, sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A11 A17, gamma_A11A17*pA17,
+A11 B1, sA12*psiB*pB1,
+A11 x, xA11;
+
+likelihood "A12"
+A12 A13, sA13*pA13,
+A12 A14, sA13*qA13*sA14*pA14,
+A12 A15, sA13*qA13*sA14*qA14*sA15*pA15,
+A12 A16, sA13*qA13*sA14*qA14*sA15*qA15*sA16*pA16,
+A12 A17, sA13*qA13*sA14*qA14*sA15*qA15*sA16*qA16*sA17*pA17,
+A12 x, xA12;
+
+likelihood "A13"
+A13 A14, sA14*pA14,
+A13 A15, sA14*qA14*sA15*pA15,
+A13 A16, sA14*qA14*sA15*qA15*sA16*pA16,
+A13 A17, sA14*qA14*sA15*qA15*sA16*qA16*sA17*pA17,
+A13 x, xA13;
+
+likelihood "A14"
+A14 A15, sA15*pA15,
+A14 A16, sA15*qA15*sA16*pA16,
+A14 A17, sA15*qA15*sA16*qA16*sA17*pA17,
+A14 x, xA14;
+
+likelihood "B1"
+B1 A17, sB1*pA17,
+B1 x, xB1;
+
+likelihood "A15"
+A15 A16, sA16*pA16,
+A15 A17, sA16*qA16*sA17*pA17,
+A15 x, xA15;
+
+likelihood "A16"
+A16 A17, sA17*pA17,
+A16 x, xA16;
+
+likelihood "A17"
+A17 x, xA17;
+
+likelihood "B1aux"
+B1ab, pB1a*pB1b/pB1,
+B1a0, pB1a*qB1b/pB1,
+B10b, qB1a*pB1b/pB1;
+
+likelihood "A17aux"
+A17ab, pA17a*pA17b/pA17,
+A17a0, pA17a*qA17b/pA17,
+A170b, qA17a*pA17b/pA17;
+
+likelihood "Release_d"
+R A7_d, sA7_d*pA7_d,
+R A8_d, sA7_d*qA7_d*sA8_d*pA8_d,
+R A9_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*pA9_d,
+R A10_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*pA10_d,
+R A11_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*pA11_d,
+R A12_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*pA12_d,
+R A13_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*pA13_d,
+R A14_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*pA14_d,
+R A15_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+R A16_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+R A17_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*gamma_A11A17_d*pA17_d,
+R B1_d, sA7_d*qA7_d*sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiB_d*pB1_d,
+R x_d, x0_d;
+
+likelihood "A7_d"
+A7 A8_d, sA8_d*pA8_d,
+A7 A9_d, sA8_d*qA8_d*sA9_d*pA9_d,
+A7 A10_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*pA10_d,
+A7 A11_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*pA11_d,
+A7 A12_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*pA12_d,
+A7 A13_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*pA13_d,
+A7 A14_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*pA14_d,
+A7 A15_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+A7 A16_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A7 A17_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*gamma_A11A17_d*pA17_d,
+A7 B1_d, sA8_d*qA8_d*sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiB_d*pB1_d,
+A7 x_d, xA7_d;
+
+likelihood "A8_d"
+A8 A9_d, sA9_d*pA9_d,
+A8 A10_d, sA9_d*qA9_d*sA10_d*pA10_d,
+A8 A11_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*pA11_d,
+A8 A12_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*pA12_d,
+A8 A13_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*pA13_d,
+A8 A14_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*pA14_d,
+A8 A15_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+A8 A16_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A8 A17_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*gamma_A11A17_d*pA17_d,
+A8 B1_d, sA9_d*qA9_d*sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiB_d*pB1_d,
+A8 x_d, xA8_d;
+
+likelihood "A9_d"
+A9 A10_d, sA10_d*pA10_d,
+A9 A11_d, sA10_d*qA10_d*sA11_d*pA11_d,
+A9 A12_d, sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*pA12_d,
+A9 A13_d, sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*pA13_d,
+A9 A14_d, sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*pA14_d,
+A9 A15_d, sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+A9 A16_d, sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A9 A17_d, sA10_d*qA10_d*sA11_d*qA11_d*gamma_A11A17_d*pA17_d,
+A9 B1_d, sA10_d*qA10_d*sA11_d*qA11_d*sA12_d*psiB_d*pB1_d,
+A9 x_d, xA9_d;
+
+likelihood "A10_d"
+A10 A11_d, sA11_d*pA11_d,
+A10 A12_d, sA11_d*qA11_d*sA12_d*psiA1_d*pA12_d,
+A10 A13_d, sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*pA13_d,
+A10 A14_d, sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*pA14_d,
+A10 A15_d, sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+A10 A16_d, sA11_d*qA11_d*sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A10 A17_d, sA11_d*qA11_d*gamma_A11A17_d*pA17_d,
+A10 B1_d, sA11_d*qA11_d*sA12_d*psiB_d*pB1_d,
+A10 x_d, xA10_d;
+
+likelihood "A11_d"
+A11 A12_d, sA12_d*psiA1_d*pA12_d,
+A11 A13_d, sA12_d*psiA1_d*qA12_d*sA13_d*pA13_d,
+A11 A14_d, sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*pA14_d,
+A11 A15_d, sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+A11 A16_d, sA12_d*psiA1_d*qA12_d*sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A11 A17_d, gamma_A11A17_d*pA17_d,
+A11 B1_d, sA12_d*psiB_d*pB1_d,
+A11 x_d, xA11_d;
+
+likelihood "A12_d"
+A12 A13_d, sA13_d*pA13_d,
+A12 A14_d, sA13_d*qA13_d*sA14_d*pA14_d,
+A12 A15_d, sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*pA15_d,
+A12 A16_d, sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A12 A17_d, sA13_d*qA13_d*sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*qA16_d*sA17_d*pA17_d,
+A12 x_d, xA12_d;
+
+likelihood "A13_d"
+A13 A14_d, sA14_d*pA14_d,
+A13 A15_d, sA14_d*qA14_d*sA15_d*pA15_d,
+A13 A16_d, sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*pA16_d,
+A13 A17_d, sA14_d*qA14_d*sA15_d*qA15_d*sA16_d*qA16_d*sA17_d*pA17_d,
+A13 x_d, xA13_d;
+
+likelihood "A14_d"
+A14 A15_d, sA15_d*pA15_d,
+A14 A16_d, sA15_d*qA15_d*sA16_d*pA16_d,
+A14 A17_d, sA15_d*qA15_d*sA16_d*qA16_d*sA17_d*pA17_d,
+A14 x_d, xA14_d;
+
+likelihood "B1_d"
+B1 A17_d, sB1_d*pA17_d,
+B1 x_d, xB1_d;
+
+likelihood "A15_d"
+A15 A16_d, sA16_d*pA16_d,
+A15 A17_d, sA16_d*qA16_d*sA17_d*pA17_d,
+A15 x_d, xA15_d;
+
+likelihood "A16_d"
+A16 A17_d, sA17_d*pA17_d,
+A16 x_d, xA16_d;
+
+likelihood "A17_d"
+A17 x_d, xA17_d;
+
+likelihood "B1aux_d"
+B1ab_d, pB1a_d*pB1b_d/pB1_d,
+B1a0_d, pB1a_d*qB1b_d/pB1_d,
+B10b_d, qB1a_d*pB1b_d/pB1_d;
+
+likelihood "A17aux_d"
+A17ab_d, pA17a_d*pA17b_d/pA17_d,
+A17a0_d, pA17a_d*qA17b_d/pA17_d,
+A170b_d, qA17a_d*pA17b_d/pA17_d;
+
+optimizer
+fletch, usePreviousEstimatesAsSeeds = no,
+calculateCovariance = yes,
+maxIterations = 10000,
+precision = 1e-06,
+stepSize = 1e-06;
+
+parameterSeeds
+sA1 = 0.5,
+sA2 = 0.5,
+sA3 = 0.5,
+sA4 = 0.5,
+sA5 = 0.5,
+sA6 = 0.5,
+sA7 = 0.5,
+sA8 = 0.5,
+sA10 = 0.5,
+sA12 = 0.5,
+sA13 = 0.5,
+sA14 = 0.5,
+sA15 = 0.5,
+sA16 = 0.5,
+sA17 = 0.5,
+sB1 = 0.5,
+psiA1 = 0.5,
+pA2 = 0.5,
+pA3 = 0.5,
+pA4 = 0.5,
+pA6 = 0.5,
+pA7 = 0.5,
+pA8 = 0.5,
+pA9 = 0.5,
+pA10 = 0.5,
+pA12 = 0.5,
+pA16 = 0.5,
+pA17b = 0.5,
+pB1a = 0.5,
+pB1b = 0.5,
+pA15 = 0.5,
+sA7_d = 0.5,
+sA8_d = 0.5,
+sA9_d = 0.5,
+sA10_d = 0.5,
+sA11_d = 0.5,
+sA12_d = 0.5,
+sA13_d = 0.5,
+sA14_d = 0.5,
+sA15_d = 0.5,
+sA16_d = 0.5,
+sA17_d = 0.5,
+sB1_d = 0.5,
+psiA1_d = 0.5,
+pA7_d = 0.5,
+pA8_d = 0.5,
+pA10_d = 0.5,
+pA11_d = 0.5,
+pA17a_d = 0.5;
+
+profileLikelihoodRequests;
+
+A1 A10 : 0
+A1 A11 : 0
+A1 A12 : 0
+A1 A13 : 0
+A1 A14 : 0
+A1 A15 : 0
+A1 A16 : 0
+A1 A17 : 0
+A1 A2 : 37
+A1 A3 : 177
+A1 A4 : 26
+A1 A5 : 1
+A1 A6 : 0
+A1 A7 : 0
+A1 A8 : 0
+A1 A9 : 0
+A1 B1 : 0
+A1 x : 102
+A10 A11 : 67
+A10 A11_d : 157
+A10 A12 : 0
+A10 A12_d : 0
+A10 A13 : 0
+A10 A13_d : 0
+A10 A14 : 0
+A10 A14_d : 0
+A10 A15 : 0
+A10 A15_d : 0
+A10 A16 : 0
+A10 A16_d : 0
+A10 A17 : 0
+A10 A17_d : 0
+A10 B1 : 0
+A10 B1_d : 1
+A10 x : 0
+A10 x_d : 6
+A11 A12 : 73
+A11 A12_d : 123
+A11 A13 : 6
+A11 A13_d : 6
+A11 A14 : 0
+A11 A14_d : 0
+A11 A15 : 0
+A11 A15_d : 0
+A11 A16 : 0
+A11 A16_d : 0
+A11 A17 : 1
+A11 A17_d : 0
+A11 B1 : 47
+A11 B1_d : 120
+A11 x : 7
+A11 x_d : 14
+A12 A13 : 72
+A12 A13_d : 111
+A12 A14 : 0
+A12 A14_d : 0
+A12 A15 : 0
+A12 A15_d : 0
+A12 A16 : 0
+A12 A16_d : 0
+A12 A17 : 0
+A12 A17_d : 0
+A12 x : 1
+A12 x_d : 12
+A13 A14 : 76
+A13 A14_d : 113
+A13 A15 : 0
+A13 A15_d : 0
+A13 A16 : 0
+A13 A16_d : 0
+A13 A17 : 0
+A13 A17_d : 0
+A13 x : 2
+A13 x_d : 4
+A14 A15 : 43
+A14 A15_d : 53
+A14 A16 : 1
+A14 A16_d : 0
+A14 A17 : 0
+A14 A17_d : 0
+A14 x : 32
+A14 x_d : 60
+A15 A16 : 19
+A15 A16_d : 20
+A15 A17 : 2
+A15 A17_d : 3
+A15 x : 22
+A15 x_d : 30
+A16 A17 : 17
+A16 A17_d : 13
+A16 x : 3
+A16 x_d : 7
+A17 x : 23
+A17 x_d : 22
+A170b : 0
+A170b_d : 1
+A17a0 : 4
+A17a0_d : 0
+A17ab : 19
+A17ab_d : 21
+A2 A10 : 0
+A2 A11 : 0
+A2 A12 : 0
+A2 A13 : 0
+A2 A14 : 0
+A2 A15 : 0
+A2 A16 : 0
+A2 A17 : 0
+A2 A3 : 28
+A2 A4 : 5
+A2 A5 : 0
+A2 A6 : 0
+A2 A7 : 0
+A2 A8 : 0
+A2 A9 : 0
+A2 B1 : 0
+A2 x : 4
+A3 A10 : 0
+A3 A11 : 0
+A3 A12 : 0
+A3 A13 : 0
+A3 A14 : 0
+A3 A15 : 0
+A3 A16 : 0
+A3 A17 : 0
+A3 A4 : 176
+A3 A5 : 0
+A3 A6 : 0
+A3 A7 : 0
+A3 A8 : 0
+A3 A9 : 0
+A3 B1 : 0
+A3 x : 29
+A4 A10 : 0
+A4 A11 : 0
+A4 A12 : 0
+A4 A13 : 0
+A4 A14 : 0
+A4 A15 : 0
+A4 A16 : 0
+A4 A17 : 0
+A4 A5 : 158
+A4 A6 : 0
+A4 A7 : 0
+A4 A8 : 0
+A4 A9 : 0
+A4 B1 : 0
+A4 x : 49
+A5 A10 : 0
+A5 A11 : 0
+A5 A12 : 0
+A5 A13 : 0
+A5 A14 : 0
+A5 A15 : 0
+A5 A16 : 0
+A5 A17 : 0
+A5 A6 : 140
+A5 A7 : 1
+A5 A8 : 1
+A5 A9 : 0
+A5 B1 : 0
+A5 x : 17
+A6 A10 : 7
+A6 A11 : 5
+A6 A12 : 0
+A6 A13 : 0
+A6 A14 : 0
+A6 A15 : 0
+A6 A16 : 0
+A6 A17 : 0
+A6 A7 : 32
+A6 A8 : 73
+A6 A9 : 17
+A6 B1 : 0
+A6 x : 6
+A7 A10 : 0
+A7 A10_d : 4
+A7 A11 : 2
+A7 A11_d : 3
+A7 A12 : 0
+A7 A12_d : 0
+A7 A13 : 0
+A7 A13_d : 0
+A7 A14 : 0
+A7 A14_d : 0
+A7 A15 : 0
+A7 A15_d : 0
+A7 A16 : 0
+A7 A16_d : 0
+A7 A17 : 0
+A7 A17_d : 1
+A7 A8 : 26
+A7 A8_d : 147
+A7 A9 : 4
+A7 A9_d : 12
+A7 B1 : 0
+A7 B1_d : 0
+A7 x : 1
+A7 x_d : 23
+A8 A10 : 14
+A8 A10_d : 38
+A8 A11 : 13
+A8 A11_d : 32
+A8 A12 : 0
+A8 A12_d : 0
+A8 A13 : 0
+A8 A13_d : 0
+A8 A14 : 0
+A8 A14_d : 0
+A8 A15 : 0
+A8 A15_d : 0
+A8 A16 : 0
+A8 A16_d : 0
+A8 A17 : 0
+A8 A17_d : 0
+A8 A9 : 73
+A8 A9_d : 178
+A8 B1 : 0
+A8 B1_d : 0
+A8 x : 0
+A8 x_d : 35
+A9 A10 : 46
+A9 A10_d : 119
+A9 A11 : 47
+A9 A11_d : 69
+A9 A12 : 0
+A9 A12_d : 0
+A9 A13 : 0
+A9 A13_d : 0
+A9 A14 : 0
+A9 A14_d : 0
+A9 A15 : 0
+A9 A15_d : 0
+A9 A16 : 0
+A9 A16_d : 0
+A9 A17 : 0
+A9 A17_d : 0
+A9 B1 : 0
+A9 B1_d : 0
+A9 x : 1
+A9 x_d : 16
+B1 A17 : 3
+B1 A17_d : 5
+B1 x : 44
+B1 x_d : 116
+B10b : 27
+B10b_d : 75
+B1a0 : 2
+B1a0_d : 2
+B1ab : 18
+B1ab_d : 44
+R A1 : 343
+R A10 : 0
+R A10_d : 3
+R A11 : 0
+R A11_d : 2
+R A12 : 0
+R A12_d : 0
+R A13 : 0
+R A13_d : 0
+R A14 : 0
+R A14_d : 0
+R A15 : 0
+R A15_d : 0
+R A16 : 0
+R A16_d : 0
+R A17 : 0
+R A17_d : 0
+R A2 : 0
+R A3 : 0
+R A4 : 0
+R A5 : 0
+R A6 : 0
+R A7 : 0
+R A7_d : 190
+R A8 : 0
+R A8_d : 136
+R A9 : 0
+R A9_d : 14
+R B1 : 0
+R B1_d : 0
+R x : 4
+R x_d : 9
