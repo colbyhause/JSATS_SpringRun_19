@@ -1,8 +1,7 @@
 ### This ic code to look and see at how many fish were detected at certain locations, also to pull out all the dtection histories 
 ### of tags detected at a certain receiver so you know how fish traveled so you can better inform your model
 
-library(tidyverse
-        )
+library(tidyverse)
 # First: run the fishcheck function located in script folder (rkm_plotcode_eachTag_GS.R)
 # Load your csvs:
 dets<- read_csv("data_output/DetectionFiles/dets_allgroups.csv") 
@@ -13,6 +12,7 @@ dets_ds_forModel<-read_csv("data_output/DetectionFiles/dets_ds_forModel.csv")
 # Looking at OR HWY4 dets and detection history of each of those tags:
 CCintake_dets <- dets_edited_for_model[dets_edited_for_model$`GPS Names`==" CC_intake_J", ] # none at the intake
 
+dets<- dets_edited_for_model
 OR_hwy4_dets <- dets[dets$`GPS Names`==" OR_hwy4_2_J" | dets$`GPS Names`== "OR_hwy4_1_J" |dets$`GPS Names`== "OR_hwy4_4_J" | 
                        dets$`GPS Names`== "OR_hwy4_3_J", ]
 length(unique(OR_hwy4_dets$Hex)) # 
@@ -24,6 +24,7 @@ ORHWY4_tags <- dets_edited_for_model[dets_edited_for_model$Hex == "BA69"|
                                        dets_edited_for_model$Hex =="BA99"|
                                        dets_edited_for_model$Hex =="BA9D"|
                                        dets_edited_for_model$Hex =="BAB8", ]
+
 write_csv(ORHWY4_tags, "data_output/ORHWY4_tags.csv")
 
 # Looking at MR HWY4 dets and detection history of each of those tags:
@@ -38,7 +39,19 @@ MRHWY4_tags <- dets_edited_for_model[dets_edited_for_model$Hex == "BA8E"|
                                        dets_edited_for_model$Hex =="C8D5"|
                                        dets_edited_for_model$Hex =="C976"|
                                        dets_edited_for_model$Hex =="CB2B", ]
+
 write_csv(MRHWY4_tags, "data_output/MRHWY4_tags.csv")
+# notes on MR_HWY4Tags:
+# BA8E: orhor -> CVPU -> MRHWY4 ->X NEED TO CUT CVPU OUT OF THIS ONE 
+# C24A: ORHOR -> MRHWY4 ->X
+# C515: ORHOR -> MRHWY4 ->X
+# C8D5: HOR -> MRHWY4 -> X
+# C976: ORHOR -> MRHWY4 -> ORHWY4 ->X NEED TO FIX THIS ONE: end at MRHWY4
+# CB2B: ORHOR -> MRHWY4 ->X
+# # So looks like all fish detected at MRHWY4 died after that receiver 
+
+
+
 # Just looking at upper river fish at MRHwy4:
 MRHWY4_tags_upper <- dets_up_forModel[dets_up_forModel$Hex == "BA8E"|
                                   dets_up_forModel$Hex =="C24A"|
