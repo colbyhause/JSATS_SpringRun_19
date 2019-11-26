@@ -13,6 +13,8 @@ library(tidyverse)
 library(here)
 library(readxl)
 
+####SCROLL DOWN FOR THE ACTUAL CODE USED FOR FLAME MODEL##################################
+
 
 # First: read in finalized detection data. The data below had a 16 km predator filter applied to it, plus it was run 
 #through RKM plot code (located in script/ rkm_plotcode_eachTag_GS) to visually idientify weird movements that wont fit the model
@@ -107,7 +109,7 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_Mud_SL_Conf_J', detection_file$`GPS Names`), 'site.code' ] <- 'A2'
   detection_file[grep('SJ_Blw_Newman_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3'
   detection_file[grep('SJ_Blw_Newman_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3'
-  detection_file[grep('SJ_Hills_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3b'
+ # detection_file[grep('SJ_Hills_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3b' THIS ONE DOESNT MAKE SENSE TO BE HERE...
   detection_file[grep('SJ_Hills_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A4'
   detection_file[grep('SJ_Hills_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A4'
   detection_file[grep('SJ_Hills_RT_1_US', detection_file$`GPS Names`), 'site.code' ] <- 'A4'

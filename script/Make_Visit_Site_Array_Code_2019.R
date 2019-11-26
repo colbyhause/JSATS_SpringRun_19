@@ -1,4 +1,6 @@
 # Tue Aug 20 14:07:58 2019 ------------------------------
+# Updated for actual 2019 full model:  Mon Nov 25 16:30:24 2019 ------------------------------
+
 # The goals of this code are to 
 # 1. truncate your data to only include the sites you are using for the model
 # 2. Add site array codes to all of your receiver locations
@@ -16,37 +18,149 @@ library(readxl)
 # and then manually remove those detections (direction for  removing detections can be found here: C:\Users\chause\Documents\GitHub\
 # JSATS_SpringRun_19\script\Removing_dets_to_fit_Model.R )
 
-dets_all <- read_csv("data_output/DetectionFiles/dets_allgroups_formodel.csv")
-dets_up <- read_csv("data_output/DetectionFiles/det_up_PF16_ModelEdited_relLoc.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/det_ds_PF16_ModelEdited_relLoc.csv")
+dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_allgroups_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_us_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+
+# DOUBLE CHECK you have all recievered you want in here:
+length(unique(dets_all$`GPS Names`)) # only 113 compared to the 136 i have in my rec locations csv
+names <- unique(dets_all$`GPS Names`)
+names[order(unique(dets_all$`GPS Names`))]
+#***************** Confirmed that I ahve all the receievrs I need except for Benicia11, thiis reciever was in the deployments table but not in the file
+#that Anrnold gave me. Notes on all this and cofirming the receivers is located:
+#C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\documents\CondfirmingLocationsTableRecwithFullModelData.txt
+
 
 #### Only pull out the detections for the receivers we want in the full model
-#1. Define which receivers are in the 2018 model ------------------------------------------------------
+#1. Define which receivers are in the 2019 model ------------------------------------------------------
 #(see schematic in the documents folder)
 gps_names <-(unique(dets_all$`GPS Names`))
 gps_names[order(gps_names)]
-model_recs <- c("CC_intake_J",             "CC_RGD_1_J",              "CC_RGD_2_J",             "CC_RGD_3_J",             
-                 "CC_RGD_4_J",              "CC_RGU1_J",               "CC_RGU2_J",               "CVP_Tank3_J",            
-                 "CVPU_J",                 "Delt_TC_2_J",             "HOR_AM1",                "HOR_AM2",                
-                 "HOR_AM3",                 "HOR_AM4",                 "HOR_AM6",                 "HOR_AM7",                
-                 "HOR_AM8",                 "HOR_AM9",                 "HOR_SM1",                 "HOR_SM2",                
-                 "HOR_SM3",                 "HOR_SM4",                 "HOR_SM7",                 "HOR_SM8",                
-                 "MidR_hwy4_1_J",           "MidR_hwy4_2_J",           "MidR_hwy4_3_J",           "MidR_hwy4_4_J",          
-                 "OR_HOR_1_J",              "OR_HOR_2_J",              "OR_HOR_3_J",              "OR_HOR_4_J",             
-                 "OR_hwy4_1_J",             "OR_hwy4_2_J",             "OR_hwy4_3_J",             "OR_hwy4_4_J",            
-                 "SJ_BCA_1_J",              "SJ_BCA_2_J",              "SJ_Blw_Newman_1_J",       "SJ_Blw_Newman_2_J",      
-                 "SJ_Blw_Release_1_J",      "SJ_Blw_Release_2_J",      "SJ_BlwCrowsLanding_1_J",  "SJ_BlwCrowsLanding_2_J", 
-                 "SJ_BlwWGrayson_1_J",      "SJ_BlwWGrayson_2_J",      "SJ_Durhamferry_1_J",      "SJ_Durhamferry_2_J",     
-                 "SJ_Durhamferry_RelRec_J", "SJ_Hills_1_J",            "SJ_Hills_2_J",            "SJ_Hills_RT_1_US",       
-                 "SJ_Hills_RT_2_DS",        "SJ_HOR_1_J",              "SJ_HOR_2_J",              "SJ_Howard_1_J",          
-                 "SJ_Howard_2_J",           "SJ_JP_2_J",               "SJ_JP_3_J",               "SJ_JP_4_J",              
-                 "SJ_JP_5_J",               "SJ_JP_6_J",               "SJ_JP_7_J",               "SJ_JP_8_J",              
-                 "SJ_MAC_1_J",              "SJ_MAC_2_J",              "SJ_MAC_3_J",              "SJ_MAC_4_J",             
-                 "SJ_Moss_1_J",             "SJ_Moss_2_J",             "SJ_Mud_SL_Conf_J",        "SJ_SJG_1_J",             
-                 "SJ_SJG_2_J",              "SJ_SJG_3_J",              "SJ_SJG_4_J",             
+model_recs <- c("CC_intake_J",            
+                "CC_RGD_1_J",             
+                "CC_RGD_2_J",             
+                "CC_RGD_3_J",             
+                "CC_RGD_4_J",              
+                "CC_RGU1_J",               
+                "CC_RGU2_J",               
+                "CVP_Tank3_J",            
+                "CVPU_J",                
+                "Delt_TC_2_J",             
+                "HOR_AM1",                
+                "HOR_AM2",                
+                "HOR_AM3",                 
+                "HOR_AM4",                 
+                "HOR_AM6",                 
+                "HOR_AM7",                
+                "HOR_AM8",                 
+                "HOR_AM9",              
+                "HOR_SM1",                 
+                "HOR_SM2",                
+                "HOR_SM3",                 
+                "HOR_SM4",                 
+                "HOR_SM7",                 
+                "HOR_SM8",                
+                "MidR_hwy4_1_J",          
+                "MidR_hwy4_2_J",          
+                "MidR_hwy4_3_J",           
+                "MidR_hwy4_4_J",          
+                "OR_HOR_1_J",              
+                "OR_HOR_2_J",              
+                "OR_HOR_3_J",              
+                "OR_HOR_4_J",             
+                "OR_hwy4_1_J",             
+                "OR_hwy4_2_J",             
+                "OR_hwy4_3_J",             
+                "OR_hwy4_4_J",            
+                "SJ_BCA_1_J",              
+                "SJ_BCA_2_J",              
+                "SJ_Blw_Newman_1_J",       
+                "SJ_Blw_Newman_2_J",      
+                "SJ_Blw_Release_1_J",      
+                "SJ_Blw_Release_2_J",      
+                "SJ_BlwCrowsLanding_1_J",  
+                "SJ_BlwCrowsLanding_2_J", 
+                "SJ_BlwWGrayson_1_J",      
+                "SJ_BlwWGrayson_2_J",      
+                "SJ_Durhamferry_1_J",      
+                "SJ_Durhamferry_2_J",     
+                "SJ_Hills_1_J",            
+                "SJ_Hills_2_J",            
+                "SJ_Hills_RT_1_US",       
+                "SJ_Hills_RT_2_DS",        
+                "SJ_HOR_1_J",              
+                "SJ_HOR_2_J",              
+                "SJ_Howard_1_J",          
+                "SJ_Howard_2_J",  
+                "SJ_JP_1_J",
+                "SJ_JP_2_J",               
+                "SJ_JP_3_J",               
+                "SJ_JP_4_J",            
+                "SJ_JP_5_J",               
+                "SJ_JP_6_J",               
+                "SJ_JP_7_J",               
+                "SJ_JP_8_J",              
+                "SJ_MAC_1_J",              
+                "SJ_MAC_2_J",              
+                "SJ_MAC_3_J",              
+                "SJ_MAC_4_J",             
+                "SJ_Moss_1_J",             
+                "SJ_Moss_2_J",             
+                "SJ_Mud_SL_Conf_J",        
+                "SJ_SJG_1_J",             
+                "SJ_SJG_2_J",            
+                "SJ_SJG_3_J",              
+                "SJ_SJG_4_J",  
+                "GG1",
+                "GG1.5",
+                "GG1.7",
+                "GG2.1",
+                "GG2.5",
+                "GG3.1",
+                "GG3.5",
+                "GG4",
+                "GG4.5",
+                "GG5.1",
+                "GG5.5",
+                "GG6",
+                "GG6.5",
+                "GG7",
+                "GG7.2",
+                "GG7.5",
+                "GG7.7",
+                "GG8",
+                "GG8.4",
+                "GG9",
+                "Benicia01",
+                "Benicia02",
+                "Benicia03",
+                "Benicia04",
+                "Benicia05",
+                "Benicia06",
+                "Benicia07",
+                "Benicia08",
+                "Benicia09",
+                "Benicia10",
+                "Benicia11",
+                "Benicia12",
+                "Benicia13",
+                "Benicia14",
+                "Benicia15",
+                "Benicia16",
+                'Chipps1.1', 
+                'Chipps1.2', 
+                'Chipps1.3', 
+                'Chipps1.4', 
+                'Chipps1.5', 
+                'Chipps2.1', 
+                'Chipps2.3', 
+                'Chipps2.4', 
+                'Chipps2.5',
                  "Upstream_Release")
 
-# pull out only the detections from the receivers in the model_recs string using the %in% function:
+# took out "SJ_Durhamferry_RelRec_J" from this model due to extremely low detection probability
+
+# Pull out only the detections from the receivers in the model_recs string using the %in% function:
 # Upper:----
 truncated_dets_up<- dets_up %>% 
   filter(`GPS Names` %in% model_recs) # must do Detect_Location %in% model_recs bc the way this function works is it returns 
@@ -108,7 +222,7 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_Mud_SL_Conf_J', detection_file$`GPS Names`), 'site.code' ] <- 'A2'
   detection_file[grep('SJ_Blw_Newman_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3'
   detection_file[grep('SJ_Blw_Newman_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3'
-  detection_file[grep('SJ_Hills_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A3b'
+  detection_file[grep('SJ_Hills_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A4'
   detection_file[grep('SJ_Hills_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A4'
   detection_file[grep('SJ_Hills_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A4'
   detection_file[grep('SJ_Hills_RT_1_US', detection_file$`GPS Names`), 'site.code' ] <- 'A4'
@@ -117,7 +231,7 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_BlwCrowsLanding_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A5'
   detection_file[grep('SJ_BlwWGrayson_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A6'
   detection_file[grep('SJ_BlwWGrayson_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A6'
-  detection_file[grep('SJ_Durhamferry_RelRec_J', detection_file$`GPS Names`), 'site.code' ] <- 'A7'
+  #detection_file[grep('SJ_Durhamferry_RelRec_J', detection_file$`GPS Names`), 'site.code' ] <- 'A7' #not using this one in Full model
   detection_file[grep('SJ_Durhamferry_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A8'
   detection_file[grep('SJ_Durhamferry_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A8'
   detection_file[grep('SJ_BCA_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A9'
@@ -181,7 +295,7 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_JP_6', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
   detection_file[grep('SJ_JP_7', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
   detection_file[grep('SJ_JP_8', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  # Fix the ones below when you get data from Arnold ##
+  # Fix the ones below when you get data from Arnold ##- STOPPPED HERE!!!! RESUME WHEN BACK FROM TG
   # 
   # 
   detection_file[grep('Chipps1.1', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'

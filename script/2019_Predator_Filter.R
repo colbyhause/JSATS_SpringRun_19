@@ -15,7 +15,7 @@ dets_ds<- read_rds("data_output/delta_dets_raw.rds")
 #Run fucntion on data:
 #(the removed detections file will just get dropped in your working directory, change the name and add it to the 
 #appropriate folder)
-all_dets_pred_filtered_16<- upriver_movement_jsats(dets, dets, 16) 
+all_dets_pred_filtered_16 <- upriver_movement_jsats(dets, dets, 16) 
 write_csv(all_dets_pred_filtered_16, "data_output/Predator_Filter/AllDets_PredFiltered_16.csv")
 
 
@@ -50,5 +50,26 @@ write_csv(upperDets_pred_filtered_16, "data_output/DetectionFiles/Files_w_Bridge
 
 DeltaDets_pred_filtered_16 <- subset(all_dets_pred_filtered_16, all_dets_pred_filtered_16$Rel_group == "2019DS")
 write_csv(DeltaDets_pred_filtered_16,"data_output/DetectionFiles/Files_w_Bridge_Data/DeltaDets_w_GG_Chipps_pred_filt16.csv")
+
+##################################################################################################################################
+##################################################################################################################################
+##################################################################################################################################
+#Running Predator filter on FINAL Detection File that includes ALL bridge data (chipps, Bencia, and GG)
+# Fri Nov 22 14:04:39 2019 ------------------------------
+
+# Read in detection file from each group (these were made in the formatting_detection_csvs.R script)
+dets <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/2019_FinalUCDdets_GG_Ben_Chipps_AllGroups_formatted.csv")
+
+#Run function on data:
+#(the removed detections file will just get dropped in your working directory, change the name and add it to the 
+#appropriate folder)
+all_dets_pred_filtered_16<- upriver_movement_jsats(dets, dets, 16) 
+write_csv(all_dets_pred_filtered_16, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/AllDets_w_GG_Ben_Chipps_pred_filt16_FINAL.csv")
+
+upperDets_pred_filtered_16 <-subset(all_dets_pred_filtered_16, all_dets_pred_filtered_16$Rel_group == "2019UP")
+write_csv(upperDets_pred_filtered_16, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/UpperDets_w_GG_Ben_Chipps_pred_filt16_FINAL.csv")
+
+DeltaDets_pred_filtered_16 <- subset(all_dets_pred_filtered_16, all_dets_pred_filtered_16$Rel_group == "2019DS")
+write_csv(DeltaDets_pred_filtered_16,"data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/DeltaDets_w_GG_Ben_Chipps_pred_filt16_FINAL.csv")
 
 

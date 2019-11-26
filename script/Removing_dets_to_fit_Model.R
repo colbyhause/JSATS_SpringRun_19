@@ -265,3 +265,148 @@ write_csv(dets_up_forModel, "data_output/DetectionFiles/Files_w_Bridge_Data/dets
 write_csv(dets_ds_forModel, "data_output/DetectionFiles/Files_w_Bridge_Data/dets_ds_formodel_w_GG_Chips_092419.csv")
 
 #Now pull these 2 files ^^^ into the script" formatting_detection_csvs" to add the release location to them
+
+
+###############################################################################################################################
+###############################################################################################################################
+# Doing this one last time again with files that include Benicia data- so now this data should include all the river/ delta data
+# PLUS all bridge data from NOAA (chipps, Ben, GG). All I am doing now is adding/editing the csv
+# Dets_to_be_Removed_gg_Chips_091919_final.csv", which holds all the detections in the script above that I removed the 
+# first time + the second time (can follow trail in code above)
+dets_allgroups_16pf <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/AllDets_w_GG_Ben_Chipps_pred_filt16_FINAL.csv")
+
+# Below is running file with detections that have been removed from the data:
+dets_to_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Dets_to_be_Removed_gg_Chips_091919_final.csv")
+
+#******* NOW: I NEED TO ADD THESE DETECTIONS BACK INTO DATA FILE, . These are detections that go from B1 to JP, 
+#which I took out for the flame model because it didnt fit the schematic (I lump the whole interior delta together) but
+# inthe Full model fish can go from B1 to JP, so I need to make sure these fish get accounted for:
+
+fishcheck("C26A", ds_dat, "figure_output/")
+write_csv(tC26A, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/Tags_that_had_B1toJP_Removed_for_FlameModel/C26A.csv")
+
+fishcheck("CBA9", ds_dat, "figure_output/")
+write_csv(tCBA9,  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/Tags_that_had_B1toJP_Removed_for_FlameModel/CBA9.csv")
+
+fishcheck("CB5D", ds_dat, "figure_output/")
+write_csv(tCB5D,  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/Tags_that_had_B1toJP_Removed_for_FlameModel/CB5D.csv")
+
+fishcheck("CA98", ds_dat, "figure_output/")
+write_csv(tCA98, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/Tags_that_had_B1toJP_Removed_for_FlameModel/CA98.csv")
+
+####neeed to fix the code below:########
+# Remove the dets_to_remove files from the dataset, and then use that data to go through all individual tag plots:
+nrow(dets_to_remove) # 43384 rows 
+nrow(dets_allgroups_16pf) # 3681078 rows
+
+B1toJP_tagsToPutBackIn <- dets_to_remove[dets_to_remove$Hex == "C26A" 
+                                         |dets_to_remove$Hex == "CBA9"
+                                         | dets_to_remove$Hex == "CB5D" 
+                                         | dets_to_remove$Hex == "CA98", ]
+
+################################################---READ ME---################################################################
+#For the tags that were detected at the SWP intake and then again at JP, read info from tommys email about the salvage and 
+#release process, document located : Z:\Shared\Projects\JSATS\DSP_Spring-Run Salmon\2019\2019Maps\Information_on_SWPandCVP_ReleaseLocations.doc
+#Locations of releases also located here: Z:\Shared\Projects\JSATS\DSP_Spring-Run Salmon\2019\2019Maps\Pumping Facilities Salvaged Fish Release sites.kmz
+##### tag BADB on 4/10 at 5:03: the tide at 9415144 Port Chicago, CA NOAA station (just upstream of Benicia) says it was on the 
+# desending limb of the hydrograph. so theoretically fish sould not have been pushed back to JP
+##### tag  C26A on 3/19: the tide at 9415144 Port Chicago, CA NOAA station (just upstream of Benicia) says it was nearly peak
+# high tide at the time C62A was detected at JP (19:28). So this this is a fish may have been salvaged and released and got pushed back up to JP
+# CONCLUSION: since there is only one fish I would be comcfortable saying that it was actually a salmon, and theortically
+#  the release locations ARE downstream of JP and the only way they would get detected at JP is from swimming up 
+#  volitionaly(unlikely), pushed from the tides(likely), or from being in a predator( also likely) I am going to just keep
+#  the model having CC go to Chipps instead of JP, and remove the inbetween JP detections. 
+
+# So need to take the tags from the B1toJP_tagsToPutBackIn object out of the dets_to_remove, then only add back in the JP dets.
+# Then remove that updated dets_to_remove-object from original dataframe (dets_allgroups_16pf):
+
+dets_to_remove_edited <- dets_to_remove %>% #43384 detections
+  anti_join(B1toJP_tagsToPutBackIn, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                           "FishID", "Lat", "Lon", "Weight", "Length")) #1167 detections
+#^^^ take these detects out of the bad detects object (ie. putting them BACK into the good dataframe)
+nrow(dets_to_remove_edited) # 42217, this adds up (43384-1167= 42,217)
+
+#write this to new file:
+write_csv(dets_to_remove_edited, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/DetsToRemove_B1toJP_BackIn.csv")
+
+# now manually (by hand, not in R) add the JP detections from the BADB and C62A tags back into the file above ^^. Read back into R:
+dets_toRemove_NoCVPUtoJP <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/DetsToRemove_B1toJP_BackIn.csv")
+
+# Remove dets to be removed from dataset
+PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP <- dets_allgroups_16pf %>% 
+  anti_join(dets_toRemove_NoCVPUtoJP, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", "FishID", "Lat", "Lon", "Weight", "Length"))
+
+# doing the math:
+nrow(dets_allgroups_16pf) - nrow(dets_toRemove_NoCVPUtoJP) # so should be  3638383 rows in new dataset:
+nrow(PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP)#  3638383 rows, adds up!
+
+# Write to file:
+write_csv(PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/AllGroups_16pf_model_edited_beforeBenicia.csv")
+
+# Now that my current dataset does not have anyone the detections that I previously flagged as bad/ wont fit model, and I added
+# the B1 to JP detection histories back in by pulling those detections out of the remove bad detects csv (except
+# to the histories that went from CVPU to JP- tags BADBand C62A) I  will run this file through the individual tag plotting code and pull out any last detections that dont fit the model,
+#  and ADD the bad benicia detections that i find to the running remove dets csv (the one I am adding to is called:
+# C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\DetsToRemove_Benicia_FINAL.csv
+# and then remove those dets from the ORIGINAL detection files that I read in:
+# dets_allgroups_16pf <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/AllDets_w_GG_Ben_Chipps_pred_filt16_FINAL.csv")
+
+PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/AllGroups_16pf_model_edited_beforeBenicia.csv")
+
+# first split into upper and lower release group:
+dets_up <- PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP[PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP$Rel_group == "2019UP", ]
+dets_ds <- PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP[PREVIOUS_dets_edited_for_model_plusNoCVPUtoJP$Rel_group == "2019DS", ]
+
+print_tags(df = dets_up,pdf_name = "UpperRel_IndivTagPlots_GG_Ben_Chipps")
+
+#fishcheck("BAD0", dets_up, "figure_output/WaterfallPlots/FULL_MODEL/") This tag is ok, just goes back and forth between the hills recs
+#fishcheck("BB34", dets_up, "figure_output/WaterfallPlots/FULL_MODEL/") OK
+#fishcheck("BB74", dets_up, "figure_output/WaterfallPlots/FULL_MODEL/") THIS ONE IS OK BC THE HILLS RECEIEVRS END UP GETTING COMBINED IN THE MODEL
+#fishcheck("BE5A", dets_up, "figure_output/WaterfallPlots/FULL_MODEL/") THIS ONE IS ALSO OK BC THE HILLS RECEIEVRS END UP GETTING COMBINED IN THE MODEL
+#fishcheck("C514", dets_up, "figure_output/WaterfallPlots/FULL_MODEL/")OK- HILLS
+
+# ALL TAGS IN UPPER RELEASE GRTOUP LOOK GOOD
+
+print_tags(df = dets_ds,pdf_name = "DeltaRel_IndivTagPlots_GG_Ben_Chipps")
+
+#fishcheck("BB9A", dets_ds, "figure_output/WaterfallPlots/FULL_MODEL/") # going to keep but a little suspicous. Tag was detected for a month at SJG. I dont want to take it out because there was some refuge here created by the flooding
+#fishcheck("C549", dets_ds, "figure_output/WaterfallPlots/FULL_MODEL/") # Going to keep this one in. A salmon may have hung out in some rrefuge at Moss
+#fishcheck("CB94", dets_ds, "figure_output/WaterfallPlots/FULL_MODEL/") # suspicous to hang around the release location for so long but going to keep it in
+
+# these are the only tags in the lower release that I made model edits to:
+fishcheck("BB8A", dets_ds, "figure_output/WaterfallPlots/FULL_MODEL/") # This one def eaten by a predator at the HOR, removed the CVPU detections
+write_csv(tBB8A, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/BB8A.csv")
+
+
+fishcheck("C5EA", dets_ds, "figure_output/WaterfallPlots/FULL_MODEL/") # Ending this one at HOR, dont think that a salom would hang around the junction for a month
+write_csv(tC5EA, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/C5EA.csv")
+
+
+# NOW that you have finalized the detection histories that are either predators or dont fit model, take your finalized 
+# "remove bad dets "bad detection" csv and remove those dets from the original formatted, pred filtered CSV
+
+# read in final bad detects csv:
+dets_to_remove_FINAL <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/DetsToRemove_Benicia_FINAL.csv")
+nrow(dets_to_remove_FINAL) # 46516 rows
+
+# read in original detection file with both groups (reformatted, predator filtered- also located at the top where this script starts)
+dets_allgroups_16pf <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/AllDets_w_GG_Ben_Chipps_pred_filt16_FINAL.csv")
+nrow(dets_allgroups_16pf) # 3681078 rows
+
+# remove the bad dets from the file:
+dets_allgroups_16pf_ModelEdited_FINAL <- dets_allgroups_16pf %>%
+  anti_join(dets_to_remove_FINAL, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                           "FishID", "Lat", "Lon", "Weight", "Length"))
+nrow(dets_allgroups_16pf_ModelEdited_FINAL) #3634562, adds up!
+
+# Split final file into upstream and downstream releases:
+
+dets_us_16pf_ModelEdited_FINAL <- dets_allgroups_16pf_ModelEdited_FINAL[dets_allgroups_16pf_ModelEdited_FINAL$Rel_group == "2019UP", ]
+dets_ds_16pf_ModelEdited_FINAL <- dets_allgroups_16pf_ModelEdited_FINAL[dets_allgroups_16pf_ModelEdited_FINAL$Rel_group == "2019DS", ]
+
+# Write all files:
+write_csv(dets_allgroups_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_allgroups_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+write_csv(dets_us_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_us_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+write_csv(dets_ds_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+
+  
