@@ -1,0 +1,33 @@
+Below are all the receivers that are in the Locations table for 2019 but were not in my final detections for tyhe full model. In comparing the two, I have confirmed that any reciever in the locations table and not in the 
+detections csv (below) 
+dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_allgroups_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_us_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+
+were not in there for a good reason. They are below:
+GG1.7- no deployment OK
+GG2.5- lost reciever OK
+GG3.5- no deployment OK
+GG4.5-no deployment OK
+GG5.5-no deployment OK
+GG7.7-no deployment OK
+GG8.4-no deployment OK
+Chipps2.2- 2 ATS recievers with no accepted data on them. OK
+Delt_TC_1_J- didnt get detects OK
+CVP_Tank1_J- no detects OK
+CVP_Tank2_J- no detects OK
+CVP_Tank4_J- no detects OK
+CVPD_J- no detects, rec died early  OK
+MidR_OR_1_J- no detects 
+OR_MidR_1_J- bad rec dl
+OR_MidR_2_J- no accepted data 
+HOR_AM5- lost this rec
+SJ_Hills_RT_1_DS- no data OK
+SJ_Hills_RT_2_US- no data OK
+
+
+*************The ONLY on i can't figure out why its not here aside from maybe Arnold just not giving it to be ia this one:
+
+Benicia11- this was not included in the file that Arnold sent, but in the deployment sheet it says there is data for it. Maybe send him an email about this one?
+
+Need to email arnold and ask him about this 
