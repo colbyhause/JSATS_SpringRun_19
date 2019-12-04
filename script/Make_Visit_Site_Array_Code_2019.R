@@ -16,17 +16,17 @@ library(readxl)
 # First: read in finalized detection data. The data below had a 16 km predator filter applied to it, plus it was run 
 #through RKM plot code (located in script/ rkm_plotcode_eachTag_GS) to visually idientify weird movements that wont fit the model
 # and then manually remove those detections (direction for  removing detections can be found here: C:\Users\chause\Documents\GitHub\
-# JSATS_SpringRun_19\script\Removing_dets_to_fit_Model.R )
+# JSATS_SpringRun_19\script\Removing_dets_to_fit_Model.R ). Release Location csvs were also included in these files 
 
 dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_allgroups_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
-dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_us_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 
-# DOUBLE CHECK you have all recievered you want in here:
+# DOUBLE CHECK you have all recievers you want in here:
 length(unique(dets_all$`GPS Names`)) # only 113 compared to the 136 i have in my rec locations csv
 names <- unique(dets_all$`GPS Names`)
 names[order(unique(dets_all$`GPS Names`))]
-#***************** Confirmed that I ahve all the receievrs I need except for Benicia11, thiis reciever was in the deployments table but not in the file
+#***************** Confirmed that I have all the receievrs I need except for Benicia11, this reciever was in the deployments table but not in the file
 #that Anrnold gave me. Notes on all this and cofirming the receivers is located:
 #C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\documents\CondfirmingLocationsTableRecwithFullModelData.txt
 
@@ -156,7 +156,12 @@ model_recs <- c("CC_intake_J",
                 'Chipps2.3', 
                 'Chipps2.4', 
                 'Chipps2.5',
-                 "Upstream_Release")
+                "Upstream_Release", 
+                "Downstream_Release")
+
+# See which recievers are in our dataset but not on this list:
+model_recs %in% gps_names
+model_recs[model_recs %in% gps_names == F] # says which ones are in model_recs and not in our dataset
 
 # took out "SJ_Durhamferry_RelRec_J" from this model due to extremely low detection probability
 
@@ -172,7 +177,7 @@ truncated_dets_up<- dets_up %>%
 truncated_dets_ds <- dets_ds %>% 
   filter(`GPS Names` %in% model_recs)
 
-#### Adding Site Codes
+#### Adding Site Codes (THIS IS OLD...)
 # below are the Detection_location to site code pairings:
 # Rel - Upstream_Release
 # A1 - SJ_Blw_Release_1_J, SJ_Blw_Release_2_J,  
@@ -217,6 +222,7 @@ truncated_dets_ds <- dets_ds %>%
 # using subset [rows, columns] to filter rows using grep function (grep(pattern,where to look) and add "site.code" a the column. 
 add_array_codes <- function(detection_file) {
   detection_file[grep('Upstream_Release', detection_file$`GPS Names`), 'site.code' ] <- 'REL'
+  detection_file[grep("Downstream_Release", detection_file$`GPS Names`), 'site.code' ] <- 'REL'
   detection_file[grep('SJ_Blw_Release_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A1'
   detection_file[grep('SJ_Blw_Release_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A1'
   detection_file[grep('SJ_Mud_SL_Conf_J', detection_file$`GPS Names`), 'site.code' ] <- 'A2'
@@ -295,28 +301,52 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_JP_6', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
   detection_file[grep('SJ_JP_7', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
   detection_file[grep('SJ_JP_8', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  # Fix the ones below when you get data from Arnold ##- STOPPPED HERE!!!! RESUME WHEN BACK FROM TG
-  # 
-  # 
   detection_file[grep('Chipps1.1', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps1.2', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps1.3', detection_file$`GPS Names`), 'site.code' ] <- 'A14a'
   detection_file[grep('Chipps1.4', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps1.5', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
+  detection_file[grep('Chipps2.1', detection_file$`GPS Names`), 'site.code' ] <- 'A17b'
   detection_file[grep('Chipps2.2', detection_file$`GPS Names`), 'site.code' ] <- 'A17b'
   detection_file[grep('Chipps2.3', detection_file$`GPS Names`), 'site.code' ] <- 'A17b'
   detection_file[grep('Chipps2.4', detection_file$`GPS Names`), 'site.code' ] <- 'A17b'
   detection_file[grep('Chipps2.5', detection_file$`GPS Names`), 'site.code' ] <- 'A17b'
-  detection_file[grep('Benicia', detection_file$`GPS Names`), 'site.code' ] <- 'A15'
-  detection_file[grep('GG6', detection_file$`GPS Names`), 'site.code' ] <- 'A16a'
-  detection_file[grep('GG7', detection_file$`GPS Names`), 'site.code' ] <- 'A16a'
-  detection_file[grep('GG8', detection_file$`GPS Names`), 'site.code' ] <- 'A16a'
-  detection_file[grep('GG1', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  detection_file[grep('GG2.1', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  detection_file[grep('GG3.1', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  detection_file[grep('GG4', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  detection_file[grep('GG5.1', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
-  
+  detection_file[grep('Benicia01', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia02', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia03', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia04', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia05', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia06', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia07', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia08', detection_file$`GPS Names`), 'site.code' ] <- 'A18b'
+  detection_file[grep('Benicia09', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia10', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia11', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia12', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia13', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia14', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia15', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('Benicia16', detection_file$`GPS Names`), 'site.code' ] <- 'A18a'
+  detection_file[grep('GG1', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG1.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG1.7', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG2.1', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG2.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG3.1', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG3.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG4', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG4.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG5.1', detection_file$`GPS Names`), 'site.code' ] <- 'A19b'
+  detection_file[grep('GG5.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG6', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG6.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG7', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG7.2', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG7.5', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG7.7', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG8', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG8.4', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
+  detection_file[grep('GG9', detection_file$`GPS Names`), 'site.code' ] <- 'A19a'
   return(detection_file)
 }
 
@@ -367,15 +397,24 @@ delta_visit <- truncated_dets_ds %>%
   mutate(combo = (paste0(Hex, site.code)))
 
 # count dets at each receiver (then, keep all 1's and max in each sequence)
-upper_visit$counter <- sequence(rle(upper_visit$combo)$lengths)
-upper_visit$first_or_last <- (lead(upper_visit$counter)-upper_visit$counter)==1
+upper_visit$counter <- sequence(rle(upper_visit$combo)$lengths)# rle() function counts the number of times a specific combo occur and 
+# stores that in a list. For example: there are 16 detections of BA5B so for that combo it would be stored as length = 16. wrapping sequence() around
+# this then makes a squence of that number. so 16 becomes 1, 2, 3, 4, ...16. These sequences of numbers are then stored in the counter column
+upper_visit$first_or_last <- (lead(upper_visit$counter)-upper_visit$counter)==1 # This line of code says: in the counter vector, subtract the next
+# number ( controlled by the lead () function) in the vector from the previous number in the vector. If it equals one, in the row in the column
+# first_or_last will say TRUE, meaning it is the next number in the sequence for that combo (or really detection). If it does not equal 1 it will say
+# FALSE instead, which means the first number for the next tag at the next receiver (ie the next combo) has been reached, and therefore the rows where
+# it sayd false is the last detection of that tag at that receiver. 
+# SO IN SUMMARY: TRUE means it is the next detction in that sequence of detection for that tag at that receiver. FALSE means it is the last detection
+# of that tag at that receicer for that sequence.
 
 delta_visit$counter <- sequence(rle(delta_visit$combo)$lengths)
 delta_visit$first_or_last <- (lead(delta_visit$counter)-delta_visit$counter)==1
 
 # filter to keep first and last dets ***double check with original df to see if the code worked
 UpRel_visits2019_firstlast <- upper_visit %>% 
-  filter(counter==1|first_or_last==FALSE)
+  filter(counter==1|first_or_last==FALSE) # this is keeping just the first in the cou ter column and the last detection (denoted by FALSE in the 
+# first_or_last column)
 nrow(UpRel_visits2019_firstlast)
 
 DeltaRel_visits2019_firstlast <- delta_visit %>% 
@@ -383,11 +422,9 @@ DeltaRel_visits2019_firstlast <- delta_visit %>%
 nrow(DeltaRel_visits2019_firstlast)
 
 # Save:
-write_csv(UpRel_visits2019_firstlast, "data_output/UpRel_visits2019_firstlast.csv")
-saveRDS(UpRel_visits2019_firstlast, "data_output/UpRel_visits2019_firstlast.rds")
+write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120319.csv")
 
-write_csv(DeltaRel_visits2019_firstlast, "data_output/DeltaRel_visits2019_firstlast.csv")
-saveRDS(DeltaRel_visits2019_firstlast, "data_output/DeltaRel_visits2019_firstlast.rds")
+write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120319.csv")
 
 # filter to keep first dets
 UpRel_visits2019_first <- upper_visit %>% 
@@ -398,16 +435,16 @@ DeltaRel_visits2019_first <- delta_visit %>%
   filter(counter==1)
 nrow(DeltaRel_visits2019_first)
 
-write_csv(UpRel_visits2019_first, "data_output/UpRel_visits2019_first.csv")
-saveRDS(UpRel_visits2019_first, "data_output/UpRel_visits2019_first.rds")
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120319.csv")
 
-write_csv(DeltaRel_visits2019_first, "data_output/DeltaRel_visits2019_first.csv")
-saveRDS(DeltaRel_visits2019_first, "data_output/DeltaRel_visits2019_first.rds")
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120319.csv")
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
-################################################ end of code for analysis ###################################################
-
+################################################ end of code for analysis ######################################################################
+################################################################################################################################################
+################################################################################################################################################
+################################################################################################################################################
 
 # Below is the Code Colby wrote to keep first and last detections. for some reason it keeps 138 less detectopns than gabe's code 
 # so use Gabe's code for the actual analyis. This is just so you have the code on hand if you need it:

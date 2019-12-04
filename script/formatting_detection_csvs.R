@@ -205,13 +205,12 @@ write_csv(dets, "data_output/DetectionFiles/Files_w_Bridge_Data/2019_FinalUCDdet
 write_csv(dets_up, "data_output/DetectionFiles/Files_w_Bridge_Data/upper_FinalUCDdets_GG_Ben_Chipps_formatted.csv")
 write_csv(dets_up, "data_output/DetectionFiles/Files_w_Bridge_Data/delta_FinalUCDdets_GG_Ben_Chipps_formatted.csv")
 
-######################## do the code below once you have model edited and pred filtered datafiles finished- THIS IS WHERE YOU 
-######################## LEFT OFF, START HERE ON 11/22
+######################## Do the code below once you have model edited and pred filtered datafiles finished:
 
 # To run Transit rate code, your detection csv's need to include the release point as a "detection":
 # Make these csvs by pulling info from the tagging form in the access database:
-upstream_rel_detection <- read_csv("data/UpstreamRelGroup_toBind.csv")
-delta_rel_detection <- read_csv("data/DeltaRelGroup_toBind.csv")
+upstream_rel_detection <- read_csv("data/UpstreamRelGroup_toBind.csv") # 347 rows
+delta_rel_detection <- read_csv("data/DeltaRelGroup_toBind.csv") #354 rows 
 
 # make sure dtf col is in datetime format:
 class(upstream_rel_detection$dtf)
@@ -221,22 +220,24 @@ delta_rel_detection$dtf <- mdy_hm(delta_rel_detection$dtf)
 class(upstream_rel_detection$dtf)
 class(delta_rel_detection$dtf)
 
-#read in your detection csvs:
-dets_up_forModel <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/***add your for model csv when you make it**")
-dets_ds_forModel <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/***add your for model csv when you make it**")
+#read in your detection csvs: THESE ARE THE PREDATOR FILTERED, AND MODEL EDITED (IE. removing detections that don't fit model)
+dets_up_forModel <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_us_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+dets_ds_forModel <-  read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+
 
 dets_up_PF16_Modeledited__reldet <- rbind(dets_up_forModel, upstream_rel_detection)
 tail(dets_up_PF16_Modeledited__reldet) #check that it binded
-nrow(dets_up_PF16_Modeledited__reldet)
+nrow(dets_up_PF16_Modeledited__reldet) # should be 1268361 + 347 = 1268708 got it
+#1268361 + 347
 dets_ds_PF16_Modeledited__reldet <- rbind(dets_ds_forModel, delta_rel_detection)
 tail(dets_ds_PF16_Modeledited__reldet) #check that it binded
-nrow(dets_ds_PF16_Modeledited__reldet)
+nrow(dets_ds_PF16_Modeledited__reldet) # should be 2366201 + 354 = 2366555 got it 
+#2366201 + 354
 
 #save the files:
-write_csv(dets_up_PF16_Modeledited__reldet, "data_output/DetectionFiles/Files_w_Bridge_Data/dets_up_PF16_ModelEdited_relLoc_GG_chipps_092419.csv") # this file is unchanged, the same as dets_up_PF16_ModelEdited_relLoc_GG_chipps_092319.csv 
-write_csv(dets_ds_PF16_Modeledited__reldet, "data_output/DetectionFiles/Files_w_Bridge_Data/dets_ds_PF16_ModelEdited_relLoc_GG_Chipps_092419.csv")
+write_csv(dets_up_PF16_Modeledited__reldet, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+write_csv(dets_ds_PF16_Modeledited__reldet, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 
 
-
-
+#### ^ these are the most up-to-date detection files for the full model 12/3/19 CH
 

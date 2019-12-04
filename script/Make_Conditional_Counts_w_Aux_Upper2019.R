@@ -11,13 +11,14 @@ library(tidyverse)
 # Make Detection Counts ---------------------------------------------------
 
 # Load UPPER RELEASE dataframe with just first visits ---------------------------------------------------------------
-data <- readRDS("data_output/UpRel_visits2019_first.rds")
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120319.csv")
 
 # Make a vector of locations that are included in model 
 
-locs <- c('REL', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'B1', 'B2', 'C1', 'D1', 'E1','E2',
-          'A12', 'A13', 'A14', 'A15','F1', 'A16', 'A17', 'A18', 'A19', 'A20') 
-length(locs) #28
+locs <- c('REL', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A8', 'A9', 'A10', 'A11', 'B1', 'B2', 'C1', 'D1', 'E1','E2',
+          'A12', 'A13', 'A14', 'A15','F1', 'A16', 'A17', 'A18', 'A19') # A7 is missing because it was originally the DFRelRec which I
+#ended up takingout of the model due to poor detection probability
+length(locs) #26
 
 ids<- unique(data$Hex)
 length(ids) #347
@@ -53,7 +54,7 @@ enc.hist<- rownames_to_column(enc.hist, var = "TagID_Hex") # turn the row names 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
-#### Make input file for branch Model
+#### Make input file for branch Model in USER
 
 
 FirstRec <- c() # make empty vector for values to go into
@@ -91,7 +92,7 @@ for(i in 1: nrow(receivers)){ # interating through each row in the receivers df 
 }
 totals
 input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxiliary ones for dual arrays are below
-write.csv(input, 'data_output/2019_UpperRelease_counts_NoBridges.csv')
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_FINAL_120319.csv')
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
@@ -105,7 +106,7 @@ ORHOR_dual <- data %>% # pull out only the detection data that is at the dual ar
   group_by(Hex) %>% 
   count(site.code)
 
-ORHOR_ids <- unique(ORHOR_dual$Hex) # get all the tag ID from the sunsetted group
+ORHOR_ids <- unique(ORHOR_dual$Hex) # get all the tag ID from the subsetted group
 ORHOR_locs <- c("B1a", "B1b")
 
 ORHOR_enc.hist <-  as.data.frame(matrix(rep(NA,(length(ORHOR_ids)*length(ORHOR_locs))), # make enc hist matrix like above
@@ -116,9 +117,9 @@ rownames(ORHOR_enc.hist) <-  ORHOR_ids
 
 ## fill in data frame
 for (i in 1:length(ORHOR_locs)) {
-  subs <- ORHOR_dual[ORHOR_dual$site.code == ORHOR_locs[i],]
-  substag <- unique(subs$Hex)
-  ORHOR_enc.hist[,i] <- ORHOR_ids %in% substag
+  subs <- ORHOR_dual[ORHOR_dual$site.code == ORHOR_locs[i],] # first pulls all tag ids that had a detection on the a line, then when loops through again does same for the b line
+  substag <- unique(subs$Hex) # make a vector of all these tags and calls it substag
+  ORHOR_enc.hist[,i] <- ORHOR_ids %in% substag # fills in the enc.hist df with a TRUE in the tag row for whatever line it was detected on, and FALSE if not detected on that line 
 }
 
 ## convert TRUE to '1' and FALSE to '0'
@@ -376,54 +377,15 @@ Chipps_dual <- Chipps_enc.hist %>%
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
 
-#  Make auxiliary likelihoods for dual arrays (Antioch) ------------------------
+#  Make auxiliary likelihoods for dual arrays (Benicia) ------------------------
 
-Antioch_dual <- data %>% # pull out only the detection data that is at the dual array
+Ben_dual <- data %>% # pull out only the detection data that is at the dual array
   filter(site.code %in% c("A18a", "A18b")) %>% 
   group_by(Hex) %>% 
   count(site.code)
 
-Antioch_ids <- unique(Antioch_dual$Hex) # get all the tag ID from the sunsetted group
-Antioch_locs <- c("A18a", "A18b")
-
-Antioch_enc.hist <-  as.data.frame(matrix(rep(NA,(length(Antioch_ids)*length(Antioch_locs))), # make enc hist matrix like above
-                                          length(Antioch_ids), length(Antioch_locs))) 
-# name columns and rows
-colnames(Antioch_enc.hist) <-  Antioch_locs
-rownames(Antioch_enc.hist) <-  Antioch_ids
-
-## fill in data frame
-for (i in 1:length(Antioch_locs)) {
-  subs <- Antioch_dual[Antioch_dual$site.code == Antioch_locs[i],]
-  substag <- unique(subs$Hex)
-  Antioch_enc.hist[,i] <- Antioch_ids %in% substag
-}
-
-## convert TRUE to '1' and FALSE to '0'
-Antioch_enc.hist[Antioch_enc.hist==TRUE] <- 1
-Antioch_enc.hist[Antioch_enc.hist==FALSE] <- 0
-
-view(Antioch_enc.hist)
-
-Antioch_enc.hist$A18ab <- ifelse(Antioch_enc.hist$A18a==1 & Antioch_enc.hist$A18b == 1, 1, 0) # says if fish was detected (==1) at A18a and if fish was detected at A18b (==1) then A18ab  = 1, if those arguments dont hold true not it equals 0
-Antioch_enc.hist$A18a0 <- ifelse(Antioch_enc.hist$A18a==1 & Antioch_enc.hist$A18b == 0, 1, 0) # says if fish was detected (==1) at A18a and if fish was not detected at A18b (==0) then A18a0 = 1, if those arguments dont hold true then it equals 0
-Antioch_enc.hist$A180b <- ifelse(Antioch_enc.hist$A18a==0 & Antioch_enc.hist$A18b == 1, 1, 0) # says if fish was not detected (==0) at A18a and if fish was detected at A18b (==1) then A180b = 1, if those arguments dont hold true then it equals 0
-
-view(Antioch_enc.hist)
-
-Antioch_dual <- Antioch_enc.hist %>% 
-  select(A18ab, A18a0, A180b) %>% 
-  summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
-
-#  Make auxiliary likelihoods for dual arrays (Benicia) ------------------------
-
-Ben_dual <- data %>% # pull out only the detection data that is at the dual array
-  filter(site.code %in% c("A19a", "A19b")) %>% 
-  group_by(Hex) %>% 
-  count(site.code)
-
 Ben_ids <- unique(Ben_dual$Hex) # get all the tag ID from the sunsetted group
-Ben_locs <- c("A19a", "A19b")
+Ben_locs <- c("A18a", "A18b")
 
 Ben_enc.hist <-  as.data.frame(matrix(rep(NA,(length(Ben_ids)*length(Ben_locs))), # make enc hist matrix like above
                                       length(Ben_ids), length(Ben_locs))) 
@@ -444,26 +406,26 @@ Ben_enc.hist[Ben_enc.hist==FALSE] <- 0
 
 view(Ben_enc.hist)
 
-Ben_enc.hist$A19ab <- ifelse(Ben_enc.hist$A19a==1 & Ben_enc.hist$A19b == 1, 1, 0) # says if fish was detected (==1) at A19a and if fish was detected at A19b (==1) then A19ab  = 1, if those arguments dont hold true not it equals 0
-Ben_enc.hist$A19a0 <- ifelse(Ben_enc.hist$A19a==1 & Ben_enc.hist$A19b == 0, 1, 0) # says if fish was detected (==1) at A19a and if fish was not detected at A19b (==0) then A19a0 = 1, if those arguments dont hold true then it equals 0
-Ben_enc.hist$A190b <- ifelse(Ben_enc.hist$A19a==0 & Ben_enc.hist$A19b == 1, 1, 0) # says if fish was not detected (==0) at A19a and if fish was detected at A19b (==1) then A190b = 1, if those arguments dont hold true then it equals 0
+Ben_enc.hist$A18ab <- ifelse(Ben_enc.hist$A18a==1 & Ben_enc.hist$A18b == 1, 1, 0) # says if fish was detected (==1) at A18a and if fish was detected at A18b (==1) then A18ab  = 1, if those arguments dont hold true not it equals 0
+Ben_enc.hist$A18a0 <- ifelse(Ben_enc.hist$A18a==1 & Ben_enc.hist$A18b == 0, 1, 0) # says if fish was detected (==1) at A18a and if fish was not detected at A18b (==0) then A18a0 = 1, if those arguments dont hold true then it equals 0
+Ben_enc.hist$A180b <- ifelse(Ben_enc.hist$A18a==0 & Ben_enc.hist$A18b == 1, 1, 0) # says if fish was not detected (==0) at A18a and if fish was detected at A18b (==1) then A180b = 1, if those arguments dont hold true then it equals 0
 
 view(Ben_enc.hist)
 
 Ben_dual <- Ben_enc.hist %>% 
-  select(A19ab, A19a0, A190b) %>% 
+  select(A18ab, A18a0, A180b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
 
 #  Make auxiliary likelihoods for dual arrays (GG) ------------------------
 
 GG_dual <- data %>% # pull out only the detection data that is at the dual array
-  filter(site.code %in% c("A20a", "A20b")) %>% 
+  filter(site.code %in% c("A19a", "A19b")) %>% 
   group_by(Hex) %>% 
   count(site.code)
 
 GG_ids <- unique(GG_dual$Hex) # get all the tag ID from the sunsetted group
-GG_locs <- c("A20a", "A20b")
+GG_locs <- c("A19a", "A19b")
 
 GG_enc.hist <-  as.data.frame(matrix(rep(NA,(length(GG_ids)*length(GG_locs))), # make enc hist matrix like above
                                      length(GG_ids), length(GG_locs))) 
@@ -484,23 +446,28 @@ GG_enc.hist[GG_enc.hist==FALSE] <- 0
 
 view(GG_enc.hist)
 
-GG_enc.hist$A20ab <- ifelse(GG_enc.hist$A20a==1 & GG_enc.hist$A20b == 1, 1, 0) # says if fish was detected (==1) at A20a and if fish was detected at A20b (==1) then A20ab  = 1, if those arguments dont hold true not it equals 0
-GG_enc.hist$A20a0 <- ifelse(GG_enc.hist$A20a==1 & GG_enc.hist$A20b == 0, 1, 0) # says if fish was detected (==1) at A20a and if fish was not detected at A20b (==0) then A20a0 = 1, if those arguments dont hold true then it equals 0
-GG_enc.hist$A200b <- ifelse(GG_enc.hist$A20a==0 & GG_enc.hist$A20b == 1, 1, 0) # says if fish was not detected (==0) at A20a and if fish was detected at A20b (==1) then A200b = 1, if those arguments dont hold true then it equals 0
+GG_enc.hist$A19ab <- ifelse(GG_enc.hist$A19a==1 & GG_enc.hist$A19b == 1, 1, 0) # says if fish was detected (==1) at A19a and if fish was detected at A19b (==1) then A19ab  = 1, if those arguments dont hold true not it equals 0
+GG_enc.hist$A19a0 <- ifelse(GG_enc.hist$A19a==1 & GG_enc.hist$A19b == 0, 1, 0) # says if fish was detected (==1) at A19a and if fish was not detected at A19b (==0) then A19a0 = 1, if those arguments dont hold true then it equals 0
+GG_enc.hist$A190b <- ifelse(GG_enc.hist$A19a==0 & GG_enc.hist$A19b == 1, 1, 0) # says if fish was not detected (==0) at A19a and if fish was detected at A19b (==1) then A190b = 1, if those arguments dont hold true then it equals 0
 
 view(GG_enc.hist)
 
 GG_dual <- GG_enc.hist %>% 
-  select(A20ab, A20a0, A200b) %>% 
+  select(A19ab, A19a0, A190b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
 ## Bind and write to csv --------------------------------------------------------------------------------------------------
 
 Aux <- rbind(t(ORHOR_dual),t(MRHWY4_dual), t(CC_dual),t(MAC_dual),t(CVP_dual), 
-             t(JP_dual)) #t(Chipps_dual), t(GG_dual), t(Antioch_dual), t(Ben_dual)
+             t(JP_dual), t(Chipps_dual), t(GG_dual), t(Ben_dual))
 # t() function transposes the data, ie. makes the columns the rows 
 
-write.csv(Aux, "data_output/2019_UpperRel_Cond_Aux_counts_NoBridges.csv")
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_120319.csv")
+
+
+
+
+
 
 
 
