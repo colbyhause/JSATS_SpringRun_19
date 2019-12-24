@@ -409,4 +409,175 @@ write_csv(dets_allgroups_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Fil
 write_csv(dets_us_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_us_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
 write_csv(dets_ds_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
 
-  
+###############################################################################################################################
+###############################################################################################################################
+###############################################################################################################################
+
+# Sun Dec 08 15:11:36 2019 ------------------------------
+# CONTINUED ON Sun Dec 22 18:57:01 2019 ------------------------------
+
+# I realized that since cvp_D did not record any detections, I can't determine which fish actually entered the cvp just from the upstream receiver
+# bc those fish  could have been detected at cvp_u and then kept swimming towards CC. Therefore, I am pulling out every tag detected at cvp_u, looking at its detection
+# history, and determing its most likely route, bc the code that makes the encounter history will just not let other detection histories be an option 
+# for E2, A12, and on from there.  
+
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+
+# UPSTREAM REL FISH:
+
+cvp_a <- dets_up %>% 
+  filter(`GPS Names` == "CVPU_J")
+length(unique(cvp_a$Hex))
+
+cvp_b <- dets_up %>% 
+  filter(`GPS Names` == "CVP_Tank3_J"|`GPS Names` == "CVP_Tank1_J"|`GPS Names` == "CVP_Tank2_J"|`GPS Names` == "CVP_Tank4_J")
+length(unique(cvp_b$Hex)) # no fish detected in the tanks from the upstream rel group
+
+unique(cvp_a$Hex) # "BAB8" "BB0A" "BB26" "BBB6" "C2A6" "C2B4" "C652"
+fishcheck("BAB8", dets_up, "figure_output/") # Removed cvpU dets and ended at ORHwy4
+write_csv(tBAB8, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/BAB8.csv")
+
+fishcheck("BB0A", dets_up, "figure_output/") # no changes needed, ends at cvpu
+
+fishcheck("BB26", dets_up, "figure_output/") # remove CCRGD dets and end at cvpu
+write_csv(tBB26, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/BB26.csv")
+
+fishcheck("BBB6", dets_up, "figure_output/") # no changes needed, ends at cvpu
+
+fishcheck("C2A6", dets_up, "figure_output/")# remove cc_rgu and orhwy4 dets and end at cvpu
+write_csv(tC2A6, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/C2A6.csv")
+
+fishcheck("C2B4", dets_up, "figure_output/") # no changes needed, ends at cvpu
+
+fishcheck("C652", dets_up, "figure_output/") # removed Orhyw4, end at cvpu
+write_csv(tC652, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/C652.csv")
+
+#### ^ These tags are in the file: C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\
+#### B1toJP_included_back_in_for_FINAL_Fullmodel\CVPU_tags\UpperRel\UpRel_Remove_BAB8_BB26_C2A6_C652.csv
+
+# Read in data and the csv made above:
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+BAB8_BB26_C2A6_C652_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/UpRel_Remove_BAB8_BB26_C2A6_C652.csv")
+
+#remove dets:
+dets_up_cvpEdited <- dets_up %>%
+  anti_join(BAB8_BB26_C2A6_C652_remove, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                         "FishID", "Lat", "Lon", "Weight", "Length"))
+
+nrow(BAB8_BB26_C2A6_C652_remove) # 8444 rows
+nrow(dets_up) # 1268708
+1268708- 8444 # =  1260264
+nrow(dets_up_cvpEdited) #  1260264 looks good
+
+
+
+# DOWNSTREAM REL FISH:
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+
+cvp_a_ds <- dets_ds %>% 
+  filter(`GPS Names` == "CVPU_J")
+length(unique(cvp_a_ds$Hex))
+
+
+cvp_b_ds <- dets_ds %>% 
+  filter(`GPS Names` == "CVP_Tank3_J"|`GPS Names` == "CVP_Tank1_J"|`GPS Names` == "CVP_Tank2_J"|`GPS Names` == "CVP_Tank4_J")
+length(unique(cvp_b_ds$Hex))
+
+tag_list_a <- unique(cvp_a_ds$Hex) # "BA75" "BA8E" "BA9D" "BAA3" "BAC5" "BB75" "BB7A" "BB8A" "BCA5" "BCB5" "BDA4" "BE96" "C494" "C896" "C95B" "C972" "C9A6" "CA16" "CA57" "CA8C" "CA9D"
+#"CAA3" "CAA7" "CACB" "CB29" "CB5B" "CB5D" "CB6E" "CBA9"
+
+tag_list_b <- unique(cvp_b_ds$Hex) # "BB8A" "BDA4" "C896" "CA8C" "CA9D" <------ THESE WERE ALL TAKEN CARE OF IN LIST ABOVE 
+
+# Run fishcheck function in the fishcheck_PlotEachTag_GS.R script
+
+#for cvp_a
+for (i in tag_list_a) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_ds, plot_file_location =  "figure_output/TagPlots_GabesCode/CVPU_tags/DurhamRel/CVP_a/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/DurhamRel/")
+}
+
+
+
+#BA8E: CVPU to MidR_hwy4 # spent a day at each location, judgement call: removing cvpu dets ending at MidRhwy4
+#BAD9: CVPU to ORhwy4: only spent 2 hrs at cvpu, removing cvpu dets and ending at orhyw4
+#BA75: no changes, ends at cvpu
+#BAA3: cvpu to CC: remove cvpu and end at cc
+#BAC5: cvpu back to OR HOR, remove ORHOR and SM@ dets and end at cvpu 
+#BB7A :cvpu to orhwy4: remove orhwy4 and end at cvpu
+#BB8A: detected from 3/14- 4/17 at HOR_junc, then at cvpu. remove cvpu dets and end at HORjunc
+#BB75: cvpu to orhwy4: remove orhwy4 end at cvpu
+#BCA5: no chnages, ends at cvpu
+#BCB5: cvpu to orhwy4: remove orhwy4 and end at cvpu
+#BDA4: no changes, ends at cvptank. detected at the DFRel rec from 3/13 to 4/7. Does not seem like smolt behavior hold for that long but it could have been in the flooded areas. 
+#BE96: no changes, ends at cvpu
+#C9A6: cvpu to ccrgd: remove cvpu and end at ccrgd 
+#C95B: no changes, ends at cvpu
+#C494: OR HOR to cvpu: but sepent 2 full days at HORjnc and then detected at CVPU a month later: ending detections at HOR junc, removing ORHOR and cvpu dets
+#C896: no changes, ends at cvp tank
+#C972: no changes, ends at cvpuend at cvp tank
+#C8AC: or hor and then a month later shows up at cvpu, then to or hwy4 back to cvpu to tank. remove cvpu and tank, end at ORhwy4
+#CA9D: cvpu to or hwy4 to cvpu to tank. remove cvpu and tank, end at or hwy4
+#CA16: cvpu to orhwy4, reove cpu and end at or hwy4
+#CA57: no changes, ends at cvpu
+#CAA3: no changes, ends at cvpu
+#CAA7: cvpu to orhwy4 to to cvpu to ccRGU back to cvpu back to or hwy4. remove everthing else, end at the first or hwy4
+#CACB: cvpu to orhwy4, removed orhwy4 ended at cvpu
+#CB5B: no changes ends at cvpu
+#Cb5D: cvpu to orhwy4 to jp: remove cvpu, end at jp
+#CB6E:orhwy4 for 5 days then to cvpu then ccrgd. End at orhwy4
+#CB29:no chnages, ends at cvpu
+#CBA9: cvpu to orhwy4 to jp, remove cvpu and end at jp
+
+
+# NOW NEED TO REMOVE THE DETECTIONS ABOVE (FROM BOTH UPSTREAM AND DOWNSTREAM RELEASES) FROM THE DATAFRAME.I saved all the detections to be reoved (above) in file:
+# C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\CVPU_tags\DurhamRel\CVPURemove.csv
+#Read IN DETECTION FILES TO REMOVE:
+#downstream:
+CVPU_TO_REMOVE_ds <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/DurhamRel/CVPURemove.csv")
+#upstream:
+BAB8_BB26_C2A6_C652_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/UpRel_Remove_BAB8_BB26_C2A6_C652.csv")
+
+#read in most recent detection files from each group:
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+
+
+# remove these detctions from respectiive file above:
+# upstream remove detects:
+dets_up_cvpEdited <- dets_up %>%
+  anti_join(BAB8_BB26_C2A6_C652_remove, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                               "FishID", "Lat", "Lon", "Weight", "Length"))
+
+nrow(BAB8_BB26_C2A6_C652_remove) # 8444 rows
+nrow(dets_up) # 1268708
+1268708- 8444 # =  1260264
+nrow(dets_up_cvpEdited) #  1260264 looks good
+
+# downstream remove detects:
+
+dets_ds_cvpEdited <- dets_ds %>%
+  anti_join(CVPU_TO_REMOVE_ds, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                               "FishID", "Lat", "Lon", "Weight", "Length"))
+
+nrow(CVPU_TO_REMOVE_ds) # 45115 rows
+nrow(dets_ds) # 2326856
+2326856- 45115 # =  2281741
+nrow(dets_ds_cvpEdited) # 2281741  looks good
+
+#write to final csvs:
+write(dets_up_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_122419.csv")
+write(dets_ds_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_122419.csv")
+
+
+###NEXT STEP 12/24/19:
+# Put these detection files through the tag plot code again, look at each plot, make sure everything looks good, run code to make the counts again, and then go through process of determining which parametrs to fix
+# check to make sure these are resolved:
+# Downstream detection histories that need to be fixed:
+# B2 to A14: 1
+# C1 (MR hwy4) to D1 (CVP): 1
+# D1 (cvp) to E1 (cc): 3
+# D1 (CVP) to A16 : 2--> double check to see if these tags were taken out before
+# E2 to A14
+

@@ -303,7 +303,7 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_JP_8', detection_file$`GPS Names`), 'site.code' ] <- 'A16b'
   detection_file[grep('Chipps1.1', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps1.2', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
-  detection_file[grep('Chipps1.3', detection_file$`GPS Names`), 'site.code' ] <- 'A14a'
+  detection_file[grep('Chipps1.3', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps1.4', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps1.5', detection_file$`GPS Names`), 'site.code' ] <- 'A17a'
   detection_file[grep('Chipps2.1', detection_file$`GPS Names`), 'site.code' ] <- 'A17b'
@@ -422,9 +422,9 @@ DeltaRel_visits2019_firstlast <- delta_visit %>%
 nrow(DeltaRel_visits2019_firstlast)
 
 # Save:
-write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120319.csv")
+write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120819.csv")
 
-write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120319.csv")
+write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120819.csv")
 
 # filter to keep first dets
 UpRel_visits2019_first <- upper_visit %>% 
@@ -435,9 +435,9 @@ DeltaRel_visits2019_first <- delta_visit %>%
   filter(counter==1)
 nrow(DeltaRel_visits2019_first)
 
-write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120319.csv")
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
 
-write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120319.csv")
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120819.csv")
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 

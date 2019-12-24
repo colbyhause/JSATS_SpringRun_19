@@ -143,22 +143,5 @@ unique(jp$Hex)
 
 ###############################################################################################################################
 ###############################################################################################################################
-# Fri Dec 06 16:54:32 2019 ------------------------------
 
-# When loading counts into model, I saw that there were 2 fish with E2 to A4 encounter histories. Here is how I pulled out these tag IDS:
- 
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120319.csv")
-# First i had to make the encouster history matrix in script Make_cond_counts_w_Aux_upp_2019
-
-dat <- data.frame(enc.hist)
-bad <- dat %>% 
-  filter(E2 == 1 & A14 == 1)
-
-# then run the fish check function to see these detection histories
-
-# these 2 fish have E2 to A14 encounter histories- need to edit 
-fishcheck("BD44", data, "figure_output/")  
-fishcheck("BD50", data, "figure_output/") 
- 
- 
  
