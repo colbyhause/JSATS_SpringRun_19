@@ -421,8 +421,8 @@ write_csv(dets_ds_16pf_ModelEdited_FINAL, "data_output/DetectionFiles/Files_w_Br
 # history, and determing its most likely route, bc the code that makes the encounter history will just not let other detection histories be an option 
 # for E2, A12, and on from there.  
 
-dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 
 # UPSTREAM REL FISH:
 
@@ -457,7 +457,7 @@ write_csv(tC652, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_d
 #### B1toJP_included_back_in_for_FINAL_Fullmodel\CVPU_tags\UpperRel\UpRel_Remove_BAB8_BB26_C2A6_C652.csv
 
 # Read in data and the csv made above:
-dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 BAB8_BB26_C2A6_C652_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/UpRel_Remove_BAB8_BB26_C2A6_C652.csv")
 
 #remove dets:
@@ -473,7 +473,7 @@ nrow(dets_up_cvpEdited) #  1260264 looks good
 
 
 # DOWNSTREAM REL FISH:
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 
 cvp_a_ds <- dets_ds %>% 
   filter(`GPS Names` == "CVPU_J")
@@ -517,7 +517,7 @@ for (i in tag_list_a) {
 #C494: OR HOR to cvpu: but sepent 2 full days at HORjnc and then detected at CVPU a month later: ending detections at HOR junc, removing ORHOR and cvpu dets
 #C896: no changes, ends at cvp tank
 #C972: no changes, ends at cvpuend at cvp tank
-#C8AC: or hor and then a month later shows up at cvpu, then to or hwy4 back to cvpu to tank. remove cvpu and tank, end at ORhwy4
+#CA8C: or hor and then a month later shows up at cvpu, then to or hwy4 back to cvpu to tank. remove cvpu and tank, end at ORhwy4
 #CA9D: cvpu to or hwy4 to cvpu to tank. remove cvpu and tank, end at or hwy4
 #CA16: cvpu to orhwy4, reove cpu and end at or hwy4
 #CA57: no changes, ends at cvpu
@@ -533,6 +533,7 @@ for (i in tag_list_a) {
 
 # NOW NEED TO REMOVE THE DETECTIONS ABOVE (FROM BOTH UPSTREAM AND DOWNSTREAM RELEASES) FROM THE DATAFRAME.I saved all the detections to be reoved (above) in file:
 # C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\CVPU_tags\DurhamRel\CVPURemove.csv
+# START HERE#######
 #Read IN DETECTION FILES TO REMOVE:
 #downstream:
 CVPU_TO_REMOVE_ds <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/DurhamRel/CVPURemove.csv")
@@ -540,8 +541,8 @@ CVPU_TO_REMOVE_ds <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_
 BAB8_BB26_C2A6_C652_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPU_tags/UpperRel/UpRel_Remove_BAB8_BB26_C2A6_C652.csv")
 
 #read in most recent detection files from each group:
-dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 
 
 # remove these detctions from respectiive file above:
@@ -564,11 +565,22 @@ dets_ds_cvpEdited <- dets_ds %>%
 nrow(CVPU_TO_REMOVE_ds) # 45115 rows
 nrow(dets_ds) # 2326856
 2326856- 45115 # =  2281741
+2366555 - 45115 # = 2321440
 nrow(dets_ds_cvpEdited) # 2281741  looks good
+2332364
+
+test <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+
+tail(test)
+tail(dets_ds)
+which(dets_ds$ID %in% test$ID == F)
+
+twhich(dets_ds_cvpEdited %in% CVPU_TO_REMOVE_ds == T)
+
 
 #write to final csvs:
-write(dets_up_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_122419.csv")
-write(dets_ds_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_122419.csv")
+write_csv(dets_up_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_122419.csv")
+write_csv(dets_ds_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_122419.csv")
 
 
 ###NEXT STEP 12/24/19:
