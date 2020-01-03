@@ -18,9 +18,13 @@ library(readxl)
 # and then manually remove those detections (direction for  removing detections can be found here: C:\Users\chause\Documents\GitHub\
 # JSATS_SpringRun_19\script\Removing_dets_to_fit_Model.R ). Release Location csvs were also included in these files 
 
-dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_allgroups_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
-dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/dets_allgroups_16pf_ModelEdited_GG_Ben_Chipps_FINAL.csv")
+#dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+#dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+
+# latest files from 1/3/20
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
 
 # DOUBLE CHECK you have all recievers you want in here:
 length(unique(dets_all$`GPS Names`)) # only 113 compared to the 136 i have in my rec locations csv
@@ -113,23 +117,23 @@ model_recs <- c("CC_intake_J",
                 "SJ_SJG_4_J",  
                 "GG1",
                 "GG1.5",
-                "GG1.7",
+                "GG1.7", # not in 2019 deployment
                 "GG2.1",
-                "GG2.5",
+                "GG2.5", # lost during deployment 
                 "GG3.1",
-                "GG3.5",
+                "GG3.5", # not in 2019 deployment
                 "GG4",
-                "GG4.5",
+                "GG4.5", # not in 2019 deployment
                 "GG5.1",
-                "GG5.5",
+                "GG5.5", # not in 2019 deployment
                 "GG6",
                 "GG6.5",
                 "GG7",
                 "GG7.2",
                 "GG7.5",
-                "GG7.7",
+                "GG7.7", # not in 2019 deployment
                 "GG8",
-                "GG8.4",
+                "GG8.4", # not in 2019 deployment
                 "GG9",
                 "Benicia01",
                 "Benicia02",
@@ -422,9 +426,10 @@ DeltaRel_visits2019_firstlast <- delta_visit %>%
 nrow(DeltaRel_visits2019_firstlast)
 
 # Save:
-write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120819.csv")
-
-write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120819.csv")
+#write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120819.csv")
+write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_010320.csv")
+#write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120819.csv")
+write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320.csv")
 
 # filter to keep first dets
 UpRel_visits2019_first <- upper_visit %>% 
@@ -435,9 +440,10 @@ DeltaRel_visits2019_first <- delta_visit %>%
   filter(counter==1)
 nrow(DeltaRel_visits2019_first)
 
-write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
-
-write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120819.csv")
+#write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320.csv")
+#write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120819.csv")
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320.csv")
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
