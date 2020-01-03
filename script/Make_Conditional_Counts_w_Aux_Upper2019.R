@@ -11,7 +11,8 @@ library(tidyverse)
 # Make Detection Counts ---------------------------------------------------
 
 # Load UPPER RELEASE dataframe with just first visits ---------------------------------------------------------------
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
+#data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320.csv")
 
 # Make a vector of locations that are included in model 
 
@@ -92,7 +93,8 @@ for(i in 1: nrow(receivers)){ # interating through each row in the receivers df 
 }
 totals
 input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxiliary ones for dual arrays are below
-write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_FINAL_120819.csv')
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_FINAL_120819.csv')
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_FINAL_010320.csv')
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
@@ -462,7 +464,9 @@ Aux <- rbind(t(ORHOR_dual),t(MRHWY4_dual), t(CC_dual),t(MAC_dual),t(CVP_dual),
              t(JP_dual), t(Chipps_dual), t(GG_dual), t(Ben_dual))
 # t() function transposes the data, ie. makes the columns the rows 
 
-write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_120819.csv")
+#write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_120819.csv")
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_010320.csv")
+
 
 
 
