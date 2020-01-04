@@ -758,11 +758,163 @@ dets_ds_cvpEdited <- dets_ds %>%
 nrow(CVPU_TO_REMOVE_ds) # 32884 rows
 nrow(dets_ds) # 2366555
 nrow(dets_ds)-nrow(CVPU_TO_REMOVE_ds) #2333671
-nrow(dets_ds_cvpEdited) #  2333671  looks good
+nrow(dets_ds_cvpEdited) # 2333671  looks good
 
 #write to final csvs:
 write_csv(dets_up_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
 write_csv(dets_ds_cvpEdited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
+
+############ Still some issues when I get the new counts:
+# Upstream Rel:
+# 1 FISH FROM orhwy4 to TO cc
+
+#Downstream Rel:
+# 1 fish from orhwy4 to mrhwy4
+# 1 fish from orhwy4 to cvp - should have been fixed last time
+# 3 fish from orhwy4 to CC
+
+dets_up_cvpEdited <-read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
+dets_ds_cvpEdited <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
+
+# Figuring out the upstream Rel:----
+up_orhwy4 <- dets_up_cvpEdited %>% 
+  filter(`GPS Names` == "OR_hwy4_1_J"|             
+           `GPS Names` =="OR_hwy4_2_J"|            
+           `GPS Names` =="OR_hwy4_3_J"|            
+           `GPS Names` =="OR_hwy4_4_J")
+length(unique(up_orhwy4$Hex))
+taglist_up_orhwy4 <-unique(up_orhwy4$Hex) #"BA69" "BA6C" "BA89" "BA99" "BAB8" "BCB2" "BD29" "BD6C" "C512" "C522" "C69A"
+
+
+for (i in taglist_up_orhwy4) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_up_cvpEdited, plot_file_location =  "figure_output/TagPlots_GabesCode/ORhwy4_tags/UpstreamRel/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ORhwy4_UpperRel/")
+}
+
+#the tag that goes from orhwy4 to cc : BCB2
+# BCB2: CCRGU to orhwy4: remove the ccrgu and end at orhwy4
+#^ These detections to remove are save here: C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\ORhwy4_UpperRel\Orhwy4_upperRel_toRemove.csv
+
+# Figuring out Downstream rel:----
+# # 1 fish from orhwy4 to mrhwy4
+# 1 fish from orhwy4 to cvp - should have been fixed last time
+# 3 fish from orhwy4 to CC
+
+DS_orHwy4 <- dets_ds_cvpEdited %>% 
+  filter(`GPS Names` == "OR_hwy4_1_J"|             
+          `GPS Names` =="OR_hwy4_2_J"|            
+         `GPS Names` =="OR_hwy4_3_J"|            
+         `GPS Names` =="OR_hwy4_4_J")
+length(unique(DS_orHwy4$Hex))
+taglist_ds_orhwy4 <-unique(DS_orHwy4$Hex)
+
+for (i in taglist_ds_orhwy4) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_ds_cvpEdited, plot_file_location =  "figure_output/TagPlots_GabesCode/ORhwy4_tags/DurhamRel/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ORhwy4_DurhamRel/")
+}
+
+
+# function to merge all the csvs into one file: 
+batch_read <- function(path, pattern, recursive = FALSE, read_fun, ...) {
+  data.files <- list.files(path, pattern = pattern, recursive = recursive)
+  data <- lapply(paste0(path, data.files), read_fun, ...)
+  data <- do.call("rbind", data)
+  data
+}
+
+ds_orhwy4_MergedData <- batch_read(path = "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ORhwy4_DurhamRel/", 
+           pattern = ".csv", recursive = F, read_fun = read_csv)
+length(unique(ds_orhwy4_MergedData$Hex)) # 29
+
+# Find the tag that has mrhwy4 in it:
+orhwy4_mrhwy4_tag <-ds_orhwy4_MergedData %>% 
+  filter(`GPS Names` ==  "MidR_hwy4_1_J" |
+           `GPS Names` ==  "MidR_hwy4_2_J" |
+           `GPS Names` == "MidR_hwy4_4_J"|
+           `GPS Names` == "MidR_hwy4_3_J")
+unique(orhwy4_mrhwy4_tag$Hex)
+# tag is C976  # removingmrhwy4 and ending at orhwy4 bc this movement happened on an ebb tide                 
+
+# Find the tag that has cvp in it
+orhwy4_cvp_tag <- ds_orhwy4_MergedData %>% 
+  filter (`GPS Names` == "CVPU_J")
+unique(orhwy4_cvp_tag$Hex)
+#tag is CACB # for some reason i didnt take these dets out above but marked it as good, i removed them and put them in the file;
+#C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\CVPUtags_DurhamRel_corrected\Corrected_CVPdsRel_remove.csv
+#^ this file also include all the cvp dets to remove from above, i just had to rename it bc the excel wouldnt let me save it with such a long name
+
+# Find the tag that has cc in it:
+orhwy4_cc_tag <-ds_orhwy4_MergedData %>% 
+         filter(`GPS Names` =="CC_RGD_1_J" |           
+         `GPS Names` =="CC_RGD_2_J" |           
+         `GPS Names` =="CC_RGD_3_J"|           
+         `GPS Names` =="CC_RGD_4_J"|             
+         `GPS Names` =="CC_RGU1_J" |              
+         `GPS Names` =="CC_RGU2_J")
+unique(orhwy4_cc_tag$Hex) 
+# tags are "C596" "CA2D" "CBAC"
+# "C596" : ccrgu to orhwy4, removed ccrgu,end at orhwy4 
+# "CA2D" : ccrgu to orhwy4, removed ccrgu,end at orhwy4 
+# "CBAC" : ccrgu to orhwy4, removed ccrgu,end at orhwy4
+# 
+
+test <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPUtags_DurhamRel_corrected/Corrected_CVPUdurhamRel_dets_to_remove.csv")
+test %>% 
+  filter(`GPS Names`=="CABC")
+
+# The dets to remove for tags C976 (mrhwy4) and "C596" "CA2D" "CBAC" (ccrgu) are located in:
+# C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\ORhwy4_DurhamRel\Orhwy4_toRemove.csv
+
+###START HERE for FINAL edits----
+# FIST, READ IN THE ORIGINAL DATAFRAMES FROM THE CVP EDITS:
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/OLD_files/BeforeCVPU_edits/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
+
+#Take the 2 files that have dets to remove and merge them:
+#Upstream Rel:
+#upstream:
+BAB8_BB26_C2A6_C652_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPUtags_UpperRel/UpRel_Remove_BAB8_BB26_C2A6_C652.csv")
+BCB2_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ORhwy4_UpperRel/Orhwy4_upperRel_toRemove.csv")
+
+up_dets_to_removed_merged <- rbind(BAB8_BB26_C2A6_C652_remove,BCB2_remove ) #8651
+nrow(BAB8_BB26_C2A6_C652_remove) +nrow(BCB2_remove) #865 adds up
+
+#downstream:
+CVPU_TO_REMOVE_ds <-read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/CVPUtags_DurhamRel_corrected/Corrected_CVPdsRel_remove.csv")
+orhwy4_TO_REMOVE_ds <-read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ORhwy4_DurhamRel/Orhwy4_toRemove.csv")
+
+ds_dets_to_remove_merged <- rbind(CVPU_TO_REMOVE_ds, orhwy4_TO_REMOVE_ds)# 34057
+nrow(CVPU_TO_REMOVE_ds) +nrow(orhwy4_TO_REMOVE_ds) #34057
+
+#Now remove dets from respective files:
+# upstream remove detects:
+dets_up_Edited_FINAL <- dets_up %>%
+  anti_join(up_dets_to_removed_merged, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                               "FishID", "Lat", "Lon", "Weight", "Length"))
+
+nrow(up_dets_to_removed_merged) #8651  rows
+nrow(dets_up) # 1268708
+1268708- 8651 # =  1260057
+nrow(dets_up_Edited_FINAL) #  1260057 looks good
+
+
+# DOWNSTREAM remove detects:
+dets_ds_Edited_FINAL <- dets_ds %>%
+  anti_join(ds_dets_to_remove_merged, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                              "FishID", "Lat", "Lon", "Weight", "Length"))
+
+nrow(ds_dets_to_remove_merged) #3407  rows
+nrow(dets_ds) # 2366555
+nrow(dets_ds)-nrow(ds_dets_to_remove_merged) #2332498
+nrow(dets_ds_Edited_FINAL) #  2332498  looks good
+
+
+#write to final csvs:
+write_csv(dets_up_Edited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
+write_csv(dets_ds_Edited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
+
 
 ###NEXT STEP 12/24/19:
 # Put these detection files through the tag plot code again, look at each plot, make sure everything looks good, run code to make the counts again, and then go through process of determining which parametrs to fix
