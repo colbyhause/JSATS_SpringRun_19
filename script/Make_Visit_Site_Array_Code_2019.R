@@ -23,8 +23,8 @@ dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_f
 #dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_120319.csv")
 
 # latest files from 1/3/20
-dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320.csv")
+dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
 
 # DOUBLE CHECK you have all recievers you want in here:
 length(unique(dets_all$`GPS Names`)) # only 113 compared to the 136 i have in my rec locations csv
@@ -427,9 +427,9 @@ nrow(DeltaRel_visits2019_firstlast)
 
 # Save:
 #write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120819.csv")
-write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_010320.csv")
+write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_010320FINAL.csv")
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120819.csv")
-write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320.csv")
+write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320FINAL.csv")
 
 # filter to keep first dets
 UpRel_visits2019_first <- upper_visit %>% 
@@ -441,9 +441,9 @@ DeltaRel_visits2019_first <- delta_visit %>%
 nrow(DeltaRel_visits2019_first)
 
 #write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
-write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320.csv")
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120819.csv")
-write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320.csv")
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
