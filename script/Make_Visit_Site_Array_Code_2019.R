@@ -270,14 +270,14 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('OR_HOR_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1a'
   detection_file[grep('OR_HOR_3_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1b'
   detection_file[grep('OR_HOR_4_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1b'
-  detection_file[grep('OR_hwy4_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # just seeing what detect prob is like here 
-  detection_file[grep('OR_hwy4_3_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # just seeing what detect prob is like here 
-  detection_file[grep('OR_hwy4_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # just seeing what detect prob is like here 
-  detection_file[grep('OR_hwy4_4_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # just seeing what detect prob is like here 
-  detection_file[grep('MidR_hwy4_1', detection_file$`GPS Names`), 'site.code' ] <- 'C1a'
-  detection_file[grep('MidR_hwy4_2', detection_file$`GPS Names`), 'site.code' ] <- 'C1a'
-  detection_file[grep('MidR_hwy4_3', detection_file$`GPS Names`), 'site.code' ] <- 'C1b'
-  detection_file[grep('MidR_hwy4_4', detection_file$`GPS Names`), 'site.code' ] <- 'C1b'
+  detection_file[grep('OR_hwy4_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # pooling ORhwy4 & MRhwy4, this is the first line 
+  detection_file[grep('OR_hwy4_3_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # pooling ORhwy4 & MRhwy4, this is the first line 
+  detection_file[grep('OR_hwy4_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # pooling ORhwy4 & MRhwy4, this is the second line 
+  detection_file[grep('OR_hwy4_4_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # pooling ORhwy4 & MRhwy4, this is the second line 
+  detection_file[grep('MidR_hwy4_1', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # pooling ORhwy4 & MRhwy4, this is the first line 
+  detection_file[grep('MidR_hwy4_2', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # pooling ORhwy4 & MRhwy4, this is the first line 
+  detection_file[grep('MidR_hwy4_3', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # pooling ORhwy4 & MRhwy4, this is the second line 
+  detection_file[grep('MidR_hwy4_4', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # pooling ORhwy4 & MRhwy4, this is the second line 
   detection_file[grep('CVPU_J', detection_file$`GPS Names`), 'site.code' ] <- 'D1a'
   detection_file[grep('CVP_Tank3_J', detection_file$`GPS Names`), 'site.code' ] <- 'D1b'
   detection_file[grep('CC_RGU1_J', detection_file$`GPS Names`), 'site.code' ] <- 'E1a'
