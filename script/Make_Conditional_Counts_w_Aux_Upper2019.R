@@ -15,7 +15,7 @@ library(tidyverse)
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320.csv")
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv")
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is the file that has B2 as a dual array
 
 # Make a vector of locations that are included in model 
 
@@ -145,17 +145,6 @@ ORHOR_enc.hist$B10b <- ifelse(ORHOR_enc.hist$B1a==0 & ORHOR_enc.hist$B1b == 1, 1
 ORHOR_dual <- ORHOR_enc.hist %>% 
   select(B1ab, B1a0, B10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
-
-
-
-
-
-
-
-
-
-
-
 
 #  Make auxiliary likelihoods for dual arrays (ORHWY4) just to get detection prob ------------------------
 
