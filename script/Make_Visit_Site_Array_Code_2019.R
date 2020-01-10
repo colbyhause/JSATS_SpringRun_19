@@ -270,10 +270,10 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('OR_HOR_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1a'
   detection_file[grep('OR_HOR_3_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1b'
   detection_file[grep('OR_HOR_4_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1b'
-  detection_file[grep('OR_hwy4_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2'
-  detection_file[grep('OR_hwy4_3_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2'
-  detection_file[grep('OR_hwy4_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2'
-  detection_file[grep('OR_hwy4_4_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2'
+  detection_file[grep('OR_hwy4_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # just seeing what detect prob is like here 
+  detection_file[grep('OR_hwy4_3_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2a' # just seeing what detect prob is like here 
+  detection_file[grep('OR_hwy4_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # just seeing what detect prob is like here 
+  detection_file[grep('OR_hwy4_4_J', detection_file$`GPS Names`), 'site.code' ] <- 'B2b' # just seeing what detect prob is like here 
   detection_file[grep('MidR_hwy4_1', detection_file$`GPS Names`), 'site.code' ] <- 'C1a'
   detection_file[grep('MidR_hwy4_2', detection_file$`GPS Names`), 'site.code' ] <- 'C1a'
   detection_file[grep('MidR_hwy4_3', detection_file$`GPS Names`), 'site.code' ] <- 'C1b'
@@ -437,6 +437,7 @@ write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge
 write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320FINAL_2.csv")
 
 # filter to keep first dets
+
 UpRel_visits2019_first <- upper_visit %>% 
   filter(counter==1)
 nrow(UpRel_visits2019_first)
@@ -447,11 +448,13 @@ nrow(DeltaRel_visits2019_first)
 
 #write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_120819.csv")
 #write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
-write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv") # this file has 3128 when B2 is a single array
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this file has 5518 rows after making b2 a dual array 
 
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120819.csv")
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv")# this file has 9614 after making B2 a dual array
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
