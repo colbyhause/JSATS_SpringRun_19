@@ -15,6 +15,7 @@ library(tidyverse)
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320.csv")
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv")
 
 # Make a vector of locations that are included in model 
 
@@ -99,6 +100,7 @@ input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxili
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_FINAL_010320.csv')
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010320FINAL.csv')
 write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010320FINAL_2.csv')
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # where B2 is a dual array
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
@@ -132,17 +134,69 @@ for (i in 1:length(ORHOR_locs)) {
 ORHOR_enc.hist[ORHOR_enc.hist==TRUE] <- 1
 ORHOR_enc.hist[ORHOR_enc.hist==FALSE] <- 0
 
-view(ORHOR_enc.hist)
+#view(ORHOR_enc.hist)
 
 ORHOR_enc.hist$B1ab <- ifelse(ORHOR_enc.hist$B1a==1 & ORHOR_enc.hist$B1b == 1, 1, 0) # says if fish was detected (==1) at B1a and if fish was detected at B1b (==1) then B1ab  = 1, if those arguments dont hold true not it equals 0
 ORHOR_enc.hist$B1a0 <- ifelse(ORHOR_enc.hist$B1a==1 & ORHOR_enc.hist$B1b == 0, 1, 0) # says if fish was detected (==1) at B1a and if fish was not detected at B1b (==0) then B1a0 = 1, if those arguments dont hold true then it equals 0
 ORHOR_enc.hist$B10b <- ifelse(ORHOR_enc.hist$B1a==0 & ORHOR_enc.hist$B1b == 1, 1, 0) # says if fish was not detected (==0) at B1a and if fish was detected at B1b (==1) then B10b = 1, if those arguments dont hold true then it equals 0
 
-view(ORHOR_enc.hist)
+#view(ORHOR_enc.hist)
 
 ORHOR_dual <- ORHOR_enc.hist %>% 
   select(B1ab, B1a0, B10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
+
+
+
+
+
+
+
+
+
+
+
+
+#  Make auxiliary likelihoods for dual arrays (ORHWY4) just to get detection prob ------------------------
+
+ORHWY4_dual <- data %>% # pull out only the detection data that is at the dual array
+  filter(site.code %in% c("B2a", "B2b")) %>% 
+  group_by(Hex) %>% 
+  count(site.code)
+
+ORHWY4_ids <- unique(ORHWY4_dual$Hex) # get all the tag ID from the subsetted group
+ORHWY4_locs <- c("B2a", "B2b")
+
+ORHWY4_enc.hist <-  as.data.frame(matrix(rep(NA,(length(ORHWY4_ids)*length(ORHWY4_locs))), # make enc hist matrix like above
+                                        length(ORHWY4_ids), length(ORHWY4_locs))) 
+# name columns and rows
+colnames(ORHWY4_enc.hist) <-  ORHWY4_locs
+rownames(ORHWY4_enc.hist) <-  ORHWY4_ids
+
+## fill in data frame
+for (i in 1:length(ORHWY4_locs)) {
+  subs <- ORHWY4_dual[ORHWY4_dual$site.code == ORHWY4_locs[i],] # first pulls all tag ids that had a detection on the a line, then when loops through again does same for the b line
+  substag <- unique(subs$Hex) # make a vector of all these tags and calls it substag
+  ORHWY4_enc.hist[,i] <- ORHWY4_ids %in% substag # fills in the enc.hist df with a TRUE in the tag row for whatever line it was detected on, and FALSE if not detected on that line 
+}
+
+## convert TRUE to '1' and FALSE to '0'
+ORHWY4_enc.hist[ORHWY4_enc.hist==TRUE] <- 1
+ORHWY4_enc.hist[ORHWY4_enc.hist==FALSE] <- 0
+
+view(ORHWY4_enc.hist)
+
+ORHWY4_enc.hist$B2ab <- ifelse(ORHWY4_enc.hist$B2a==1 & ORHWY4_enc.hist$B2b == 1, 1, 0) # says if fish was detected (==1) at B2a and if fish was detected at B2b (==1) then B2ab  = 1, if those arguments dont hold true not it equals 0
+ORHWY4_enc.hist$B2a0 <- ifelse(ORHWY4_enc.hist$B2a==1 & ORHWY4_enc.hist$B2b == 0, 1, 0) # says if fish was detected (==1) at B2a and if fish was not detected at B2b (==0) then B2a0 = 1, if those arguments dont hold true then it equals 0
+ORHWY4_enc.hist$B10b <- ifelse(ORHWY4_enc.hist$B2a==0 & ORHWY4_enc.hist$B2b == 1, 1, 0) # says if fish was not detected (==0) at B2a and if fish was detected at B2b (==1) then B10b = 1, if those arguments dont hold true then it equals 0
+
+view(ORHWY4_enc.hist)
+
+ORHWY4_dual <- ORHWY4_enc.hist %>% 
+  select(B2ab, B2a0, B10b) %>% 
+  summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
+
+
 
 #  Make auxiliary likelihoods for dual arrays (MR HWy 4) ------------------------
 
@@ -171,13 +225,13 @@ for (i in 1:length(MRHWY4_locs)) {
 MRHWY4_enc.hist[MRHWY4_enc.hist==TRUE] <- 1
 MRHWY4_enc.hist[MRHWY4_enc.hist==FALSE] <- 0
 
-view(MRHWY4_enc.hist)
+#view(MRHWY4_enc.hist)
 
 MRHWY4_enc.hist$C1ab <- ifelse(MRHWY4_enc.hist$C1a==1 & MRHWY4_enc.hist$C1b == 1, 1, 0) # says if fish was detected (==1) at C1a and if fish was detected at C1b (==1) then C1ab  = 1, if those arguments dont hold true not it equals 0
 MRHWY4_enc.hist$C1a0 <- ifelse(MRHWY4_enc.hist$C1a==1 & MRHWY4_enc.hist$C1b == 0, 1, 0) # says if fish was detected (==1) at C1a and if fish was not detected at C1b (==0) then C1a0 = 1, if those arguments dont hold true then it equals 0
 MRHWY4_enc.hist$C10b <- ifelse(MRHWY4_enc.hist$C1a==0 & MRHWY4_enc.hist$C1b == 1, 1, 0) # says if fish was not detected (==0) at C1a and if fish was detected at C1b (==1) then C10b = 1, if those arguments dont hold true then it equals 0
 
-view(MRHWY4_enc.hist)
+#view(MRHWY4_enc.hist)
 
 MRHWY4_dual <- MRHWY4_enc.hist %>% 
   select(C1ab, C1a0, C10b) %>% 
@@ -210,13 +264,13 @@ for (i in 1:length(CVP_locs)) {
 CVP_enc.hist[CVP_enc.hist==TRUE] <- 1
 CVP_enc.hist[CVP_enc.hist==FALSE] <- 0
 
-view(CVP_enc.hist)
+#view(CVP_enc.hist)
 
 CVP_enc.hist$D1ab <- ifelse(CVP_enc.hist$D1a==1 & CVP_enc.hist$D1b == 1, 1, 0) # says if fish was detected (==1) at D1a and if fish was detected at D1b (==1) then D1ab  = 1, if those arguments dont hold true not it equals 0
 CVP_enc.hist$D1a0 <- ifelse(CVP_enc.hist$D1a==1 & CVP_enc.hist$D1b == 0, 1, 0) # says if fish was detected (==1) at D1a and if fish was not detected at D1b (==0) then D1a0 = 1, if those arguments dont hold true then it equals 0
 CVP_enc.hist$D10b <- ifelse(CVP_enc.hist$D1a==0 & CVP_enc.hist$D1b == 1, 1, 0) # says if fish was not detected (==0) at D1a and if fish was detected at D1b (==1) then D10b = 1, if those arguments dont hold true then it equals 0
 
-view(CVP_enc.hist)
+#view(CVP_enc.hist)
 
 CVP_dual <- CVP_enc.hist %>% 
   select(D1ab, D1a0, D10b) %>% 
