@@ -915,14 +915,158 @@ nrow(dets_ds_Edited_FINAL) #  2332498  looks good
 write_csv(dets_up_Edited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
 write_csv(dets_ds_Edited_FINAL, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
 
+################ fucking hell-----
+################  Didn't notice that there were 2 fish that went from Mac to TC- need to edit these histories:
+# 2 fish from the up rel and 2 from the ds rel groups whent from MAC to TC
 
-###NEXT STEP 12/24/19:
-# Put these detection files through the tag plot code again, look at each plot, make sure everything looks good, run code to make the counts again, and then go through process of determining which parametrs to fix
-# check to make sure these are resolved:
-# Downstream detection histories that need to be fixed:
-# B2 to A14: 1
-# C1 (MR hwy4) to D1 (CVP): 1
-# D1 (cvp) to E1 (cc): 3
-# D1 (CVP) to A16 : 2--> double check to see if these tags were taken out before
-# E2 to A14
+# Load current data csv:
+dets_up_final <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
+dets_ds_final <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
 
+#figuring out upstream fish:
+up_tc <- dets_up_final %>% 
+filter(`GPS Names` == "Delt_TC_2_J")
+length(unique(up_tc$Hex))
+taglist_up_tc <-unique(up_tc$Hex) 
+
+
+for (i in taglist_up_tc) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_up_final, plot_file_location =  "figure_output/TagPlots_GabesCode/TC_tags/UpperRel/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/TC_UpperRel/")
+}
+
+up_TC_MergedData <- batch_read(path = "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/TC_UpperRel/", 
+                                   pattern = ".csv", recursive = F, read_fun = read_csv)
+length(unique(up_TC_MergedData$Hex)) #6
+
+# Find the tag that has MAC in it:
+mac_tc_tag <-up_TC_MergedData %>% 
+  filter(`GPS Names` == "SJ_MAC_1_J" |         
+           `GPS Names` ==  "SJ_MAC_2_J"|              
+           `GPS Names` == "SJ_MAC_3_J"|              
+           `GPS Names` == "SJ_MAC_4_J")
+
+unique(mac_tc_tag$Hex)
+# tags are "BD6B" "BDAE"  
+# "BD6B": TC to Mac removing tc and ending at MAC- doing this bc at the time fish was heard at TC the tide was ebbing, so fish could have been pushed back into mainstem
+# "BDAE": TC to mac then out to bridges, going to remove TC, end at GG, additionally the fish was heard on a ebb tide so its very possible it just got pushed back out to the mainstem
+# ^ the dets to remove are saved here:
+# C:\Users\chause\Documents\GitHub\JSATS_SpringRun_19\data_output\Edited_TagDetHistories_forModel\Fies_w_GG_Chipps_data\Tags_w_Dets_to_be_Removed\B1toJP_included_back_in_for_FINAL_Fullmodel\TC_UpperRel\tc_up_remove.csv
+
+# Figuring out tags for downstream fish:
+ds_tc <- dets_ds_final %>% 
+  filter(`GPS Names` == "Delt_TC_2_J")
+length(unique(ds_tc$Hex))
+taglist_ds_tc <-unique(ds_tc$Hex) 
+
+
+for (i in taglist_ds_tc) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_ds_final, plot_file_location =  "figure_output/TagPlots_GabesCode/TC_tags/DurhamRel/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/TC_DurhamRel/")
+}
+
+ds_TC_MergedData <- batch_read(path = "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/TC_DurhamRel/", 
+                               pattern = ".csv", recursive = F, read_fun = read_csv)
+length(unique(ds_TC_MergedData$Hex)) #11
+
+# Find the tag that has mrhwy4 in it:
+mac_tc_tag <-ds_TC_MergedData %>% 
+  filter(`GPS Names` == "SJ_MAC_1_J" |         
+           `GPS Names` ==  "SJ_MAC_2_J"|              
+           `GPS Names` == "SJ_MAC_3_J"|              
+           `GPS Names` == "SJ_MAC_4_J")
+
+unique(mac_tc_tag$Hex) #"BBD5" "C932"
+# "BBD5: tc to MAC: detected as the tiding was shifting from slack to ebb, so could have been pushed out into mainstem- removing tc and ending at MAC
+#"C932": tc to mac : detected during a flood tide, removing Mac dets and endin at TC
+
+# Read in the dets to remove csvs from both groups:
+tc_up_dets_to_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/TC_UpperRel/tc_up_remove.csv")
+tc_ds_dets_to_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/TC_DurhamRel/tc_ds_remove.csv")
+
+# remove from upstream dets:
+dets_up_Edited_FINAL2 <- dets_up_final %>%
+  anti_join(tc_up_dets_to_remove, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                             "FishID", "Lat", "Lon", "Weight", "Length"))
+nrow(tc_up_dets_to_remove) #171  rows
+nrow(dets_up_final) # 1260057
+
+nrow(dets_up_final)-nrow(tc_up_dets_to_remove) # 1259886
+nrow(dets_up_Edited_FINAL2) #  [1] 1259886  looks good
+
+
+#remove from Downstream dets:
+dets_ds_Edited_FINAL2 <- dets_ds_final %>%
+  anti_join(tc_ds_dets_to_remove, by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                         "FishID", "Lat", "Lon", "Weight", "Length"))
+nrow(tc_ds_dets_to_remove) #563  rows
+nrow(dets_ds_final) # [1] 2332498
+nrow(dets_ds_final)-nrow(tc_ds_dets_to_remove) # 2331935
+nrow(dets_ds_Edited_FINAL2) #  [1] 2331935  looks good
+
+#write to final csvs:
+write_csv(dets_up_Edited_FINAL2, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL_2.csv")
+write_csv(dets_ds_Edited_FINAL2, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL_2.csv")
+
+######## 1/8/20 Looking closer at the OR fish---- 
+######## BEFORE the detection history cleaning to see if any fish mae it out of the interior 
+# delta via that route. just want to make sure that no fish actually made it past OR and that something didnt get messed up in my detection history
+# cleaning process
+
+#Upper Rel Fish:
+# read in old csv, this is the inital data that was run only through the 16 rkm filter:
+dets_up <- read_csv("data_output/Predator_Filter/UpperDets_PredFiltered_16.csv")
+dets_ds <- read_csv("data_output/Predator_Filter/DeltaDets_PredFiltered_16.csv")
+
+
+up_orHwy4 <- dets_up %>% 
+  filter(`GPS Names` == "OR_hwy4_1_J"|             
+           `GPS Names` =="OR_hwy4_2_J"|            
+           `GPS Names` =="OR_hwy4_3_J"|            
+           `GPS Names` =="OR_hwy4_4_J")
+length(unique(up_orHwy4$Hex))
+up_or_taglist <- unique(up_orHwy4$Hex)
+
+for (i in up_or_taglist) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_up, plot_file_location =  "figure_output/TagPlots_GabesCode/ORhwy4_tags/UpstreamRel/UneditedData/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/ORhwy4_uneditedData/UpperRel/")
+}
+
+# combine files (run batch read function):
+up_orhwy4_MergedData <- batch_read(path = "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/ORhwy4_uneditedData/UpperRel/", 
+                                   pattern = ".csv", recursive = F, read_fun = read_csv)
+length(unique(up_orhwy4_MergedData$Hex)) 
+
+# See if there are any detections at JP on down to GG:
+x<- up_orhwy4_MergedData %>% 
+  filter(rkm <= 93.744) # says no fish
+
+# look at the same thing but for downstream fish:
+ds_orHwy4 <- dets_ds %>% 
+  filter(`GPS Names` == "OR_hwy4_1_J"|             
+           `GPS Names` =="OR_hwy4_2_J"|            
+           `GPS Names` =="OR_hwy4_3_J"|            
+           `GPS Names` =="OR_hwy4_4_J")
+length(unique(ds_orHwy4$Hex))
+ds_or_taglist <- unique(ds_orHwy4$Hex)
+
+for (i in ds_or_taglist) {
+  print(i)
+  fishcheck_loop(ID = i, Detections = dets_ds, plot_file_location =  "figure_output/TagPlots_GabesCode/ORhwy4_tags/DurhamRel/UneditedData/", 
+                 csv_file_location =  "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/ORhwy4_uneditedData/DurhamRel/")
+}
+
+# combine files (run batch read function):
+ds_orhwy4_MergedData <- batch_read(path = "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/ORhwy4_uneditedData/DurhamRel/", 
+                                   pattern = ".csv", recursive = F, read_fun = read_csv)
+length(unique(ds_orhwy4_MergedData$Hex)) # 34
+
+# See if there are any detections at JP on down to GG:
+y<- ds_orhwy4_MergedData %>% 
+  filter(rkm <= 93.744) # says no fish
+length(unique(y$Hex))# says 3: "CA98" "CB5D" "CBA9" 
+
+# ok: i can now be confident that in the upper rel no fish mae it from OR hwy4 and in the delta rel 3 fish made it from ORhwy4
