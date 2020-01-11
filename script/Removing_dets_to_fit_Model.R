@@ -1070,3 +1070,34 @@ y<- ds_orhwy4_MergedData %>%
 length(unique(y$Hex))# says 3: "CA98" "CB5D" "CBA9" 
 
 # ok: i can now be confident that in the upper rel no fish mae it from OR hwy4 and in the delta rel 3 fish made it from ORhwy4
+
+
+# Delta Rel t Chipps Fish-----
+# This is a suspicous detection history, fish  = BAE5
+
+dets_ds_Edited_FINAL2 <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL_2.csv")
+
+bae5 <- dets_ds_Edited_FINAL2 %>% 
+  filter(Hex == "BAE5") # i just dont think this was a salmon
+
+fishcheck(ID = "BAE5",Detections =dets_ds_Edited_FINAL2, file_location ="figure_output/"  )
+write_csv(tBAE5, "data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ReltoChippsTag_DeltaRel/BAE5.csv")
+
+# Read is the dets to remove file:
+
+BAE5_to_remove <- read_csv("data_output/Edited_TagDetHistories_forModel/Fies_w_GG_Chipps_data/Tags_w_Dets_to_be_Removed/B1toJP_included_back_in_for_FINAL_Fullmodel/ReltoChippsTag_DeltaRel/BAE5ToRemove.csv")
+dets_edited <- dets_ds_Edited_FINAL2 %>%
+  anti_join(BAE5_to_remove,by = c("dtf", "Hex", "GPS Names", "rkm", "Genrkm", "Rel_group", 
+                                       "FishID", "Lat", "Lon", "Weight", "Length"))
+
+nrow(BAE5_to_remove) # 99 rows
+nrow(dets_ds_Edited_FINAL2)# 2331935
+2331935-99
+nrow(dets_edited)#  2331836 rows, adds up
+
+write_csv(dets_edited, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_011020FINAL_2.csv")
+
+# other suspicious tag: went from A10 to B1, didnt get hit by the HOR junc array:
+C953 <- dets_ds_Edited_FINAL2 %>% 
+  filter(Hex == "C953") # going to keep this as a valid tag
+  
