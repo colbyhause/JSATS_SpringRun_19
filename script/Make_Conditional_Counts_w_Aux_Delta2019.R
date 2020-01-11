@@ -14,16 +14,17 @@ library(tidyverse)
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120319.csv")
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320.csv")
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is the file with B2 asa dual array
+#data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")# use this file if you want or and mr hwy4 as seperate routes
+#data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is the file with B2 as a dual array, just used to get detect prob at ORhwy4
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # this is the file whith or and mr hwy4 pooled and cvp as a single array
 
 unique(data$`GPS Names`)
 # Make a vector of locations that are included in model 
 
-locs <- c('REL', 'A8', 'A9', 'A10', 'A11', 'B1', 'B2', 'C1', 'D1', 'E1','E2',
+locs <- c('REL', 'A8', 'A9', 'A10', 'A11', 'B1', 'B2', 'D1', 'E1','E2',
           'A12', 'A13', 'A14', 'A15','F1', 'A16', 'A17', 'A18', 'A19') # A7 is missing because it was originally the DFRelRec which I
 #ended up takingout of the model due to poor detection probability
-length(locs) #20
+length(locs) #20, #19 with no C1
 
 ids<- unique(data$Hex)
 length(ids) #354
@@ -84,7 +85,7 @@ receivers <- cbind(FirstRec, SecondRec)  ###It works!!!!!!
 
 ## Now fill last column based on the enc.hist df
 enc.hist$x <- rep(1, nrow(enc.hist)) # add a row to tally fish detected at a receiver and then never again 
-#write_csv(enc.hist, "data_output/enc.hist_010920.csv") just wanted to see which tags made it to JP
+write_csv(enc.hist, "data_output/enc.hist_delta_011020.csv") #just wanted to see which tags made it to JP
 
 totals <- c() # make empyty totals vector
 for(i in 1: nrow(receivers)){ # interating through each row in the receivers df (df that just has first rec and second rec)
@@ -101,8 +102,9 @@ input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxili
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_FINAL_120319.csv')
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_FINAL_010320.csv')
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010320FINAL.csv')
-write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010320FINAL_2.csv')
-write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # ounts where B2 is a dual array
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010320FINAL_2.csv') # counts for model with Orhwy4 and MR hwy4 as seperate routes and cvp as a dual
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # counts where B2 is a dual array, just ised to get det prob at B2
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011020Final_Hwy4sPooled.csv') # counts where or and MR hwy4 are poooled and cvp is a single array
 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
@@ -149,124 +151,124 @@ ORHOR_dual <- ORHOR_enc.hist %>%
   select(B1ab, B1a0, B10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
-#  Make auxiliary likelihoods for dual arrays (ORHWY4) just to get detection prob ------------------------
+#  Make auxiliary likelihoods for dual arrays (HWY4s4) just to get detection prob ------------------------
 
-ORHWY4_dual <- data %>% # pull out only the detection data that is at the dual array
+HWY4s4_dual <- data %>% # pull out only the detection data that is at the dual array
   filter(site.code %in% c("B2a", "B2b")) %>% 
   group_by(Hex) %>% 
   count(site.code)
 
-ORHWY4_ids <- unique(ORHWY4_dual$Hex) # get all the tag ID from the subsetted group
-ORHWY4_locs <- c("B2a", "B2b")
+HWY4s4_ids <- unique(HWY4s4_dual$Hex) # get all the tag ID from the subsetted group
+HWY4s4_locs <- c("B2a", "B2b")
 
-ORHWY4_enc.hist <-  as.data.frame(matrix(rep(NA,(length(ORHWY4_ids)*length(ORHWY4_locs))), # make enc hist matrix like above
-                                         length(ORHWY4_ids), length(ORHWY4_locs))) 
+HWY4s4_enc.hist <-  as.data.frame(matrix(rep(NA,(length(HWY4s4_ids)*length(HWY4s4_locs))), # make enc hist matrix like above
+                                         length(HWY4s4_ids), length(HWY4s4_locs))) 
 # name columns and rows
-colnames(ORHWY4_enc.hist) <-  ORHWY4_locs
-rownames(ORHWY4_enc.hist) <-  ORHWY4_ids
+colnames(HWY4s4_enc.hist) <-  HWY4s4_locs
+rownames(HWY4s4_enc.hist) <-  HWY4s4_ids
 
 ## fill in data frame
-for (i in 1:length(ORHWY4_locs)) {
-  subs <- ORHWY4_dual[ORHWY4_dual$site.code == ORHWY4_locs[i],] # first pulls all tag ids that had a detection on the a line, then when loops through again does same for the b line
+for (i in 1:length(HWY4s4_locs)) {
+  subs <- HWY4s4_dual[HWY4s4_dual$site.code == HWY4s4_locs[i],] # first pulls all tag ids that had a detection on the a line, then when loops through again does same for the b line
   substag <- unique(subs$Hex) # make a vector of all these tags and calls it substag
-  ORHWY4_enc.hist[,i] <- ORHWY4_ids %in% substag # fills in the enc.hist df with a TRUE in the tag row for whatever line it was detected on, and FALSE if not detected on that line 
+  HWY4s4_enc.hist[,i] <- HWY4s4_ids %in% substag # fills in the enc.hist df with a TRUE in the tag row for whatever line it was detected on, and FALSE if not detected on that line 
 }
 
 ## convert TRUE to '1' and FALSE to '0'
-ORHWY4_enc.hist[ORHWY4_enc.hist==TRUE] <- 1
-ORHWY4_enc.hist[ORHWY4_enc.hist==FALSE] <- 0
+HWY4s4_enc.hist[HWY4s4_enc.hist==TRUE] <- 1
+HWY4s4_enc.hist[HWY4s4_enc.hist==FALSE] <- 0
 
-view(ORHWY4_enc.hist)
+view(HWY4s4_enc.hist)
 
-ORHWY4_enc.hist$B2ab <- ifelse(ORHWY4_enc.hist$B2a==1 & ORHWY4_enc.hist$B2b == 1, 1, 0) # says if fish was detected (==1) at B2a and if fish was detected at B2b (==1) then B2ab  = 1, if those arguments dont hold true not it equals 0
-ORHWY4_enc.hist$B2a0 <- ifelse(ORHWY4_enc.hist$B2a==1 & ORHWY4_enc.hist$B2b == 0, 1, 0) # says if fish was detected (==1) at B2a and if fish was not detected at B2b (==0) then B2a0 = 1, if those arguments dont hold true then it equals 0
-ORHWY4_enc.hist$B10b <- ifelse(ORHWY4_enc.hist$B2a==0 & ORHWY4_enc.hist$B2b == 1, 1, 0) # says if fish was not detected (==0) at B2a and if fish was detected at B2b (==1) then B10b = 1, if those arguments dont hold true then it equals 0
+HWY4s4_enc.hist$B2ab <- ifelse(HWY4s4_enc.hist$B2a==1 & HWY4s4_enc.hist$B2b == 1, 1, 0) # says if fish was detected (==1) at B2a and if fish was detected at B2b (==1) then B2ab  = 1, if those arguments dont hold true not it equals 0
+HWY4s4_enc.hist$B2a0 <- ifelse(HWY4s4_enc.hist$B2a==1 & HWY4s4_enc.hist$B2b == 0, 1, 0) # says if fish was detected (==1) at B2a and if fish was not detected at B2b (==0) then B2a0 = 1, if those arguments dont hold true then it equals 0
+HWY4s4_enc.hist$B10b <- ifelse(HWY4s4_enc.hist$B2a==0 & HWY4s4_enc.hist$B2b == 1, 1, 0) # says if fish was not detected (==0) at B2a and if fish was detected at B2b (==1) then B10b = 1, if those arguments dont hold true then it equals 0
 
-view(ORHWY4_enc.hist)
+view(HWY4s4_enc.hist)
 
-ORHWY4_dual <- ORHWY4_enc.hist %>% 
+HWY4s4_dual <- HWY4s4_enc.hist %>% 
   select(B2ab, B2a0, B10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
-ORHWY4_dual
+HWY4s4_dual
 
 
 
-#  Make auxiliary likelihoods for dual arrays (MR HWy 4) ------------------------
+#  Make auxiliary likelihoods for dual arrays (MR HWy 4) DO NOT NEED THIS ONE ------------------------
 
-MRHWY4_dual <- data %>% # pull out only the detection data that is at the dual array
+#MRHWY4_dual <- data %>% # pull out only the detection data that is at the dual array
   filter(site.code %in% c("C1a", "C1b")) %>% 
   group_by(Hex) %>% 
   count(site.code)
 
-MRHWY4_ids <- unique(MRHWY4_dual$Hex) # get all the tag ID from the sunsetted group
-MRHWY4_locs <- c("C1a", "C1b")
+#MRHWY4_ids <- unique(MRHWY4_dual$Hex) # get all the tag ID from the sunsetted group
+#MRHWY4_locs <- c("C1a", "C1b")
 
-MRHWY4_enc.hist <-  as.data.frame(matrix(rep(NA,(length(MRHWY4_ids)*length(MRHWY4_locs))), # make enc hist matrix like above
+#MRHWY4_enc.hist <-  as.data.frame(matrix(rep(NA,(length(MRHWY4_ids)*length(MRHWY4_locs))), # make enc hist matrix like above
                                          length(MRHWY4_ids), length(MRHWY4_locs))) 
 # name columns and rows
-colnames(MRHWY4_enc.hist) <-  MRHWY4_locs
-rownames(MRHWY4_enc.hist) <-  MRHWY4_ids
+#colnames(MRHWY4_enc.hist) <-  MRHWY4_locs
+#rownames(MRHWY4_enc.hist) <-  MRHWY4_ids
 
 ## fill in data frame
-for (i in 1:length(MRHWY4_locs)) {
+#for (i in 1:length(MRHWY4_locs)) {
   subs <- MRHWY4_dual[MRHWY4_dual$site.code == MRHWY4_locs[i],]
   substag <- unique(subs$Hex)
   MRHWY4_enc.hist[,i] <- MRHWY4_ids %in% substag
 }
 
 ## convert TRUE to '1' and FALSE to '0'
-MRHWY4_enc.hist[MRHWY4_enc.hist==TRUE] <- 1
-MRHWY4_enc.hist[MRHWY4_enc.hist==FALSE] <- 0
+#MRHWY4_enc.hist[MRHWY4_enc.hist==TRUE] <- 1
+#MRHWY4_enc.hist[MRHWY4_enc.hist==FALSE] <- 0
 
-view(MRHWY4_enc.hist)
+#view(MRHWY4_enc.hist)
 
-MRHWY4_enc.hist$C1ab <- ifelse(MRHWY4_enc.hist$C1a==1 & MRHWY4_enc.hist$C1b == 1, 1, 0) # says if fish was detected (==1) at C1a and if fish was detected at C1b (==1) then C1ab  = 1, if those arguments dont hold true not it equals 0
-MRHWY4_enc.hist$C1a0 <- ifelse(MRHWY4_enc.hist$C1a==1 & MRHWY4_enc.hist$C1b == 0, 1, 0) # says if fish was detected (==1) at C1a and if fish was not detected at C1b (==0) then C1a0 = 1, if those arguments dont hold true then it equals 0
-MRHWY4_enc.hist$C10b <- ifelse(MRHWY4_enc.hist$C1a==0 & MRHWY4_enc.hist$C1b == 1, 1, 0) # says if fish was not detected (==0) at C1a and if fish was detected at C1b (==1) then C10b = 1, if those arguments dont hold true then it equals 0
+#MRHWY4_enc.hist$C1ab <- ifelse(MRHWY4_enc.hist$C1a==1 & MRHWY4_enc.hist$C1b == 1, 1, 0) # says if fish was detected (==1) at C1a and if fish was detected at C1b (==1) then C1ab  = 1, if those arguments dont hold true not it equals 0
+#MRHWY4_enc.hist$C1a0 <- ifelse(MRHWY4_enc.hist$C1a==1 & MRHWY4_enc.hist$C1b == 0, 1, 0) # says if fish was detected (==1) at C1a and if fish was not detected at C1b (==0) then C1a0 = 1, if those arguments dont hold true then it equals 0
+#MRHWY4_enc.hist$C10b <- ifelse(MRHWY4_enc.hist$C1a==0 & MRHWY4_enc.hist$C1b == 1, 1, 0) # says if fish was not detected (==0) at C1a and if fish was detected at C1b (==1) then C10b = 1, if those arguments dont hold true then it equals 0
 
-view(MRHWY4_enc.hist)
+#view(MRHWY4_enc.hist)
 
-MRHWY4_dual <- MRHWY4_enc.hist %>% 
+#MRHWY4_dual <- MRHWY4_enc.hist %>% 
   select(C1ab, C1a0, C10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
-#  Make auxiliary likelihoods for dual arrays (CVP) ------------------------
+#  Make auxiliary likelihoods for dual arrays (CVP)DO NOT NEED THIS ONE ------------------------
 
-CVP_dual <- data %>% # pull out only the detection data that is at the dual array
+#CVP_dual <- data %>% # pull out only the detection data that is at the dual array
   filter(site.code %in% c("D1a", "D1b")) %>% 
   group_by(Hex) %>% 
   count(site.code)
 
-CVP_ids <- unique(CVP_dual$Hex) # get all the tag ID from the sunsetted group
-CVP_locs <- c("D1a", "D1b")
+#CVP_ids <- unique(CVP_dual$Hex) # get all the tag ID from the sunsetted group
+#CVP_locs <- c("D1a", "D1b")
 
-CVP_enc.hist <-  as.data.frame(matrix(rep(NA,(length(CVP_ids)*length(CVP_locs))), # make enc hist matrix like above
+#CVP_enc.hist <-  as.data.frame(matrix(rep(NA,(length(CVP_ids)*length(CVP_locs))), # make enc hist matrix like above
                                       length(CVP_ids), length(CVP_locs))) 
 # name columns and rows
-colnames(CVP_enc.hist) <-  CVP_locs
-rownames(CVP_enc.hist) <-  CVP_ids
+#colnames(CVP_enc.hist) <-  CVP_locs
+#rownames(CVP_enc.hist) <-  CVP_ids
 
 ## fill in data frame
-for (i in 1:length(CVP_locs)) {
+#for (i in 1:length(CVP_locs)) {
   subs <- CVP_dual[CVP_dual$site.code == CVP_locs[i],]
   substag <- unique(subs$Hex)
   CVP_enc.hist[,i] <- CVP_ids %in% substag
 }
 
 ## convert TRUE to '1' and FALSE to '0'
-CVP_enc.hist[CVP_enc.hist==TRUE] <- 1
-CVP_enc.hist[CVP_enc.hist==FALSE] <- 0
+#CVP_enc.hist[CVP_enc.hist==TRUE] <- 1
+#CVP_enc.hist[CVP_enc.hist==FALSE] <- 0
 
-view(CVP_enc.hist)
+#view(CVP_enc.hist)
 
-CVP_enc.hist$D1ab <- ifelse(CVP_enc.hist$D1a==1 & CVP_enc.hist$D1b == 1, 1, 0) # says if fish was detected (==1) at D1a and if fish was detected at D1b (==1) then D1ab  = 1, if those arguments dont hold true not it equals 0
-CVP_enc.hist$D1a0 <- ifelse(CVP_enc.hist$D1a==1 & CVP_enc.hist$D1b == 0, 1, 0) # says if fish was detected (==1) at D1a and if fish was not detected at D1b (==0) then D1a0 = 1, if those arguments dont hold true then it equals 0
-CVP_enc.hist$D10b <- ifelse(CVP_enc.hist$D1a==0 & CVP_enc.hist$D1b == 1, 1, 0) # says if fish was not detected (==0) at D1a and if fish was detected at D1b (==1) then D10b = 1, if those arguments dont hold true then it equals 0
+#CVP_enc.hist$D1ab <- ifelse(CVP_enc.hist$D1a==1 & CVP_enc.hist$D1b == 1, 1, 0) # says if fish was detected (==1) at D1a and if fish was detected at D1b (==1) then D1ab  = 1, if those arguments dont hold true not it equals 0
+#CVP_enc.hist$D1a0 <- ifelse(CVP_enc.hist$D1a==1 & CVP_enc.hist$D1b == 0, 1, 0) # says if fish was detected (==1) at D1a and if fish was not detected at D1b (==0) then D1a0 = 1, if those arguments dont hold true then it equals 0
+#CVP_enc.hist$D10b <- ifelse(CVP_enc.hist$D1a==0 & CVP_enc.hist$D1b == 1, 1, 0) # says if fish was not detected (==0) at D1a and if fish was detected at D1b (==1) then D10b = 1, if those arguments dont hold true then it equals 0
 
-view(CVP_enc.hist)
+#view(CVP_enc.hist)
 
-CVP_dual <- CVP_enc.hist %>% 
+#CVP_dual <- CVP_enc.hist %>% 
   select(D1ab, D1a0, D10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
@@ -512,13 +514,14 @@ GG_dual <- GG_enc.hist %>%
 
 ## Bind and write to csv --------------------------------------------------------------------------------------------------
 
-Aux <- rbind(t(ORHOR_dual),t(MRHWY4_dual), t(CC_dual),t(MAC_dual),t(CVP_dual), 
+Aux <- rbind(t(ORHOR_dual),t(HWY4s_dual), t(CC_dual),t(MAC_dual), 
              t(JP_dual), t(Chipps_dual), t(GG_dual), t(Ben_dual))
 # t() function transposes the data, ie. makes the columns the rows 
 
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_120319.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_010320.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL.csv")
-write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL_2.csv")
+#write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL_2.csv") # use this file if you wnat or and mr hwy4 as seperate routes and cvp as a dual array
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # or and mr hwy4 pooled, cvp as single array
 
 
