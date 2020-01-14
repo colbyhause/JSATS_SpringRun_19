@@ -26,7 +26,8 @@ dets_all <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_f
 #dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
 #dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL.csv")
 dets_up <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_up_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL_2.csv")
-dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL_2.csv")
+#dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_010320FINAL_2.csv")
+dets_ds <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/dets_ds_PF16_ModelEdited_relLoc_GG_Ben_chipps_011020FINAL_2.csv") # this file has the Rel-> Chipps det hist removed(BAE5)
 
 # DOUBLE CHECK you have all recievers you want in here:
 length(unique(dets_all$`GPS Names`)) # only 113 compared to the 136 i have in my rec locations csv
@@ -436,7 +437,8 @@ write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120819.csv")
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320FINAL.csv")
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320FINAL_2.csv")
-write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_011020FINAL_Hwy4sPooled.csv")
+#write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_011020FINAL_Hwy4sPooled.csv")
+write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
 
 # filter to keep first dets
 
@@ -459,7 +461,8 @@ write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Dat
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")#This is the file to use if you want Orwhy4 and MR hwy4 as sperate routes and cvp and a dual array. 
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv")# # this is just file that has b2 as a dual array to look at det prob there. this file has 9614 after making B2 a dual array
-write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array
+#write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
