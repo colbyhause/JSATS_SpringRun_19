@@ -20,11 +20,11 @@ data <-  read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_fina
 
 # Make a vector of locations that are included in model 
 
-locs <- c('REL', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A8', 'A9', 'A10', 'A11', 'B1', 'B2', 'D1', 'E1','E2',
+locs <- c('REL', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A8', 'A9', 'A10', 'B1', 'B2', 'D1', 'E1','E2',
           'A12', 'A13', 'A14', 'A15','F1', 'A16', 'A17', 'A18', 'A19') # A7 is missing because it was originally the DFRelRec which I
-#ended up taking out of the model due to poor detection probability, C1 and B2 pooled to just be B2
+#ended up taking out of the model due to poor detection probability, C1 and B2 pooled to just be B2, A11 removed for comparability with the null model
 
-length(locs) #25
+length(locs) #25, # 24 with A11 removed 
 
 ids<- unique(data$Hex)
 length(ids) #347
@@ -103,7 +103,8 @@ input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxili
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010320FINAL.csv')
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010320FINAL_2.csv') # this is the count file to use if you want ORhwy4 and Mrhwy4 as seperate routes and cvp as a dual array
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # where B2 is a dual array, just used to get det prob at B2
-write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv') # where B2 is a dual array, just used to get det prob at B2
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv') # where B2 is a dual array, just used to get det prob at B2
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_UpperRelease_counts_FullModel_AllNOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv') # no site A11
 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
@@ -519,8 +520,8 @@ Aux <- rbind(t(ORHOR_dual),t(HWY4s_dual), t(CC_dual),t(MAC_dual),
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_010320.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL_2.csv")# use this file if you want aux counts from when OR and MR were seperate routes and cvp was a dual array
-write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # this file has OR and Mr hwy4s pooled and cvp as a single array
-
+#write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # this file has OR and Mr hwy4s pooled and cvp as a single array
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # this file has OR and Mr hwy4s pooled and cvp as a single array and No A11 site - should be the same as the one above 
 
 
 
