@@ -53,20 +53,20 @@ model_recs <- c("CC_intake_J",
                 "CVP_Tank3_J",            
                 "CVPU_J",                
                 "Delt_TC_2_J",             
-                "HOR_AM1",                
-                "HOR_AM2",                
-                "HOR_AM3",                 
-                "HOR_AM4",                 
-                "HOR_AM6",                 
-                "HOR_AM7",                
-                "HOR_AM8",                 
-                "HOR_AM9",              
-                "HOR_SM1",                 
-                "HOR_SM2",                
-                "HOR_SM3",                 
-                "HOR_SM4",                 
-                "HOR_SM7",                 
-                "HOR_SM8",                
+                #"HOR_AM1", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_AM2", removed site A11 (Hor_junc recs) for null model               
+                #"HOR_AM3", removed site A11 (Hor_junc recs) for null model               
+                #"HOR_AM4", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_AM6", removed site A11 (Hor_junc recs) for null model                 
+                #"HOR_AM7", removed site A11 (Hor_junc recs) for null model               
+                #"HOR_AM8", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_AM9", removed site A11 (Hor_junc recs) for null model             
+                #"HOR_SM1", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_SM2", removed site A11 (Hor_junc recs) for null model               
+                #"HOR_SM3", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_SM4", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_SM7", removed site A11 (Hor_junc recs) for null model                
+                #"HOR_SM8", removed site A11 (Hor_junc recs) for null model               
                 "MidR_hwy4_1_J",          
                 "MidR_hwy4_2_J",          
                 "MidR_hwy4_3_J",           
@@ -251,20 +251,20 @@ add_array_codes <- function(detection_file) {
   detection_file[grep('SJ_BCA_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A9'
   detection_file[grep('J_Moss_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A10'
   detection_file[grep('J_Moss_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A10'
-  detection_file[grep('HOR_AM1', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM2', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM3', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM4', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM6', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM7', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM8', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_AM9', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_SM1', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_SM2', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_SM3', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_SM4', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_SM7', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
-  detection_file[grep('HOR_SM8', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM1', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM2', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM3', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM4', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM6', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM7', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM8', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_AM9', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_SM1', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_SM2', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_SM3', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_SM4', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_SM7', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
+  #detection_file[grep('HOR_SM8', detection_file$`GPS Names`), 'site.code' ] <- 'A11'
   detection_file[grep('SJ_HOR_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'A12'
   detection_file[grep('SJ_HOR_2_J', detection_file$`GPS Names`), 'site.code' ] <- 'A12'
   detection_file[grep('OR_HOR_1_J', detection_file$`GPS Names`), 'site.code' ] <- 'B1a'
@@ -432,13 +432,15 @@ nrow(DeltaRel_visits2019_firstlast)
 #write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_120819.csv")
 #write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_010320FINAL.csv")
 #write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_010320FINAL_2.csv")
-write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_011020FINAL_HWy4sPooled.csv")
+#write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_firstlast_All_NOAAdata_011020FINAL_HWy4sPooled.csv")
+write_csv(UpRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/A11_site_removed/UpRel_visits2019_firstlast_All_NOAAdata_012820FINAL_HWy4sPooled_NoA11.csv") # A11 site removed 
 
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_120819.csv")
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320FINAL.csv")
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_010320FINAL_2.csv")
 #write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_011020FINAL_Hwy4sPooled.csv")
-write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
+#write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_firstlast_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
+write_csv(DeltaRel_visits2019_firstlast, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/A11_site_removed/DeltaRel_visits2019_firstlast_All_NOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # A11 site removed 
 
 # filter to keep first dets
 
@@ -454,7 +456,8 @@ nrow(DeltaRel_visits2019_first)
 #write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 #write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv") #This is the file to use if you want Orwhy4 and MR hwy4 as sperate routes and cvp and a dual array. this file has 3128 when B2 is a single array
 #write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is just file that has b2 as a dual array to look at det prob there ( has 5518 rows after making b2 a dual array )
-write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array
+#write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array
+write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/A11_site_removed/UpRel_visits2019_first_All_NOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array and NO A11 site
 
 
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_120819.csv")
@@ -462,7 +465,8 @@ write_csv(UpRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Dat
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")#This is the file to use if you want Orwhy4 and MR hwy4 as sperate routes and cvp and a dual array. 
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv")# # this is just file that has b2 as a dual array to look at det prob there. this file has 9614 after making B2 a dual array
 #write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array
-write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
+#write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
+write_csv(DeltaRel_visits2019_first, "data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/A11_site_removed/DeltaRel_visits2019_first_All_NOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # This is the file to use if you want orhwy4 and mrhwy4 as a pooled route and cvp as a single array, BAE5 removed,  and NO A11 site
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
