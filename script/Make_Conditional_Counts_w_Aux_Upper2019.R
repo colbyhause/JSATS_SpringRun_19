@@ -16,7 +16,9 @@ library(tidyverse)
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")# this is the file to use if you want orwy4 and mrhwy4 as se[erate routes and cvp as a dual array]
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is the file that has B2 as a dual array, only used to check the detection probility at this site 
-data <-  read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # this is the upper rel  file that has the hyw4s pooled as cvp and as a single array
+data <-  read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/UpRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # this is the upper rel  file that has the hyw4s pooled as cvp and as a single array USE THIS ONE
+# To test to see if the old site array code file makes same counts as new site array code file,(it does)... 
+#data <-  read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/A11_site_removed/UpRel_visits2019_first_All_NOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv")
 
 # Make a vector of locations that are included in model 
 
@@ -105,6 +107,7 @@ input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxili
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # where B2 is a dual array, just used to get det prob at B2
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_UpperRelease_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv') # where B2 is a dual array, just used to get det prob at B2
 write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_UpperRelease_counts_FullModel_AllNOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv') # no site A11
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_UpperRelease_counts_TEST.csv') # no site A11
 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
@@ -522,6 +525,7 @@ Aux <- rbind(t(ORHOR_dual),t(HWY4s_dual), t(CC_dual),t(MAC_dual),
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL_2.csv")# use this file if you want aux counts from when OR and MR were seperate routes and cvp was a dual array
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # this file has OR and Mr hwy4s pooled and cvp as a single array
 write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_UpperRel_Cond_Aux_counts_FullModel_AllNOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # this file has OR and Mr hwy4s pooled and cvp as a single array and No A11 site - should be the same as the one above 
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_UpperRel_Cond_Aux_counts_TEST.csv") # this file has OR and Mr hwy4s pooled and cvp as a single array and No A11 site - should be the same as the one above 
 
 
 

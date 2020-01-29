@@ -17,7 +17,9 @@ library(tidyverse)
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")# use this file if you want or and mr hwy4 as seperate routes
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is the file with B2 as a dual array, just used to get detect prob at ORhwy4
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # this is the file whith or and mr hwy4 pooled and cvp as a single array
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed USE THIS ONE
+# To test to see if the old site array code file makes same counts as new site array code file,(it does)...
+#data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/A11_site_removed/DeltaRel_visits2019_first_All_NOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # BAE5 removed 
 
 unique(data$`GPS Names`)
 # Make a vector of locations that are included in model 
@@ -25,7 +27,7 @@ unique(data$`GPS Names`)
 locs <- c('REL', 'A8', 'A9', 'A10', 'B1', 'B2', 'D1', 'E1','E2',
           'A12', 'A13', 'A14', 'A15','F1', 'A16', 'A17', 'A18', 'A19') # A7 is missing because it was originally the DFRelRec which I
 #ended up takingout of the model due to poor detection probability, # A11 removed for comparability with null model 
-length(locs) #20, #19 with no C1
+length(locs) #20, #19 with no C1, # 18 with no A11
 
 ids<- unique(data$Hex)
 length(ids) #354
@@ -106,7 +108,9 @@ input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxili
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010320FINAL_2.csv') # counts for model with Orhwy4 and MR hwy4 as seperate routes and cvp as a dual
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # counts where B2 is a dual array, just ised to get det prob at B2
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011020Final_Hwy4sPooled.csv') # counts where or and MR hwy4 are poooled and cvp is a single array
-write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011320Final_Hwy4sPooled.csv') # counts for file where BAE% removed 
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011320Final_Hwy4sPooled.csv') # counts for file where BAE% removed 
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_DeltaRelease_counts_FullModel_AllNOAAdata_012820Final_Hwy4sPooled_NoA11.csv') # counts with A11 removed 
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_DeltaRelease_counts_TEST.csv') # counts with A11 removed 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
@@ -524,5 +528,7 @@ Aux <- rbind(t(ORHOR_dual),t(HWY4s_dual), t(CC_dual),t(MAC_dual),
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL_2.csv") # use this file if you wnat or and mr hwy4 as seperate routes and cvp as a dual array
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # or and mr hwy4 pooled, cvp as single array
-write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011320FINAL_Hwy4sPooled.csv") # file with BAE5 det histories removed 
+#write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011320FINAL_Hwy4sPooled.csv") # file with BAE5 det histories removed 
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_012820FINAL_Hwy4sPooled_NoA11.csv") # should be the same as the file above, A11 removed but it wouldnt effect this 
+#write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/A11_Removed/2019_DeltaRel_Cond_Aux_counts_TEST.csv") # should be the same as the file above, A11 removed but it wouldnt effect this 
 
