@@ -16,14 +16,15 @@ library(tidyverse)
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL.csv")
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010320FINAL_2.csv")# use this file if you want or and mr hwy4 as seperate routes
 #data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_010920FINAL_2.csv") # this is the file with B2 as a dual array, just used to get detect prob at ORhwy4
-data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # this is the file whith or and mr hwy4 pooled and cvp as a single array
+#data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011020FINAL_Hwy4sPooled.csv") # this is the file whith or and mr hwy4 pooled and cvp as a single array
+data <- read_csv("data_output/DetectionFiles/Files_w_Bridge_Data/FULLmodel_final/Full_Model_Edited/DeltaRel_visits2019_first_All_NOAAdata_011320FINAL_Hwy4sPooled.csv") # BAE5 removed 
 
 unique(data$`GPS Names`)
 # Make a vector of locations that are included in model 
 
-locs <- c('REL', 'A8', 'A9', 'A10', 'A11', 'B1', 'B2', 'D1', 'E1','E2',
+locs <- c('REL', 'A8', 'A9', 'A10', 'B1', 'B2', 'D1', 'E1','E2',
           'A12', 'A13', 'A14', 'A15','F1', 'A16', 'A17', 'A18', 'A19') # A7 is missing because it was originally the DFRelRec which I
-#ended up takingout of the model due to poor detection probability
+#ended up takingout of the model due to poor detection probability, # A11 removed for comparability with null model 
 length(locs) #20, #19 with no C1
 
 ids<- unique(data$Hex)
@@ -85,7 +86,7 @@ receivers <- cbind(FirstRec, SecondRec)  ###It works!!!!!!
 
 ## Now fill last column based on the enc.hist df
 enc.hist$x <- rep(1, nrow(enc.hist)) # add a row to tally fish detected at a receiver and then never again 
-write_csv(enc.hist, "data_output/enc.hist_delta_011020.csv") #just wanted to see which tags made it to JP
+#write_csv(enc.hist, "data_output/enc.hist_delta_011020.csv") #just wanted to see which tags made it to JP
 
 totals <- c() # make empyty totals vector
 for(i in 1: nrow(receivers)){ # interating through each row in the receivers df (df that just has first rec and second rec)
@@ -104,8 +105,8 @@ input <- data.frame(cbind(receivers, totals)) # Conditional likelihoods,  auxili
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010320FINAL.csv')
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010320FINAL_2.csv') # counts for model with Orhwy4 and MR hwy4 as seperate routes and cvp as a dual
 #write.csv(input, 'data_output/User_Model_Input/2019_FullModel/2019_DeltaRelease_counts_FullModel_AllNOAAdata_010920FINAL_2.csv') # counts where B2 is a dual array, just ised to get det prob at B2
-write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011020Final_Hwy4sPooled.csv') # counts where or and MR hwy4 are poooled and cvp is a single array
-
+#write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011020Final_Hwy4sPooled.csv') # counts where or and MR hwy4 are poooled and cvp is a single array
+write.csv(input, 'data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRelease_counts_FullModel_AllNOAAdata_011320Final_Hwy4sPooled.csv') # counts for file where BAE% removed 
 
 # ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  ------------- ><)))))*>  
 
@@ -151,46 +152,46 @@ ORHOR_dual <- ORHOR_enc.hist %>%
   select(B1ab, B1a0, B10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
-#  Make auxiliary likelihoods for dual arrays (HWY4s4) just to get detection prob ------------------------
+#  Make auxiliary likelihoods for dual arrays (HWY4s) just to get detection prob ------------------------
 
-HWY4s4_dual <- data %>% # pull out only the detection data that is at the dual array
+HWY4s_dual <- data %>% # pull out only the detection data that is at the dual array
   filter(site.code %in% c("B2a", "B2b")) %>% 
   group_by(Hex) %>% 
   count(site.code)
 
-HWY4s4_ids <- unique(HWY4s4_dual$Hex) # get all the tag ID from the subsetted group
-HWY4s4_locs <- c("B2a", "B2b")
+HWY4s_ids <- unique(HWY4s_dual$Hex) # get all the tag ID from the subsetted group
+HWY4s_locs <- c("B2a", "B2b")
 
-HWY4s4_enc.hist <-  as.data.frame(matrix(rep(NA,(length(HWY4s4_ids)*length(HWY4s4_locs))), # make enc hist matrix like above
-                                         length(HWY4s4_ids), length(HWY4s4_locs))) 
+HWY4s_enc.hist <-  as.data.frame(matrix(rep(NA,(length(HWY4s_ids)*length(HWY4s_locs))), # make enc hist matrix like above
+                                         length(HWY4s_ids), length(HWY4s_locs))) 
 # name columns and rows
-colnames(HWY4s4_enc.hist) <-  HWY4s4_locs
-rownames(HWY4s4_enc.hist) <-  HWY4s4_ids
+colnames(HWY4s_enc.hist) <-  HWY4s_locs
+rownames(HWY4s_enc.hist) <-  HWY4s_ids
 
 ## fill in data frame
-for (i in 1:length(HWY4s4_locs)) {
-  subs <- HWY4s4_dual[HWY4s4_dual$site.code == HWY4s4_locs[i],] # first pulls all tag ids that had a detection on the a line, then when loops through again does same for the b line
+for (i in 1:length(HWY4s_locs)) {
+  subs <- HWY4s_dual[HWY4s_dual$site.code == HWY4s_locs[i],] # first pulls all tag ids that had a detection on the a line, then when loops through again does same for the b line
   substag <- unique(subs$Hex) # make a vector of all these tags and calls it substag
-  HWY4s4_enc.hist[,i] <- HWY4s4_ids %in% substag # fills in the enc.hist df with a TRUE in the tag row for whatever line it was detected on, and FALSE if not detected on that line 
+  HWY4s_enc.hist[,i] <- HWY4s_ids %in% substag # fills in the enc.hist df with a TRUE in the tag row for whatever line it was detected on, and FALSE if not detected on that line 
 }
 
 ## convert TRUE to '1' and FALSE to '0'
-HWY4s4_enc.hist[HWY4s4_enc.hist==TRUE] <- 1
-HWY4s4_enc.hist[HWY4s4_enc.hist==FALSE] <- 0
+HWY4s_enc.hist[HWY4s_enc.hist==TRUE] <- 1
+HWY4s_enc.hist[HWY4s_enc.hist==FALSE] <- 0
 
-view(HWY4s4_enc.hist)
+view(HWY4s_enc.hist)
 
-HWY4s4_enc.hist$B2ab <- ifelse(HWY4s4_enc.hist$B2a==1 & HWY4s4_enc.hist$B2b == 1, 1, 0) # says if fish was detected (==1) at B2a and if fish was detected at B2b (==1) then B2ab  = 1, if those arguments dont hold true not it equals 0
-HWY4s4_enc.hist$B2a0 <- ifelse(HWY4s4_enc.hist$B2a==1 & HWY4s4_enc.hist$B2b == 0, 1, 0) # says if fish was detected (==1) at B2a and if fish was not detected at B2b (==0) then B2a0 = 1, if those arguments dont hold true then it equals 0
-HWY4s4_enc.hist$B10b <- ifelse(HWY4s4_enc.hist$B2a==0 & HWY4s4_enc.hist$B2b == 1, 1, 0) # says if fish was not detected (==0) at B2a and if fish was detected at B2b (==1) then B10b = 1, if those arguments dont hold true then it equals 0
+HWY4s_enc.hist$B2ab <- ifelse(HWY4s_enc.hist$B2a==1 & HWY4s_enc.hist$B2b == 1, 1, 0) # says if fish was detected (==1) at B2a and if fish was detected at B2b (==1) then B2ab  = 1, if those arguments dont hold true not it equals 0
+HWY4s_enc.hist$B2a0 <- ifelse(HWY4s_enc.hist$B2a==1 & HWY4s_enc.hist$B2b == 0, 1, 0) # says if fish was detected (==1) at B2a and if fish was not detected at B2b (==0) then B2a0 = 1, if those arguments dont hold true then it equals 0
+HWY4s_enc.hist$B10b <- ifelse(HWY4s_enc.hist$B2a==0 & HWY4s_enc.hist$B2b == 1, 1, 0) # says if fish was not detected (==0) at B2a and if fish was detected at B2b (==1) then B10b = 1, if those arguments dont hold true then it equals 0
 
-view(HWY4s4_enc.hist)
+view(HWY4s_enc.hist)
 
-HWY4s4_dual <- HWY4s4_enc.hist %>% 
+HWY4s_dual <- HWY4s_enc.hist %>% 
   select(B2ab, B2a0, B10b) %>% 
   summarise_all(funs(sum)) # the funs function says to apply the sum function to all of the columns (i think..)
 
-HWY4s4_dual
+HWY4s_dual
 
 
 
@@ -522,6 +523,6 @@ Aux <- rbind(t(ORHOR_dual),t(HWY4s_dual), t(CC_dual),t(MAC_dual),
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_FINAL_010320.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL.csv")
 #write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_010320FINAL_2.csv") # use this file if you wnat or and mr hwy4 as seperate routes and cvp as a dual array
-write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # or and mr hwy4 pooled, cvp as single array
-
+#write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011020FINAL_Hwy4sPooled.csv") # or and mr hwy4 pooled, cvp as single array
+write.csv(Aux, "data_output/User_Model_Input/2019_FullModel/HWY4sPooled/2019_DeltaRel_Cond_Aux_counts_FullModel_AllNOAAdata_011320FINAL_Hwy4sPooled.csv") # file with BAE5 det histories removed 
 
