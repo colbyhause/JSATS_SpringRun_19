@@ -1,0 +1,881 @@
+parameters
+sA1, sA2, sA3, sA4, sA5, sA6, sA8, sA9, sA11, sA12, sA13, sA14, sA15, sA16, sA17, sA18, sA19, phiB1B2, phiB1C1, phiB1D1, phiB1E1, psiA1, psiA2, sE1, sE2, sF1, pA1, pA2, pA3, pA4, pA6, pA8, pA9, pA10, pA12, pA15b, pA16a, pA16b, pA17b, pA19a, pA19b, pB1a, pB1b, pC1a, pC1b, pD1, pE1a, pE1b, pE2, pF1;
+
+variables
+psiB = 1-psiA1,
+psiF = 1-psiA2,
+qA1 = 1-pA1,
+qA2 = 1-pA2,
+qA3 = 1-pA3,
+qA4 = 1-pA4,
+qA5 = 1-pA5,
+qA6 = 1-pA6,
+qA8 = 1-pA8,
+qA9 = 1-pA9,
+qA10 = 1-pA10,
+qA11 = 1-pA11,
+qA12 = 1-pA12,
+qA13 = 1-pA13,
+qA14 = 1-pA14,
+qA15a = 1-pA15a,
+qA15b = 1-pA15b,
+qA15 = qA15a*qA15b,
+pA15 = 1-qA15,
+qA16a = 1-pA16a,
+qA16b = 1-pA16b,
+qA16 = qA16a*qA16b,
+pA16 = 1-qA16,
+qA17a = 1-pA17a,
+qA17b = 1-pA17b,
+qA17 = qA17a*qA17b,
+pA17 = 1-qA17,
+qA18 = 1-pA18,
+qA19a = 1-pA19a,
+qA19b = 1-pA19b,
+qA19 = qA19a*qA19b,
+pA19 = 1-qA19,
+qE1a = 1-pE1a,
+qE1b = 1-pE1b,
+qE1 = qE1a*qE1b,
+pE1 = 1-qE1,
+qE2 = 1-pE2,
+qD1 = 1-pD1,
+qB1a = 1-pB1a,
+qB1b = 1-pB1b,
+qB1 = qB1a*qB1b,
+pB1 = 1-qB1,
+qB2 = 1-pB2,
+qC1a = 1-pC1a,
+qC1b = 1-pC1b,
+qC1 = qC1a*qC1b,
+pC1 = 1-qC1,
+qF1 = 1-pF1,
+xA19 = 1,
+xA18 = 1-sA19 + sA19*qA19*xA19,
+xA17 = 1-sA18 + sA18*qA18*xA18,
+xA16 = 1-sA17 + sA17*qA17*xA17,
+xA15 = 1-sA16 + sA16*qA16*xA16,
+xA14 = 1 - sA15 + sA15*(psiA2*qA15*xA15 + psiF*qF1*xF1),
+xA13 = 1- sA14 + sA14*qA14*xA14,
+xA12 = 1-sA13 + sA13*qA13*xA13,
+xB2 = 1-sB1 + sB1*qA16*xA16,
+xC1 = 1- sC1 + sC1*qA16*xA16,
+xD1 = 1- sD1 + sD1*qA17*xA17,
+xE1 = 1-sE1 + sE1*qE2*xE2,
+xE2 = 1-sE2 + sE2*qA17*xA17,
+xB1 = 1-phiB1B2 + phiB1B2*qB2*xB2 - phiB1C1 + phiB1C1*qC1*xC1 - phiB1D1 + phiB1D1*qD1*xD1 - phiB1E1 + phiB1E1*qE1*xE1,
+xF1 = 1- sF1 + sF1*qA16*xA16,
+xA11 = 1-sA12 + sA12*(psiA1*qA12*xA12 + psiB*qB1*xB1),
+xA10 = 1-sA11 +sA11*qA11*xA11,
+xA9 = 1-sA10 +sA10*qA10*xA10,
+xA8 = 1-sA9 +sA9*qA9*xA9,
+xA6 = 1-sA8 +sA8*qA8*xA8,
+xA5 = 1-sA6 +sA6*qA6*xA6,
+xA4 = 1-sA5 +sA5*qA5*xA5,
+xA3 = 1-sA4 + sA4*qA4*xA4,
+xA2 = 1-sA3 + sA3*qA3*xA3,
+xA1 = 1-sA2 + sA2*qA2*xA2,
+x0 = 1-sA1 + sA1*qA1*xA1,
+gamma_B1A16 = phiB1C1*qC1*sC1 + phiB1B2*qB2*sB1,
+gamma_B1A17 = phiB1C1*qC1*sC1*qA16*sA17 +phiB1B2*qB2*sB1*qA16*sA17 + phiB1D1*qD1*sD1+ phiB1E1*qE1*sE1*qE2*sE2,
+gamma_A14A16 = sA15*(psiA2*qA15*sA16 + psiF*qF1*sF1),
+gamma_A11A16 = sA12*(psiA1*qA12*sA13*qA13*sA14*qA14*gamma_A14A16 + psiB*qB1*gamma_B1A16),
+gamma_A11A17 = sA12*(psiA1*qA12*sA13*qA13*sA14*qA14*gamma_A14A16*qA16*sA17 + psiB*qB1*gamma_B1A17),
+pA14 = 1,
+pA11 = 1,
+pA17a = 1,
+sB1 = 1,
+pA13 = 1,
+pA15a = 1,
+sD1 = 0,
+pA5 = 1,
+sC1 = 0,
+sA10 = 1,
+pB2 = 1,
+pA18 = 1;
+
+likelihood "Release"
+R A1, sA1*pA1,
+R A2, sA1*qA1*sA2*pA2,
+R A3, sA1*qA1*sA2*qA2*sA3*pA3,
+R A4, sA1*qA1*sA2*qA2*sA3*qA3*sA4*pA4,
+R A5, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*pA5,
+R A6, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*pA6,
+R A8, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*pA8,
+R A9, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*pA9,
+R A10, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*pA10,
+R A11, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+R A12, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+R A13, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+R A14, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+R A15, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+R A16, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+R A17, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+R A18, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+R A19, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+R B1, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+R B2, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+R C1, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+R D1, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+R E1, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+R E2, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+R F1, sA1*qA1*sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+R x, x0;
+
+likelihood "A1"
+A1 A2, sA2*pA2,
+A1 A3, sA2*qA2*sA3*pA3,
+A1 A4, sA2*qA2*sA3*qA3*sA4*pA4,
+A1 A5, sA2*qA2*sA3*qA3*sA4*qA4*sA5*pA5,
+A1 A6, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*pA6,
+A1 A8, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*pA8,
+A1 A9, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*pA9,
+A1 A10, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*pA10,
+A1 A11, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A1 A12, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A1 A13, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A1 A14, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A1 A15, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A1 A16, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A1 A17, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A1 A18, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A1 A19, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A1 B1, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A1 B2, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A1 C1, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A1 D1, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A1 E1, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A1 E2, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A1 F1, sA2*qA2*sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A1 x, xA1;
+
+likelihood "A2"
+A2 A3, sA3*pA3,
+A2 A4, sA3*qA3*sA4*pA4,
+A2 A5, sA3*qA3*sA4*qA4*sA5*pA5,
+A2 A6, sA3*qA3*sA4*qA4*sA5*qA5*sA6*pA6,
+A2 A8, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*pA8,
+A2 A9, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*pA9,
+A2 A10, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*pA10,
+A2 A11, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A2 A12, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A2 A13, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A2 A14, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A2 A15, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A2 A16, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A2 A17, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A2 A18, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A2 A19, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A2 B1, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A2 B2, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A2 C1, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A2 D1, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A2 E1, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A2 E2, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A2 F1, sA3*qA3*sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A2 x, xA2;
+
+likelihood "A3"
+A3 A4, sA4*pA4,
+A3 A5, sA4*qA4*sA5*pA5,
+A3 A6, sA4*qA4*sA5*qA5*sA6*pA6,
+A3 A8, sA4*qA4*sA5*qA5*sA6*qA6*sA8*pA8,
+A3 A9, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*pA9,
+A3 A10, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*pA10,
+A3 A11, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A3 A12, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A3 A13, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A3 A14, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A3 A15, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A3 A16, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A3 A17, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A3 A18, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A3 A19, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A3 B1, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A3 B2, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A3 C1, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A3 D1, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A3 E1, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A3 E2, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A3 F1, sA4*qA4*sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A3 x, xA3;
+
+likelihood "A4"
+A4 A5, sA5*pA5,
+A4 A6, sA5*qA5*sA6*pA6,
+A4 A8, sA5*qA5*sA6*qA6*sA8*pA8,
+A4 A9, sA5*qA5*sA6*qA6*sA8*qA8*sA9*pA9,
+A4 A10, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*pA10,
+A4 A11, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A4 A12, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A4 A13, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A4 A14, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A4 A15, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A4 A16, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A4 A17, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A4 A18, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A4 A19, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A4 B1, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A4 B2, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A4 C1, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A4 D1, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A4 E1, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A4 E2, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A4 F1, sA5*qA5*sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A4 x, xA4;
+
+likelihood "A5"
+A5 A6, sA6*pA6,
+A5 A8, sA6*qA6*sA8*pA8,
+A5 A9, sA6*qA6*sA8*qA8*sA9*pA9,
+A5 A10, sA6*qA6*sA8*qA8*sA9*qA9*sA10*pA10,
+A5 A11, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A5 A12, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A5 A13, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A5 A14, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A5 A15, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A5 A16, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A5 A17, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A5 A18, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A5 A19, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A5 B1, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A5 B2, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A5 C1, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A5 D1, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A5 E1, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A5 E2, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A5 F1, sA6*qA6*sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A5 x, xA5;
+
+likelihood "A6"
+A6 A8, sA8*pA8,
+A6 A9, sA8*qA8*sA9*pA9,
+A6 A10, sA8*qA8*sA9*qA9*sA10*pA10,
+A6 A11, sA8*qA8*sA9*qA9*sA10*qA10*sA11*pA11,
+A6 A12, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A6 A13, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A6 A14, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A6 A15, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A6 A16, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A6 A17, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A6 A18, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A6 A19, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A6 B1, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A6 B2, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A6 C1, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A6 D1, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A6 E1, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A6 E2, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A6 F1, sA8*qA8*sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A6 x, xA6;
+
+likelihood "A8"
+A8 A9, sA9*pA9,
+A8 A10, sA9*qA9*sA10*pA10,
+A8 A11, sA9*qA9*sA10*qA10*sA11*pA11,
+A8 A12, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A8 A13, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A8 A14, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A8 A15, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A8 A16, sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A8 A17, sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A8 A18, sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A8 A19, sA9*qA9*sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A8 B1, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A8 B2, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A8 C1, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A8 D1, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A8 E1, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A8 E2, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A8 F1, sA9*qA9*sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A8 x, xA8;
+
+likelihood "A9"
+A9 A10, sA10*pA10,
+A9 A11, sA10*qA10*sA11*pA11,
+A9 A12, sA10*qA10*sA11*qA11*sA12*psiA1*pA12,
+A9 A13, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A9 A14, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A9 A15, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A9 A16, sA10*qA10*sA11*qA11*gamma_A11A16*pA16,
+A9 A17, sA10*qA10*sA11*qA11*gamma_A11A17*pA17,
+A9 A18, sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A9 A19, sA10*qA10*sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A9 B1, sA10*qA10*sA11*qA11*sA12*psiB*pB1,
+A9 B2, sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A9 C1, sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A9 D1, sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A9 E1, sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A9 E2, sA10*qA10*sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A9 F1, sA10*qA10*sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A9 x, xA9;
+
+likelihood "A10"
+A10 A11, sA11*pA11,
+A10 A12, sA11*qA11*sA12*psiA1*pA12,
+A10 A13, sA11*qA11*sA12*psiA1*qA12*sA13*pA13,
+A10 A14, sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A10 A15, sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A10 A16, sA11*qA11*gamma_A11A16*pA16,
+A10 A17, sA11*qA11*gamma_A11A17*pA17,
+A10 A18, sA11*qA11*gamma_A11A17*qA17*sA18*pA18,
+A10 A19, sA11*qA11*gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A10 B1, sA11*qA11*sA12*psiB*pB1,
+A10 B2, sA11*qA11*sA12*psiB*qB1*phiB1B2*pB2,
+A10 C1, sA11*qA11*sA12*psiB*qB1*phiB1C1*pC1,
+A10 D1, sA11*qA11*sA12*psiB*qB1*phiB1D1*pD1,
+A10 E1, sA11*qA11*sA12*psiB*qB1*phiB1E1*pE1,
+A10 E2, sA11*qA11*sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A10 F1, sA11*qA11*sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A10 x, xA10;
+
+likelihood "A11"
+A11 A12, sA12*psiA1*pA12,
+A11 A13, sA12*psiA1*qA12*sA13*pA13,
+A11 A14, sA12*psiA1*qA12*sA13*qA13*sA14*pA14,
+A11 A15, sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A11 A16, gamma_A11A16*pA16,
+A11 A17, gamma_A11A17*pA17,
+A11 A18, gamma_A11A17*qA17*sA18*pA18,
+A11 A19, gamma_A11A17*qA17*sA18*qA18*sA19*pA19,
+A11 B1, sA12*psiB*pB1,
+A11 B2, sA12*psiB*qB1*phiB1B2*pB2,
+A11 C1, sA12*psiB*qB1*phiB1C1*pC1,
+A11 D1, sA12*psiB*qB1*phiB1D1*pD1,
+A11 E1, sA12*psiB*qB1*phiB1E1*pE1,
+A11 E2, sA12*psiB*qB1*phiB1E1*qE1*sE1*pE2,
+A11 F1, sA12*psiA1*qA12*sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A11 x, xA11;
+
+likelihood "A12"
+A12 A13, sA13*pA13,
+A12 A14, sA13*qA13*sA14*pA14,
+A12 A15, sA13*qA13*sA14*qA14*sA15*psiA2*pA15,
+A12 A16, sA13*qA13*sA14*qA14*gamma_A14A16*pA16,
+A12 A17, sA13*qA13*sA14*qA14*gamma_A14A16*qA16*sA17*pA17,
+A12 A18, sA13*qA13*sA14*qA14*gamma_A14A16*qA16*sA17*qA17*sA18*pA18,
+A12 A19, sA13*qA13*sA14*qA14*gamma_A14A16*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+A12 F1, sA13*qA13*sA14*qA14*sA15*psiF*pF1,
+A12 x, xA12;
+
+likelihood "A13"
+A13 A14, sA14*pA14,
+A13 A15, sA14*qA14*sA15*psiA2*pA15,
+A13 A16, sA14*qA14*gamma_A14A16*pA16,
+A13 A17, sA14*qA14*gamma_A14A16*qA16*sA17*pA17,
+A13 A18, sA14*qA14*gamma_A14A16*qA16*sA17*qA17*sA18*pA18,
+A13 A19, sA14*qA14*gamma_A14A16*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+A13 F1, sA14*qA14*sA15*psiF*pF1,
+A13 x, xA13;
+
+likelihood "A14"
+A14 A15, sA15*psiA2*pA15,
+A14 A16, gamma_A14A16*pA16,
+A14 A17, gamma_A14A16*qA16*sA17*pA17,
+A14 A18, gamma_A14A16*qA16*sA17*qA17*sA18*pA18,
+A14 A19, gamma_A14A16*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+A14 F1, sA15*psiF*pF1,
+A14 x, xA14;
+
+likelihood "A15"
+A15 A16, sA16*pA16,
+A15 A17, sA16*qA16*sA17*pA17,
+A15 A18, sA16*qA16*sA17*qA17*sA18*pA18,
+A15 A19, sA16*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+A15 x, xA15;
+
+likelihood "A16"
+A16 A17, sA17*pA17,
+A16 A18, sA17*qA17*sA18*pA18,
+A16 A19, sA17*qA17*sA18*qA18*sA19*pA19,
+A16 x, xA16;
+
+likelihood "A17"
+A17 A18, sA18*pA18,
+A17 A19, sA18*qA18*sA19*pA19,
+A17 x, xA17;
+
+likelihood "A18"
+A18 A19, sA19*pA19,
+A18 x, xA18;
+
+likelihood "A19"
+A19 x, xA19;
+
+likelihood "B1"
+B1 B2, phiB1B2*pB2,
+B1 C1, phiB1C1*pC1,
+B1 D1, phiB1D1*pD1,
+B1 E1, phiB1E1*pE1,
+B1 E2, phiB1E1*qE1*sE1*pE2,
+B1 A16, gamma_B1A16*pA16,
+B1 A17, gamma_B1A17*pA17,
+B1 A18, gamma_B1A17*qA17*sA18*pA18,
+B1 A19, gamma_B1A17*qA17*sA18*qA18*sA19*pA19,
+B1 x, xB1;
+
+likelihood "B2"
+B2 A16, sB1*pA16,
+B2 A17, sB1*qA16*sA17*pA17,
+B2 A18, sB1*qA16*sA17*qA17*sA18*pA18,
+B2 A19, sB1*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+B2 x, xB2;
+
+likelihood "C1"
+C1 A16, sC1*pA16,
+C1 A17, sC1*qA16*sA17*pA17,
+C1 A18, sC1*qA16*sA17*qA17*sA18*pA18,
+C1 A19, sC1*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+C1 x, xC1;
+
+likelihood "D1"
+D1 A17, sD1*pA17,
+D1 A18, sD1*qA17*sA18*pA18,
+D1 A19, sD1*qA17*sA18*qA18*sA19*pA19,
+D1 x, xD1;
+
+likelihood "E1"
+E1 E2, sE1*pE2,
+E1 A17, sE1*qE2*sE2*pA17,
+E1 A18, sE1*qE2*sE2*qA17*sA18*pA18,
+E1 A19, sE1*qE2*sE2*qA17*sA18*qA18*sA19*pA19,
+E1 x, xE1;
+
+likelihood "E2"
+E2 A17, sE2*pA17,
+E2 A18, sE2*qA17*sA18*pA18,
+E2 A19, sE2*qA17*sA18*qA18*sA19*pA19,
+E2 x, xE2;
+
+likelihood "F1"
+F1 A16, sF1*pA16,
+F1 A17, sF1*qA16*sA17*pA17,
+F1 A18, sF1*qA16*sA17*qA17*sA18*pA18,
+F1 A19, sF1*qA16*sA17*qA17*sA18*qA18*sA19*pA19,
+F1 x, xF1;
+
+likelihood "B1aux"
+B1ab, pB1a*pB1b/pB1,
+B1a0, pB1a*qB1b/pB1,
+B10b, qB1a*pB1b/pB1;
+
+likelihood "C1aux"
+C1ab, pC1a*pC1b/pC1,
+C1a0, pC1a*qC1b/pC1,
+C10b, qC1a*pC1b/pC1;
+
+likelihood "A15aux"
+A15ab, pA15a*pA15b/pA15,
+A15a0, pA15a*qA15b/pA15,
+A150b, qA15a*pA15b/pA15;
+
+likelihood "A16aux"
+A16ab, pA16a*pA16b/pA16,
+A16a0, pA16a*qA16b/pA16,
+A160b, qA16a*pA16b/pA16;
+
+likelihood "A17aux"
+A17ab, pA17a*pA17b/pA17,
+A17a0, pA17a*qA17b/pA17,
+A170b, qA17a*pA17b/pA17;
+
+likelihood "A19aux"
+A19ab, pA19a*pA19b/pA19,
+A19a0, pA19a*qA19b/pA19,
+A190b, qA19a*pA19b/pA19;
+
+likelihood "E1aux"
+E1ab, pE1a*pE1b/pE1,
+E1a0, pE1a*qE1b/pE1,
+E10b, qE1a*pE1b/pE1;
+
+optimizer
+fletch, usePreviousEstimatesAsSeeds = no,
+calculateCovariance = yes,
+maxIterations = 10000,
+precision = 1e-06,
+stepSize = 1e-06;
+
+parameterSeeds
+sA1 = 0.5,
+sA2 = 0.5,
+sA3 = 0.5,
+sA4 = 0.5,
+sA5 = 0.5,
+sA6 = 0.5,
+sA8 = 0.5,
+sA9 = 0.5,
+sA11 = 0.5,
+sA12 = 0.5,
+sA13 = 0.5,
+sA14 = 0.5,
+sA15 = 0.5,
+sA16 = 0.5,
+sA17 = 0.5,
+sA18 = 0.5,
+sA19 = 0.5,
+phiB1B2 = 0.25,
+phiB1C1 = 0.25,
+phiB1D1 = 0.25,
+phiB1E1 = 0.25,
+psiA1 = 0.5,
+psiA2 = 0.5,
+sE1 = 0.5,
+sE2 = 0.5,
+sF1 = 0.5,
+pA1 = 0.5,
+pA2 = 0.5,
+pA3 = 0.5,
+pA4 = 0.5,
+pA6 = 0.5,
+pA8 = 0.5,
+pA9 = 0.5,
+pA10 = 0.5,
+pA12 = 0.5,
+pA15b = 0.5,
+pA16a = 0.5,
+pA16b = 0.5,
+pA17b = 0.5,
+pA19a = 0.5,
+pA19b = 0.5,
+pB1a = 0.5,
+pB1b = 0.5,
+pC1a = 0.5,
+pC1b = 0.5,
+pD1 = 0.5,
+pE1a = 0.5,
+pE1b = 0.5,
+pE2 = 0.5,
+pF1 = 0.5;
+
+profileLikelihoodRequests;
+
+A1 A10 : 0
+A1 A11 : 0
+A1 A12 : 0
+A1 A13 : 0
+A1 A14 : 0
+A1 A15 : 0
+A1 A16 : 0
+A1 A17 : 0
+A1 A18 : 0
+A1 A19 : 0
+A1 A2 : 37
+A1 A3 : 177
+A1 A4 : 26
+A1 A5 : 1
+A1 A6 : 0
+A1 A8 : 0
+A1 A9 : 0
+A1 B1 : 0
+A1 B2 : 0
+A1 C1 : 0
+A1 D1 : 0
+A1 E1 : 0
+A1 E2 : 0
+A1 F1 : 0
+A1 x : 102
+A10 A11 : 67
+A10 A12 : 0
+A10 A13 : 0
+A10 A14 : 0
+A10 A15 : 0
+A10 A16 : 0
+A10 A17 : 0
+A10 A18 : 0
+A10 A19 : 0
+A10 B1 : 0
+A10 B2 : 0
+A10 C1 : 0
+A10 D1 : 0
+A10 E1 : 0
+A10 E2 : 0
+A10 F1 : 0
+A10 x : 0
+A11 A12 : 73
+A11 A13 : 6
+A11 A14 : 0
+A11 A15 : 0
+A11 A16 : 0
+A11 A17 : 0
+A11 A18 : 0
+A11 A19 : 0
+A11 B1 : 47
+A11 B2 : 0
+A11 C1 : 1
+A11 D1 : 0
+A11 E1 : 6
+A11 E2 : 0
+A11 F1 : 0
+A11 x : 1
+A12 A13 : 72
+A12 A14 : 0
+A12 A15 : 0
+A12 A16 : 0
+A12 A17 : 0
+A12 A18 : 0
+A12 A19 : 0
+A12 F1 : 0
+A12 x : 1
+A13 A14 : 76
+A13 A15 : 0
+A13 A16 : 0
+A13 A17 : 0
+A13 A18 : 0
+A13 A19 : 0
+A13 F1 : 0
+A13 x : 2
+A14 A15 : 43
+A14 A16 : 4
+A14 A17 : 0
+A14 A18 : 0
+A14 A19 : 0
+A14 F1 : 0
+A14 x : 29
+A15 A16 : 19
+A15 A17 : 2
+A15 A18 : 0
+A15 A19 : 0
+A15 x : 22
+A150b : 0
+A15a0 : 2
+A15ab : 41
+A16 A17 : 17
+A16 A18 : 0
+A16 A19 : 0
+A16 x : 3
+A160b : 0
+A16a0 : 0
+A16ab : 20
+A17 A18 : 22
+A17 A19 : 0
+A17 x : 1
+A170b : 0
+A17a0 : 4
+A17ab : 19
+A18 A19 : 18
+A18 x : 4
+A19 x : 18
+A190b : 6
+A19a0 : 2
+A19ab : 10
+A2 A10 : 0
+A2 A11 : 0
+A2 A12 : 0
+A2 A13 : 0
+A2 A14 : 0
+A2 A15 : 0
+A2 A16 : 0
+A2 A17 : 0
+A2 A18 : 0
+A2 A19 : 0
+A2 A3 : 28
+A2 A4 : 5
+A2 A5 : 0
+A2 A6 : 0
+A2 A8 : 0
+A2 A9 : 0
+A2 B1 : 0
+A2 B2 : 0
+A2 C1 : 0
+A2 D1 : 0
+A2 E1 : 0
+A2 E2 : 0
+A2 F1 : 0
+A2 x : 4
+A3 A10 : 0
+A3 A11 : 0
+A3 A12 : 0
+A3 A13 : 0
+A3 A14 : 0
+A3 A15 : 0
+A3 A16 : 0
+A3 A17 : 0
+A3 A18 : 0
+A3 A19 : 0
+A3 A4 : 176
+A3 A5 : 0
+A3 A6 : 0
+A3 A8 : 0
+A3 A9 : 0
+A3 B1 : 0
+A3 B2 : 0
+A3 C1 : 0
+A3 D1 : 0
+A3 E1 : 0
+A3 E2 : 0
+A3 F1 : 0
+A3 x : 29
+A4 A10 : 0
+A4 A11 : 0
+A4 A12 : 0
+A4 A13 : 0
+A4 A14 : 0
+A4 A15 : 0
+A4 A16 : 0
+A4 A17 : 0
+A4 A18 : 0
+A4 A19 : 0
+A4 A5 : 158
+A4 A6 : 0
+A4 A8 : 0
+A4 A9 : 0
+A4 B1 : 0
+A4 B2 : 0
+A4 C1 : 0
+A4 D1 : 0
+A4 E1 : 0
+A4 E2 : 0
+A4 F1 : 0
+A4 x : 49
+A5 A10 : 0
+A5 A11 : 0
+A5 A12 : 0
+A5 A13 : 0
+A5 A14 : 0
+A5 A15 : 0
+A5 A16 : 0
+A5 A17 : 0
+A5 A18 : 0
+A5 A19 : 0
+A5 A6 : 140
+A5 A8 : 2
+A5 A9 : 0
+A5 B1 : 0
+A5 B2 : 0
+A5 C1 : 0
+A5 D1 : 0
+A5 E1 : 0
+A5 E2 : 0
+A5 F1 : 0
+A5 x : 17
+A6 A10 : 7
+A6 A11 : 7
+A6 A12 : 0
+A6 A13 : 0
+A6 A14 : 0
+A6 A15 : 0
+A6 A16 : 0
+A6 A17 : 0
+A6 A18 : 0
+A6 A19 : 0
+A6 A8 : 98
+A6 A9 : 21
+A6 B1 : 0
+A6 B2 : 0
+A6 C1 : 0
+A6 D1 : 0
+A6 E1 : 0
+A6 E2 : 0
+A6 F1 : 0
+A6 x : 7
+A8 A10 : 14
+A8 A11 : 13
+A8 A12 : 0
+A8 A13 : 0
+A8 A14 : 0
+A8 A15 : 0
+A8 A16 : 0
+A8 A17 : 0
+A8 A18 : 0
+A8 A19 : 0
+A8 A9 : 73
+A8 B1 : 0
+A8 B2 : 0
+A8 C1 : 0
+A8 D1 : 0
+A8 E1 : 0
+A8 E2 : 0
+A8 F1 : 0
+A8 x : 0
+A9 A10 : 46
+A9 A11 : 47
+A9 A12 : 0
+A9 A13 : 0
+A9 A14 : 0
+A9 A15 : 0
+A9 A16 : 0
+A9 A17 : 0
+A9 A18 : 0
+A9 A19 : 0
+A9 B1 : 0
+A9 B2 : 0
+A9 C1 : 0
+A9 D1 : 0
+A9 E1 : 0
+A9 E2 : 0
+A9 F1 : 0
+A9 x : 1
+B1 A16 : 0
+B1 A17 : 0
+B1 A18 : 0
+B1 A19 : 0
+B1 B2 : 11
+B1 C1 : 1
+B1 D1 : 6
+B1 E1 : 23
+B1 E2 : 2
+B1 x : 4
+B10b : 27
+B1a0 : 2
+B1ab : 18
+B2 A16 : 0
+B2 A17 : 0
+B2 A18 : 0
+B2 A19 : 0
+B2 x : 11
+C1 A16 : 0
+C1 A17 : 0
+C1 A18 : 0
+C1 A19 : 0
+C1 x : 2
+C10b : 0
+C1a0 : 0
+C1ab : 2
+D1 A17 : 0
+D1 A18 : 0
+D1 A19 : 0
+D1 x : 6
+E1 A17 : 0
+E1 A18 : 0
+E1 A19 : 0
+E1 E2 : 21
+E1 x : 8
+E10b : 10
+E1a0 : 4
+E1ab : 15
+E2 A17 : 4
+E2 A18 : 0
+E2 A19 : 0
+E2 x : 19
+F1 A16 : 1
+F1 A17 : 0
+F1 A18 : 0
+F1 A19 : 0
+F1 x : 3
+R A1 : 343
+R A10 : 0
+R A11 : 0
+R A12 : 0
+R A13 : 0
+R A14 : 0
+R A15 : 0
+R A16 : 0
+R A17 : 0
+R A18 : 0
+R A19 : 0
+R A2 : 0
+R A3 : 0
+R A4 : 0
+R A5 : 0
+R A6 : 0
+R A8 : 0
+R A9 : 0
+R B1 : 0
+R B2 : 0
+R C1 : 0
+R D1 : 0
+R E1 : 0
+R E2 : 0
+R F1 : 0
+R x : 4
